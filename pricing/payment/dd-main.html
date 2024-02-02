@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+    <head>
+        <link rel="profile" href="<?php print $grddl_profile; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <meta name="viewport" content="initial-scale = 1.0" />
+        <meta name="google-site-verification" content="ZpVNR_Du6b6Mv84i3z-mWc_HexmoHJMBOqHuV6ozMS4" />
+        <title>Portal</title>
+        <link rel="stylesheet" href="../../dist/css/portal-refresh-theme.min.css" media="all" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../../dist/js/portal.js"></script>
+
+    </head>
+
+    <body>
+        <!--[if lte IE 8]>
+    <div class="message-outdated alert alert-warning alert-dismissible" role="alert">
+    <a class="close toc-filter-processed" data-dismiss="alert" href="#">×</a>
+        <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        </div>
+    <![endif]-->
+        <a class="skip-to-content sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+        <a class="skip-to-content sr-only sr-only-focusable hidden-xs" href="#main-nav">Skip to main navigation</a>
+        <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i><span>Back to top</span></a>
+
+        <div class="mobileNavWrap">
+            <nav id="mobile-nav" role="navigation">
+
+                <ul class="mm-listview">
+                    <div class="panel-group mobile-personal-info" id="mobile-personal-info" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#mobile-personal-info" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                        <span class="name">Miss Jane Sarah Doe</span><i class="more-less fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading">
+                                <div class="panel-body">
+                                    <ul class="mm-listview-inner">
+                                        <li><a href="#">My Preferences</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <li class="active"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                    <li><a href="#">My EA</a></li>
+                    <li><a href="#">Products + Services</a></li>
+                    <li><a href="#">News + Events</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="clearfix site-full-wrapper">
+            <header id="header">
+                <div class="container" id="header-container">
+                    <div class="mobile-header">
+                        <button id="mobile-nav-btn" class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>                                
+                            </span>
+                        </button>
+                    </div>
+                    <div class="header-block portal-logo">
+                        <a href="/portal" title="Portal Home" rel="home">
+                            <div class="logo-img"></div>
+                        </a>
+                    </div>
+
+                    <div class="header-content header-block col-xs-12 col-sm-4">
+                        <div class="region region-header">
+                            <section id="block-ea-newsevents-sitewide-search-form" class="block block-ea-newsevents clearfix" style="visibility: hidden;">
+
+
+                                <form action="/portal/protohome" method="post" id="ea-portal-block-search-form" accept-charset="UTF-8"><div><div class="form-item form-item-keywords form-type-textfield form-group"><input placeholder="Search News or Events" class="form-control form-text" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128"></div><div class="form-item form-item-options form-type-select form-group"><select class="nouniform form-control form-select" id="edit-options" name="options"><option value="news" selected="selected">News</option><option value="events">Events</option></select></div><button type="submit" id="edit-sitewide-search" name="op" value="Search" class="btn btn-primary form-submit">Search</button>
+                                        <input type="hidden" name="form_build_id" value="form-yUQUyVNmNix_2M8xup2vSFXUruaeakcrMFYG77vLJvc">
+                                        <input type="hidden" name="form_id" value="ea_portal_block_search_form">
+                                    </div></form>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div id="secondaryNav" class="header-block col-sm-6">
+                        <div class="region region-secondarynav">
+                            <section id="block-block-10" class="block block-block clearfix">
+
+                                <ul>
+                                    <li class="li-divider">
+                                        <a href="#">Messages<span class="count">7</span></a>                                        
+                                    </li>
+                                    <li class="li-divider">
+                                        <a href="#">Tasks<span class="count">12</span></a>
+                                    </li>
+                                    <li class="li-divider">
+                                        <a href="#">Invoices<span class="count">5</span></a>
+                                    </li>
+
+                                    <li class="li-divider nav-profile">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                    </li>
+
+                                    <li class="li-divider logout">
+                                        <a href="#">Logout</a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="primaryNav" class="hidden-xs navbar-inverse">
+                    <div class="container">
+                        <ul class="menu nav navbar-nav ">
+
+                            <li class="active">
+                                <a href="#"><i class="fa fa-home"></i></a>
+                            </li>
+
+                            <li>
+                                <a href="#">My EA</a>
+                            </li>
+
+                            <li>
+                                <a href="#">Products <span aria-hidden="true">+</span> Services</a>
+                            </li>
+
+                            <li>
+                                <a href="#" target="_blank">News <span aria-hidden="true">+</span> Events</a>
+                            </li>
+
+                            <li>
+                                <a href="#" target="_blank">Contact us</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <section class="hero-container">
+                <div class="container">
+                    <h1><span class="sub-page-title"><span>Direct Debit</span></span>Sarah Jane
+                        <span class="title-sub-text">(EA ID: 5354652)</span></h1>
+                    <ul class="header-ea-nominals">
+                        <li>CPEng</li>
+                    </ul> 
+                </div>
+            </section>
+
+            <section id="main">
+
+
+                <div class="container">
+                    <div class="row">
+                        
+                    </div>
+
+                    
+                    
+
+                    <div class="row">
+                        <section id="side-content" class="col-xs-12 col-sm-3">
+
+                            <h3>Manage Profile</h3>
+
+                            <ul class="nav nav-list">
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Contact Details</a></li>
+                                <li class="current"><a href="#">Financials</a></li>
+                                <li><a href="#">Applications</a></li>
+                                <li><a href="#">Preferences</a></li>
+                                <li><a href="#">Record CPD</a></li>
+                            </ul>
+
+                            
+                        </section>
+
+                        <div id="main-content" class="col-xs-12 col-sm-9">
+                            <section id="main-content-title">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-9">
+                                        <h3>Mr. John Mullins's Financials</h3></div>
+                                </div>
+                            </section>
+
+                            <div class="card card-a financials">
+
+                                <fieldset class="debit-app">
+                                    <legend class="inner-pages">Direct Debit Application</legend>
+                                    <p class="margin-bottom-20 note"><b>Please note</b>: Applies to Membership Renewal Invoice only.</p>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3">Direct Debit</label>
+                                        <div class="col-sm-3">
+                                            <div class="row">   
+                                                <div class="col-sm-12">
+                                                    <span><strong>Pending - This will be updated within 30 min.</strong></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 no-grid margin-top-20 alert alert-success">Your Direct Debit application has been accepted by our banking partner. Engineers Australia will now process your application and you will receive a confirmation email once complete. Please allow approx. 30 minutes for this to occur after which your status on myPortal for Direct Debit will display 'Yes' and feel free to close your browser. If you have any questions please contact our&nbsp;<a href="/cases/create">Member Services Team</a>.</div>
+                                    </div>
+
+                                </fieldset>
+
+                                <fieldset class="debit-app">
+                                    <legend class="inner-pages" style="position: relative;">Request a Concession
+                                        <span class="icon-portal icon-info margin-10"></span>
+                                        <div class="icon-more-info in-profile request-concession" style="display: none;">
+                                            <h3><strong>Concession subscription rate</strong></h3>
+                                            <p>If you are unemployed, studying a post-graduate course, retired or experiencing financial difficulties you may be eligible for a membership subscription concession.</p>
+                                            <p>The concession rate is available to an Engineers Australia member in any grade or occupational category who:</p>
+                                            <ul>
+                                                <li>Is over 55, has been a financial member continuously for five years, and has retired from paid, full-time work; or</li>
+                                                <li>Is unable to work by reason of unemployment, disability, ill health, pregnancy, parental obligation, participation in full-time postgraduate study directly related to their engineering competencies, temporary severe financial difficulty or another sufficient cause.</li>
+                                            </ul>
+                                            <p><strong>Retired members paying the concession rate are eligible for the discount for membership of one Technical Society, but not for any other discount. Please note that concessions cannot be granted retrospectively and that concessions for Temporary Financial Exigency reasons can generally only be granted for a maximum of three consecutive years.</strong></p>
+                                        </div>
+                                    </legend>
+                                    <p class="margin-bottom-20">Apply for an Engineers Australia Membership Subscription concession.</p>
+                                    <div class="form-group row">
+
+                                        <div class="col-sm-6 pull-right text-align-right">
+                                            <a class="btn btn-primary" href="#" ><i class="fa fa-tags fa-lg margin-right-10" aria-hidden></i>Apply for concession</a>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+
+                                <fieldset class="col-sm-12 no-grid">
+                                    <legend class="inner-pages">Organisation Support Details</legend>
+                                    <p class="margin-bottom-20 note"><b>Please note</b>: The renewal items indicated below are currently paid for by the Organisation listed.  This Organisation may remove their support for these items at their discretion.</p>
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">Organisation</label>
+                                        <div class="col-sm-4">
+                                            Department of Defence
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-4 col-form-label">Organisation Site</label>
+                                        <div class="col-sm-4">
+                                            Australian Army
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-group col-sm-12 no-grid" id="accordion" role="tablist" aria-multiselectable="true">
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading col-sm-12 no-grid" role="tab" id="headingOne">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="">
+
+                                                        <div class="col-sm-12"><strong><i class="more-less fa fa-chevron-right fa-chevron-down fa-plus margin-right-10"></i>Organisation Supported Products </strong></div> 
+                                                        
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" style="">
+                                                <div class="panel-body">
+                                                    <div class="col-sm-12 no-grid">
+                                                        <div class="table-responsive">
+                                                            <table class="table margin-bottom-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Item</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><strong>EA Membership</strong></td>
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><strong>National Engineering Register</strong></td>
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="3"><strong>Technical Societies</strong></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><strong><i class="fa fa-arrow-right margin-right-5"></i>Royal Aeronautical Society</strong></td>
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><strong><i class="fa fa-arrow-right margin-right-5"></i>Society for Building Services Engineers</strong></td>
+                                                                        
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="2" class="text-align-right"><strong></strong></td>
+                                                                        
+                                                                    </tr>
+                                                                   
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 pull-right text-align-right">
+                                            <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#remove-confirmation" ><i class="fa fa-remove fa-lg margin-right-10" aria-hidden></i>Remove organisation association</a>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+
+
+                                <fieldset class="invoices">
+                                    <legend class="inner-pages">Invoice Statements</legend>
+                                    <p class="margin-bottom-20 note"><b>Please note</b>: Not all of your financial invoices will be displayed, only invoices recorded in EA's new financial system are shown below.
+                                        Please contact Member Services if you are seeking other financial invoice information.</p>
+                                    <div>
+
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#out-standing" aria-controls="home" role="tab" data-toggle="tab">Outstanding</a></li>
+                                            <li role="presentation"><a href="#paid" aria-controls="profile" role="tab" data-toggle="tab">Paid</a></li>
+                                        </ul>
+
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane active" id="out-standing">
+                                                <div class="col-sm-12 filter">
+                                                    <div class="row">
+                                                        <label class="filter-label">Type</label>
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-default">
+                                                                <input type="radio" name="options" id="all" autocomplete="off"> All
+                                                            </label>
+                                                            <label class="btn btn-default active">
+                                                                <input type="radio" name="options" id="renewals" autocomplete="off" checked> Renewals 
+                                                            </label>
+                                                            <label class="btn btn-default">
+                                                                <input type="radio" name="options" id="memberships" autocomplete="off"> Memberships
+                                                            </label>
+                                                            <label class="btn btn-default">
+                                                                <input type="radio" name="options" id="others" autocomplete="off"> Others
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Invoice info</th>
+                                                                <th>Invoice Date</th>
+                                                                <th>Amount</th>
+                                                                <th>Type</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><span><b>Invoice# </b></span><a class="invoice-no" href="financial-invoice-statement.html">4978177</a><br><p>Renew 2017/18 Membership</p></td>
+                                                                <td>06/05/2018</td>
+                                                                <td class="text-align-right">$531.00</td>
+                                                                <td>Renewals</td>
+                                                                <td>
+
+                                                                    <!-- action buttons -->
+                                                                    <div class="btn-group action-buttons">
+                                                                        <button type="button" class="btn btn-default">Select</button>
+                                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <span class="caret"></span>
+                                                                            <span class="sr-only">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="financial-invoice-statement.html">View Invoice</a></li>
+                                                                            <li><a href="financial-invoice-statement.html">Pay Invoice</a></li>
+                                                                            <li><a href=""  data-toggle="modal" data-target="#email-invoice">Email Invoice Copy</a></li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span><b>Invoice# </b></span><a class="invoice-no" href="financial-invoice-statement.html">4978168</a><br><p>Renew 2017/18 Membership</p></td>
+                                                                <td>06/05/2018</td>
+                                                                <td class="text-align-right">$96.00</td>
+                                                                <td>Renewals</td>
+                                                                <td>
+
+                                                                    <!-- action buttons -->
+                                                                    <div class="btn-group action-buttons">
+                                                                        <button type="button" class="btn btn-default">Select</button>
+                                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <span class="caret"></span>
+                                                                            <span class="sr-only">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="financial-invoice-statement.html">View Invoice</a></li>
+                                                                            <li><a href="financial-invoice-statement.html">Pay Invoice</a></li>
+                                                                            <li><a href=""  data-toggle="modal" data-target="#email-invoice">Email Invoice Copy</a></li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span><b>Invoice# </b></span><a class="invoice-no" href="financial-invoice-statement.html">4978160</a><br><p>Renew 2017/18 Membership</p></td>
+                                                                <td>06/05/2018</td>
+                                                                <td class="text-align-right">$96.00</td>
+                                                                <td>Renewals</td>
+                                                                <td>
+
+                                                                    <!-- action buttons -->
+                                                                    <div class="btn-group action-buttons">
+                                                                        <button type="button" class="btn btn-default">Select</button>
+                                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <span class="caret"></span>
+                                                                            <span class="sr-only">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="financial-invoice-statement.html">View Invoice</a></li>
+                                                                            <li><a href="financial-invoice-statement.html">Pay Invoice</a></li>
+                                                                            <li><a href=""  data-toggle="modal" data-target="#email-invoice">Email Invoice Copy</a></li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                            <div role="tabpanel" class="tab-pane" id="paid">
+                                                <div class="col-sm-12 filter">
+                                                    <div class="row">
+                                                        <label class="filter-label">Type</label>
+                                                        <div class="btn-group" data-toggle="buttons">
+                                                            <label class="btn btn-default">
+                                                                <input type="radio" name="options" id="all" autocomplete="off"> All
+                                                            </label>
+                                                            <label class="btn btn-default active">
+                                                                <input type="radio" name="options" id="renewals" autocomplete="off" checked> Renewals 
+                                                            </label>
+                                                            <label class="btn btn-default">
+                                                                <input type="radio" name="options" id="memberships" autocomplete="off"> Memberships
+                                                            </label>
+                                                            <label class="btn btn-default">
+                                                                <input type="radio" name="options" id="others" autocomplete="off"> Others
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Invoice info</th>
+                                                                <th>Invoice Date</th>
+                                                                <th>Amount</th>
+                                                                <th>Type</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><span><b>Invoice# </b></span><a class="invoice-no" href="financial-invoice-statement.html">4978177</a><br><p>Renew 2017/18 Membership</p></td>
+                                                                <td>06/05/2018</td>
+                                                                <td class="text-align-right">$0.00</td>
+                                                                <td>Renewals</td>
+                                                                <td>
+
+                                                                    <!-- action buttons -->
+                                                                    <div class="btn-group action-buttons">
+                                                                        <button type="button" class="btn btn-default">Select</button>
+                                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <span class="caret"></span>
+                                                                            <span class="sr-only">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="financial-invoice-statement.html">View Invoice</a></li>
+                                                                            <li><a href=""  data-toggle="modal" data-target="#email-invoice">Email Invoice Copy</a></li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span><b>Invoice# </b></span><a class="invoice-no" href="financial-invoice-statement.html">4978168</a><br><p>Renew 2017/18 Membership</p></td>
+                                                                <td>06/05/2018</td>
+                                                                <td class="text-align-right">$0.00</td>
+                                                                <td>Renewals</td>
+                                                                <td>
+
+                                                                    <!-- action buttons -->
+                                                                    <div class="btn-group action-buttons">
+                                                                        <button type="button" class="btn btn-default">Select</button>
+                                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <span class="caret"></span>
+                                                                            <span class="sr-only">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="financial-invoice-statement.html">View Invoice</a></li>
+                                                                            <li><a href=""  data-toggle="modal" data-target="#email-invoice">Email Invoice Copy</a></li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span><b>Invoice# </b></span><a class="invoice-no" href="financial-invoice-statement.html">4978160</a><br><p>Renew 2017/18 Membership</p></td>
+                                                                <td>06/05/2018</td>
+                                                                <td class="text-align-right">$0.00</td>
+                                                                <td>Renewals</td>
+                                                                <td>
+
+                                                                    <!-- action buttons -->
+                                                                    <div class="btn-group action-buttons">
+                                                                        <button type="button" class="btn btn-default">Select</button>
+                                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <span class="caret"></span>
+                                                                            <span class="sr-only">Toggle Dropdown</span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="financial-invoice-statement.html">View Invoice</a></li>
+                                                                            <li><a href=""  data-toggle="modal" data-target="#email-invoice">Email Invoice Copy</a></li>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </fieldset>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="email-invoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Email Invoice Copy</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row" style="margin-top: 30px;">
+                        <label for="card-holder-name" class="col-sm-3 col-form-label">My Email </label>
+                        <div class="col-sm-8">
+                            <div class="row">   
+                                <div class="col-sm-12">
+                                    <span>john.smith@innovative-engineers.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add-email" class="col-sm-3 col-form-label">Add Email(s) </label>
+                        <div class="col-sm-8">
+                            <div class="row">   
+                                <div class="col-sm-10">
+                                    <input class="form-input form-control col-sm-8" type="text" name="add-email" id="add-email">
+                                    <p class="input-help">Separate multiple email addresses using the semicolon character.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Send an Email</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="remove-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                </div>
+                <div class="modal-body margin-bottom-20 margin-top-20 padding-30">
+                    <p>Are you sure you want to remove your association with this Organisation?  By removing your association, your future renewal fees will need to be paid by yourself.  </p>
+                    <p>If you have changed employers, and that employer has a Service or other Agreement with Engineers Australia to support renewal fees, then please contact your Organisation Coordinator to seek support.  </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact-info-footer">
+        <div class="container">
+            <div class="row flex-row">
+                <div class="col-xs-12 col-sm-4">
+                    <div itemscope itemtype="http://schema.org/LocalBusiness">
+                        <i class="fa fa-phone fa-lg" aria-hidden></i>
+                        <h3>National Callers</h3>
+                        <span itemprop="telephone">1300 653 113</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div itemscope itemtype="http://schema.org/LocalBusiness">
+                        <i class="fa fa-globe fa-lg" aria-hidden></i>
+                        <h3>International Callers</h3>
+                        <span itemprop="telephone">+61 2 6270 6555</span></div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div>
+                        <i class="fa fa-share fa-lg" aria-hidden></i>
+                        <a class="submit-enquiry" href="log-a-request.html" title="Log a request online">Submit an Enquiry</a>
+                        <p>Member Services are available <br><strong>Mon - Fri 8:30 am - 6:00 pm AEST</strong></p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="container">
+        <div id="copyright" class="col-xs-12 col-sm-6">
+            <p> &copy; 2019 Engineers Australia.</p>
+        </div>
+        <div class="col-xs-12 col-sm-6 footer-links">
+            <ul>
+                <li><a href="#">Collection Notice</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Disclaimer</a></li>
+            </ul>
+
+        </div>
+    </div>
+</footer>
+
+<script src="../../dist/js/jquery.plugins.min.js"></script>
+<script src="../../dist/js/eathemeawesome.min.js"></script>
+</body>
+
+</html>

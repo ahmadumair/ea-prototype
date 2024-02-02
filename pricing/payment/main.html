@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+    <head>
+        <link rel="profile" href="<?php print $grddl_profile; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <meta name="viewport" content="initial-scale = 1.0" />
+        <meta name="google-site-verification" content="ZpVNR_Du6b6Mv84i3z-mWc_HexmoHJMBOqHuV6ozMS4" />
+        <title>Portal</title>
+        <link rel="stylesheet" href="../../dist/css/portal-refresh-theme.min.css" media="all" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../../dist/js/portal.js"></script>
+        <script src="../../dist/js/promotion.js"></script> 
+        <script src="../../dist/js/portal.js" type="text/javascript"></script>
+        <style>
+            .container-checkbox{
+                font-size: 1em!important;
+            }
+            .promo-row{
+                background: #dff0d8!important;
+            }
+            .promo-list li{
+                background-color: #fff;
+                -webkit-box-shadow: rgba(0,0,0,.08) 0 4px 8px 0;
+                box-shadow: rgba(0,0,0,.08) 0 4px 8px 0;
+                margin-bottom: 20px;
+                min-height: 120px;
+                list-style: none;
+                border: solid 1px #dedede;
+                background: #e60000;
+                color: #fff;
+            }
+            .promo-list li .discount{
+                font-size: 2em;
+                color: #fff;
+                font-weight: bold;
+                padding: 20px;
+                min-height: 120px;
+                border-right: solid 1px #dedede;
+            }
+            .promo-list li:last-child{
+                margin-bottom: 0px;
+            }
+            .promo-list li .discount span{   
+                font-size: 0.4em;
+                display: block;
+            }
+            .promo-list li .code{
+                font-size: 1em;
+                font-weight: bold;
+                padding: 20px;
+                min-height: 120px;
+                border-left: solid 1px #dedede;
+            }
+            .code-value{
+                background: #fff;
+                color: #e60000;
+                font-weight: bold;
+                padding: 5px 10px;
+                border-bottom: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!--[if lte IE 8]>
+    <div class="message-outdated alert alert-warning alert-dismissible" role="alert">
+    <a class="close toc-filter-processed" data-dismiss="alert" href="#">×</a>
+        <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        </div>
+    <![endif]-->
+        <a class="skip-to-content sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+        <a class="skip-to-content sr-only sr-only-focusable hidden-xs" href="#main-nav">Skip to main navigation</a>
+        <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i><span>Back to top</span></a>
+
+
+        <div class="clearfix site-full-wrapper">
+            <header id="header">
+                <div class="container" id="header-container">
+                    <div class="mobile-header">
+                        <button id="mobile-nav-btn" class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>                                
+                            </span>
+                        </button>
+                    </div>
+                    <div class="header-block portal-logo">
+                        <a href="/portal" title="Portal Home" rel="home">
+                            <div class="logo-img"></div>
+                        </a>
+                    </div>
+
+                    <div class="header-content header-block col-xs-12 col-sm-4">
+                        <div class="region region-header">
+                            <section id="block-ea-newsevents-sitewide-search-form" class="block block-ea-newsevents clearfix" style="visibility: hidden;">
+
+
+                                <form action="/portal/protohome" method="post" id="ea-portal-block-search-form" accept-charset="UTF-8"><div><div class="form-item form-item-keywords form-type-textfield form-group"><input placeholder="Search News or Events" class="form-control form-text" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128"></div><div class="form-item form-item-options form-type-select form-group"><select class="nouniform form-control form-select" id="edit-options" name="options"><option value="news" selected="selected">News</option><option value="events">Events</option></select></div><button type="submit" id="edit-sitewide-search" name="op" value="Search" class="btn btn-primary form-submit">Search</button>
+                                        <input type="hidden" name="form_build_id" value="form-yUQUyVNmNix_2M8xup2vSFXUruaeakcrMFYG77vLJvc">
+                                        <input type="hidden" name="form_id" value="ea_portal_block_search_form">
+                                    </div></form>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div id="secondaryNav" class="header-block col-sm-6">
+                        <div class="region region-secondarynav">
+                            <section id="block-block-10" class="block block-block clearfix">
+
+                                <ul>
+                                    <li class="li-divider" style="visibility: hidden;">
+                                        <a href="#">Messages<span class="count">7</span></a>                                        
+                                    </li>
+                                    <li class="li-divider" style="visibility: hidden;">
+                                        <a href="#">Tasks<span class="count">12</span></a>
+                                    </li>
+                                    <li class="li-divider" style="visibility: hidden;">
+                                        <a href="#">Invoices<span class="count">5</span></a>
+                                    </li>
+
+                                    <li class="li-divider nav-profile">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                    </li>
+
+                                    <li class="li-divider logout">
+                                        <a href="#">Logout</a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <!--                <div id="primaryNav" class="hidden-xs navbar-inverse">
+                                    <div class="container">
+                                        <ul class="menu nav navbar-nav ">
+                
+                                            <li class="active">
+                                                <a href="index.html"><i class="fa fa-home"></i></a>
+                                            </li>
+                
+                                            <li>
+                                                <a href="myea.html">My EA</a>
+                                            </li>
+                
+                                            <li>
+                                                <a href="products-services.html">Products <span aria-hidden="true">+</span> Services</a>
+                                            </li>
+                
+                                            <li>
+                                                <a href="temp-news-events.html" target="_blank">News <span aria-hidden="true">+</span> Events</a>
+                                            </li>
+                
+                                            <li>
+                                                <a href="temp-contact.html" target="_blank">Contact us</a>
+                                            </li>
+                
+                                        </ul>
+                                    </div>
+                                </div>-->
+            </header>
+
+            <section class="hero-container">
+                <div class="container">
+                    <h1><span class="sub-page-title"><span>Payment Options</span></span>Sarah Jane
+                        <span class="title-sub-text">(EA ID: 5354652)</span></h1>
+                    <ul class="header-ea-nominals">
+                        <li>CPEng</li>
+                    </ul> 
+                </div>
+            </section>
+
+
+
+            <section id="main">
+                <div class="container roles-detail">                    
+                    <div class="row">                        
+                        <div id="" class="col-xs-12 col-sm-12">
+                            <div class="card-section card card-a padding-md inner">
+                                <div class="col-sm-12 alert alert-info no-grid margin-bottom-30 margin-top-0">
+                                    <p>Our membership fees are charged on a financial year, pro-rata basis, depending on the time of your application submission and assessment.  If you are applying for membership close to the new financial year, you may also incur your membership renewal fees for the following financial year.</p>
+                                    <p>Based on your application, the fees listed below are now payable. If you are unable to make payment via one of our payment options available for this application, please <a href="https://www.engineersaustralia.org.au/Contact-Us" target="_blank">contact</a> our Member Services Team for further assistance. </p>
+                                </div>
+                                <fieldset>
+                                    <legend class="inner-pages">Fee Details 
+<!--                                        <p class="pull-right text-align-right" style="font-size: 0.8em; font-weight: normal;">(Please <strong><a href="javascipt:void(0);"  data-toggle="modal" data-target="#promo-codes">click</a></strong> to find available Promotional codes.)</p>-->
+                                    </legend>
+                                    <div class="col-sm-12 no-grid">
+                                        <div class="col-sm-12 search-filters">
+                                            <div class="col-sm-4 no-grid">
+                                                <label class="container-checkbox"><input id="have-pcode" type="checkbox"><span class="checkmark red"></span>Do you have a Promotional Code?
+                                                    <span class="icon-portal icon-info"></span>
+                                                    <div class="icon-more-info" style="width: 460px; left: 0px; font-weight: normal; display: none;">
+                                                        <p>Some text about Promotions will appear here. </p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8" id="have-pcode-wrapper" style="display: none;">
+                                                <div class="col-sm-6">
+                                                    <div class="form-item">
+                                                        <input id="promo-code-cust" type="text" class="form-control" placeholder="Enter Promotional Code">
+                                                    </div>
+                                                </div> 
+                                                <div class="col-sm-4">
+                                                    <a href="javascript:void(0);" class="btn btn-primary" id="btn-validate">Validate</a>
+                                                </div>
+                                            </div>
+                                            <p class="col-sm-12 alert alert-success no-grid margin-top-20" id="pcode-message" style="display: none;">
+                                                <strong>Congratulations! </strong> Your Promotional Code is valid till <strong>15/06/2020</strong> and has been applied to the item(s) in green below.  
+                                            </p>
+                                        </div>
+                                        <div class="table-responsive" id="without-promo">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <th class="text-align-right">Amount ex. GST</th>
+                                                        <th class="text-align-right">GST @10%</th>
+                                                        <th class="text-align-right">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Membership + Chartered via MRA Application</td>
+                                                        <td class="text-align-right">$82.00</td>
+                                                        <td class="text-align-right">$8.20</td>
+                                                        <td class="text-align-right">$90.20</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Professional Member via MRA</td>
+                                                        <td class="text-align-right">$253.18</td>
+                                                        <td class="text-align-right">$25.32</td>
+                                                        <td class="text-align-right">$278.50</td>
+                                                    </tr>
+
+                                                    <tr style="border-top: solid 2px #e60000;">
+                                                        <td class="text-align-right" colspan="3"><strong>Total</strong></td>
+                                                        <td class="text-align-right">$368.70</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="table-responsive" id="with-promo" style="display: none;">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <th class="text-align-right">Amount ex. GST</th>
+                                                        <th class="text-align-right">Discounted Amount ex. GST</th>
+                                                        <th class="text-align-right">GST @10%</th>
+                                                        <th class="text-align-right">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Membership + Chartered via MRA Application</td>
+                                                        <td class="text-align-right">$82.00</td>
+                                                        <td class="text-align-right">$82.00</td>
+                                                        <td class="text-align-right">$8.20</td>
+                                                        <td class="text-align-right">$90.20</td>
+                                                    </tr>
+                                                    <tr class="promo-row">
+                                                        <td>Professional Member via MRA</td>
+                                                        <td class="text-align-right">$253.18</td>
+                                                        <td class="text-align-right">$25.30</td>
+                                                        <td class="text-align-right">$2.53</td>
+                                                        <td class="text-align-right">$27.83</td>
+                                                    </tr>
+
+                                                    <tr style="border-top: solid 2px #e60000;">
+                                                        <td class="text-align-right" colspan="4"><strong>Total</strong></td>
+                                                        <td class="text-align-right">$118.03</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="card-row col-sm-12 flex-row no-grid">
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a class="card-article-link" id = "cc" href="javascript:void(0);">
+                                            <article class="card card-a card-hover card-link" style="position: relative;">
+                                                <div class="card-img-container">
+                                                    <span class="icon-portal icon-pay-credit-card"></span>
+                                                </div>
+                                                <h2>Pay Myself by Credit / Debit Card</h2>
+                                                <p class="blurb">                                        
+                                                    Use your credit or debit card to make a payment to Engineers Australia.
+                                                </p>
+                                                <button href="javascript:void(0);" class="btn btn-primary margin-top-30" style=" bottom: 15px; padding: 6px 10px;width: 100%;">Pay by Credit / Debit Card</button>
+                                            </article>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a class="card-article-link" id ="dd" href="javascript:void(0);">
+                                            <article class="card card-a card-hover card-link" style="position: relative;">
+                                                <div class="card-img-container">
+                                                    <span class="icon-portal icon-direct-debit"></span>
+                                                </div>
+                                                <h2>Pay Myself: Request Direct Debit</h2>
+                                                <p class="blurb">                                        
+                                                    Use this option for monthly periodic payments to Engineers Australia.
+                                                </p>
+                                                <button href="javascript:void(0);" class="btn btn-primary margin-top-30" style="position: absolute; bottom: 15px;width: 87%;"  data-toggle="modal" data-target="#imp-info">Pay by Direct Debit</button>
+                                            </article>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a class="card-article-link" id="ti" href="javascript:void(0);">
+                                            <article class="card card-a card-hover card-link" style="position: relative;">
+
+                                                <div class="card-img-container">
+                                                    <span class="icon-portal icon-tax-invoice"></span>
+                                                </div>
+
+                                                <h2>Pay Myself: Request a Tax Invoice</h2>
+                                                <p class="blurb">
+                                                    Request an Invoice to pay via direct deposit, over the phone or cheque. 
+                                                </p>
+                                                <button  href="javascript:void(0);"  class="btn btn-primary margin-top-30" style="position: absolute; bottom: 15px;width: 87%;">Pay by Tax Invoice</button>
+                                            </article>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a class="card-article-link" id="po" href="javascript:void(0);">
+                                            <article class="card card-a card-hover card-link" style="position: relative;">
+                                                <div class="card-img-container">
+                                                    <span class="icon-portal icon-pay-by-org"></span>
+                                                </div>
+                                                <h2>My Employer will pay for me</h2>
+                                                <p class="blurb">
+                                                    If your employer has an agreement with Engineers Australia, you can nominate them to pay for you.
+                                                </p>
+                                                <button href="javascript:void(0);" class="btn btn-primary margin-top-10" style="position: absolute; bottom: 15px;    width: 87%;">Pay by Employer</button>
+                                            </article>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 no-grid"> 
+                                    <a href="" class="btn btn-primary pull-right">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modal Add -->
+            <div class="modal fade" id="imp-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document" style="width: 770px;">
+                    <div class="modal-content col-sm-12 no-grid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Important Information</h4>
+                        </div>
+                        <div class="modal-body col-sm-12 padding-30">
+                            <!--                            <fieldset class="col-sm-12 no-grid">
+                                                            <legend class="inner-pages-level-2"><a href="javascript:void(0);" class="fee btn btn-sm"><i class="more-less fa fa-plus" style="padding-left: 0px; color: #333;"></i></a>Direct Debit Fee Detail </legend>
+                            
+                                                            <div class="col-sm-12 no-grid fee-content" style="display:none;">
+                                                                <p>Some help text to describe following fee breakdown structure.  </p>
+                                                                <div class="table-responsive">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Monthly Direct Debit Date</th>
+                                                                                <th class="text-align-right">Amount ex. GST</th>
+                                                                                <th class="text-align-right">GST</th>
+                                                                                <th class="text-align-right">Amount</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>31/12/2019</td>
+                                                                                <td class="text-align-right">$55.30</td>
+                                                                                <td class="text-align-right">10%</td>
+                                                                                <td class="text-align-right">$61.45</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>30/01/2020</td>
+                                                                                <td class="text-align-right">$55.30</td>
+                                                                                <td class="text-align-right">10%</td>
+                                                                                <td class="text-align-right">$61.45</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>28/02/2020</td>
+                                                                                <td class="text-align-right">$55.30</td>
+                                                                                <td class="text-align-right">10%</td>
+                                                                                <td class="text-align-right">$61.45</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>31/03/2020</td>
+                                                                                <td class="text-align-right">$55.30</td>
+                                                                                <td class="text-align-right">10%</td>
+                                                                                <td class="text-align-right">$61.45</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>30/04/2020</td>
+                                                                                <td class="text-align-right">$55.30</td>
+                                                                                <td class="text-align-right">10%</td>
+                                                                                <td class="text-align-right">$61.45</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>31/05/2020</td>
+                                                                                <td class="text-align-right">$55.30</td>
+                                                                                <td class="text-align-right">10%</td>
+                                                                                <td class="text-align-right">$61.45</td>
+                                                                            </tr>
+                            
+                                                                            <tr style="border-top: solid 2px #e60000;">
+                                                                                <td class="text-align-right" colspan="3"><strong>Total</strong></td>
+                                                                                <td class="text-align-right">$368.70</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>-->
+
+                            <!--                            <p>If you choose to pay the fees listed by Direct Debit, please note these will be charged on a pro rata basis over the remaining months of the current financial year in which the fees were first issued.  </p><p>Payments will not be distributed across different Financial Years.  If you wish to pay by Direct Debit close to the end of a financial year, you may incur renewal fees for the new financial year that must be paid in the current financial year.  </p><p>You may wish to return and select a different payment method for the listed payable fees or proceed and set up your Direct Debit details to be valid for subsequent Renewals.   </p>-->
+                            <p>If you opt for Direct Debit, please note the fees will be charged on a pro-rata basis over the remaining months of the current financial year.</p>
+                            <p>However, note that if you wish to pay by direct debit close to the end of the financial year (May-June), renewals fees for the next financial year may incur, that must be paid in the current financial year. 
+                                <!--    If this is the case for you it will appear in the preview above. -->
+                                If you have any questions please contact our  <a href="https://www.engineersaustralia.org.au/Contact-Us" target="_blank">Member Services Team</a>.</p>
+                            <p>You can now <strong>proceed and set up your Direct Debit</strong> details, or <strong>select a different payment option</strong>. </p>
+
+                        </div>
+                        <div class="modal-footer col-sm-12">                            
+                            <a href="direct-debit.html" class="btn btn-primary">Proceed and setup Direct Debit</a>
+                            <a href="contract-agreement-add.html" type="button" class="btn btn-default margin-left-20" data-dismiss="modal">Select a different payment option</a>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <!-- Modal Copy -->
+            <div class="modal fade" id="copy-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content col-sm-12 no-grid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                        </div>
+                        <div class="modal-body col-sm-12">
+
+                            <p class="margin-bottom-30 margin-top-20">Do you wish to copy <strong>ADF Aero - GDP (Army)</strong> contract details for the following site(s):</p>
+                            <div class="col-sm-12">
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>All</label>
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>Navy Engineers PDP</label>
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>Navy Strategic Command</label>
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>Australian Army</label>
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>Defence Materiel Organisation</label>
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>DMO Other</label>
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>Defence Air Domain</label>
+                                <label class="container-checkbox"><input type="checkbox" checked="checked"><span class="checkmark"></span>Navy Engineers Charge Qualification</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer col-sm-12">                            
+                            <a href="contract-agreement-copy2.html" class="btn btn-primary">Yes</a>
+                            <a href="contract-agreement-copy2.html" type="button" class="btn btn-default" data-dismiss="modal">No</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Suspend -->
+            <div class="modal fade" id="suspend-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content col-sm-12 no-grid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                        </div>
+                        <div class="modal-body col-sm-12">
+                            <p class="margin-bottom-30 margin-top-20">Are you sure you want to <b>SUSPEND</b> this Contract?<br> If <strong>Yes </strong>then please give,</p>
+                            <div class="form-group row margin-bottom-25">
+                                <label for="name" class="col-sm-3 col-form-label">Reason</label>
+                                <div class="col-sm-6">
+                                    <div class="form-item form-type-select">
+                                        <select class="form-control form-select" id="org-name" name="org-name"><option value=""   selected="selected">Please select</option><option value="1">No specific reason</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer col-sm-12">                            
+                            <a href="#" class="btn btn-primary" data-dismiss="modal">Yes</a>
+                            <a href="#" type="button" class="btn btn-default" data-dismiss="modal">No</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal Suspend -->
+            <div class="modal fade" id="promo-codes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document" style="width: 870px;">
+                    <div class="modal-content col-sm-12 no-grid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Available Promotional Codes</h4>
+                        </div>
+                        <div class="modal-body col-sm-12 padding-20" style="max-height: 500px; overflow-y: scroll;">
+                            <p class="alert alert-info margin-bottom-20"><strong>Please note:</strong> Promotions are designed and valid based on different product services under each product. e.g. <strong>EA Membership</strong> promotions will may not valid for the whole EA Membership product but only for the defined Product Services for that promotion. </p>
+                            <p class="alert alert-info margin-bottom-20"><strong>Please note:</strong> <strong>$0</strong> discount will may have some non-monetary reward, e.g. iPad Draw. </p>
+                            <p>Please find below all the active promotions details:</p>
+                            <ul class="promo-list col-sm-12 pull-left margin-0 padding-0">
+                                <li class="">
+                                    <div class="col-sm-2 discount text-align-center">30%<span>Discount</span></div>
+                                    <div class="col-sm-7"><h3><strong>EA Membership</strong></h3>
+                                        <div class="col-sm-12 no-grid">
+                                            <label>Validity: </label>
+                                            <div class=""><strong>20/08/2020</strong> to <strong>19/09/2020</strong></div>
+                                        </div>
+                                    </div>
+                                    <div  class="col-sm-3 code">
+                                        Promotional Code
+                                        <a href="javascript:void(0);" class="btn btn-primary">PROMO-20</a>
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <div class="col-sm-2 discount text-align-center">$100<span>Discount</span></div>
+                                    <div class="col-sm-7"><h3><strong>National Engineering Register</strong></h3>
+                                        <div class="col-sm-12 no-grid">
+                                            <label>Validity: </label>
+                                            <div class=""><strong>15/08/2020</strong> to <strong>30/09/2020</strong> OR first <strong>100</strong> code usage</div>
+                                        </div>
+                                    </div>
+                                    <div  class="col-sm-3 code">
+                                        Promotional Code
+                                        <a href="javascript:void(0);" class="btn btn-primary">SPRING-20</a>
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <div class="col-sm-2 discount text-align-center">$0<span>Discount</span></div>
+                                    <div class="col-sm-7"><h3><strong>Migration Skills Assessment</strong></h3>
+                                        <div class="col-sm-12 no-grid">
+                                            <label>Validity: </label>
+                                            <div class=""><strong>15/08/2020</strong> to <strong>30/09/2020</strong></div>
+                                        </div>
+                                    </div>
+                                    <div  class="col-sm-3 code">
+                                        Promotional Code
+                                        <a href="javascript:void(0);" class="btn btn-primary">MSA-20</a>
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <div class="col-sm-2 discount text-align-center">50%<span>Discount</span></div>
+                                    <div class="col-sm-7"><h3><strong>Chartered</strong></h3>
+                                        <div class="col-sm-12 no-grid">
+                                            <label>Validity: </label>
+                                            <div class=""><strong>15/08/2020</strong> to <strong>15/10/2020</strong></div>
+                                        </div>
+                                    </div>
+                                    <div  class="col-sm-3 code">
+                                        Promotional Code
+                                        <a href="javascript:void(0);" class="btn btn-primary">CHART-REG</a>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="modal-footer col-sm-12">                            
+                            <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Terminate -->
+            <div class="modal fade" id="terminate-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content col-sm-12 no-grid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                        </div>
+                        <div class="modal-body col-sm-12">
+
+                            <p class="margin-bottom-30 margin-top-20">Are you sure you want to <b>TERMINATE</b> this Contract?<br> If <strong>Yes </strong>then please give,</p>
+                            <div class="form-group row margin-bottom-25">
+                                <label for="name" class="col-sm-3 col-form-label">Reason</label>
+                                <div class="col-sm-6">
+                                    <div class="form-item form-type-select">
+                                        <select class="form-control form-select" id="org-name" name="org-name"><option value=""   selected="selected">Please select</option><option value="1">No specific reason</option></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer col-sm-12">                            
+                            <a href="#" class="btn btn-default" data-dismiss="modal">Yes</a>
+                            <a href="#" type="button" class="btn btn-primary" data-dismiss="modal">No</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer id="footer">
+                <div class="container">
+                    <div id="copyright" class="col-xs-12 col-sm-6">
+                        <p> &copy; 2020 Engineers Australia.</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 footer-links">
+                        <ul>
+                            <li><a href="#">Collection Notice</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Disclaimer</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </footer>
+
+            <script src="../../dist/js/jquery.plugins.min.js"></script>
+            <script src="../../dist/js/eathemeawesome.min.js"></script>
+    </body>
+    <script>
+        $(".fee").click(function () {
+            $(".fee-content").slideToggle();
+            $(this).find(".more-less").toggleClass('fa-minus fa-plus');
+        });
+
+
+
+    </script>
+
+</html>

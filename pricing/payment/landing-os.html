@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+    <head>
+        <link rel="profile" href="<?php print $grddl_profile; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <meta name="viewport" content="initial-scale = 1.0" />
+        <meta name="google-site-verification" content="ZpVNR_Du6b6Mv84i3z-mWc_HexmoHJMBOqHuV6ozMS4" />
+        <title>Portal</title>
+        <link rel="stylesheet" href="../../dist/css/portal-refresh-theme.min.css" media="all" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../../dist/js/portal.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.standalone.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    </head>
+    <style>
+        ul.list{
+            margin-bottom: 0px;
+            padding-left: 20px;
+        }
+        ul.list li{
+            margin: 20px 0px;
+        }
+        ul.list li a{
+            font-weight: bold;
+            line-height: 1.5em;
+            border-bottom: none;
+        }
+        ul.list1{
+            margin: 0px;
+            padding: 0px;
+            float: right;
+            text-align: right;
+        }
+        ul.list1 li{
+            list-style: none;
+            margin-bottom: 10px;
+            float: right;
+            width: 100%;
+        }
+        .collapse-icon{
+            float: left;
+            margin-right: 15px;
+            margin-bottom: 25px;
+            margin-top: 7px;
+        }
+        .collapsed-link{
+            font-weight: normal;
+            line-height: 1.5;
+        }
+        .panel-group .panel {
+            margin-bottom: 10px;
+        }
+        ul.tooltip1{
+
+        }
+        ul.tooltip1 li{
+            list-style: disc;
+            margin-left: 20px;
+            padding: 7px 0px;
+        }
+        .white-space{
+            white-space: pre;
+        }
+        ol.progress-meter{
+            float: left;
+            width: 100%;
+        }
+        ol.progress-meter li{ 
+            width: 24.8%;
+            margin-right: 0.1%;
+            height: 60px;
+            position: relative;
+        }
+        ol.progress-meter li span.sub-status{
+            position: absolute;
+            font-size: 0.8em;
+            margin-top: 70px;
+            left: 30%;
+            background: #e60000;
+            color: #fff;
+            padding: 2px 5px;
+            text-indent: 0px;
+        }
+        ol.progress-meter li.first span.sub-status{
+            margin-left: -3%;
+        }
+        ol.progress-meter li.done:before{
+            bottom: -38px;
+        }
+        ol.progress-meter li.todo:before{
+            bottom: -39px;
+        }
+        ol.progress-meter li.first{ 
+            width: 12.4%;
+            margin-right: 0.1%;
+            text-align: left;
+        }
+        ol.progress-meter li.first:before{ 
+            content: "\2713";
+            left: -webkit-calc(0%);
+            left: -moz-calc(0%);
+            left: -ms-calc(0%);
+            left: -o-calc(0%);
+            left: calc(0% - 9.5px);
+            text-align: center;
+        }
+        ol.progress-meter li.inprog{
+            border-bottom-color: #fb9a01;
+            background: none;
+        }
+        ol.progress-meter li.inprog:before{
+            color: #fb9a01;
+            font-size: 1.6em;
+            bottom: -38px;
+        }
+        ol.progress-meter li.last{ 
+            width: 12.4%;
+            margin-right: 0.1%;
+        }
+        ol.progress-meter li.last.done{
+            padding: 5px;
+        }
+        ol.progress-meter li.last:before{ 
+            left: -webkit-calc(100%);
+            left: -moz-calc(100%);
+            left: -ms-calc(100%);
+            left: -o-calc(100%);
+            left: calc(100%);
+        }
+        .dummy-links{
+            padding: 0px;
+            margin: 0px;
+            float: left;
+            margin-bottom: 20px;
+        }
+        ul.dummy-links li{
+            list-style: none;
+            float: left;
+            margin: 0 20px;
+        }
+        ul.dummy-links li a{
+            padding: 4px 10px;
+        }
+        ul.dummy-links li.active a{
+            background: #e60000;
+            color: #fff;
+        }
+        .font-heading{
+            font-weight: 900;
+            font-size: 1.1em;
+        }
+        .font-bold{
+            font-weight: 900;
+        }
+        .callouts{
+            padding: 0px;
+            background: #e5e5e5;
+            margin-bottom: 20px;
+        }
+        .callouts legend{
+            float: left;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .checklist{
+            margin: 0px;
+            padding: 0px;
+        }
+        .checklist li{
+            list-style: none;
+            margin: 5px 0px;
+        }
+        h2{
+            line-height: 1.5;
+        }
+        span.active{
+            color: green;
+            font-weight: 900;
+        }
+        span.non{
+            color: red;
+            font-weight: 900;
+        }
+        span.past {
+            color: #485a65;
+            font-weight: 900;
+        }
+        .right-panel{
+            padding-top: 0px;
+            background: #e5e5e5;
+            position: relative;
+            display: inline-block;
+            border-radius: 0;
+            box-shadow: 0 1px 1px rgba(0,0,0,.3);
+            -moz-transition: all .6s cubic-bezier(.165,.84,.44,1);
+            transition: all .6s cubic-bezier(.165,.84,.44,1);
+            overflow: inherit;
+            padding: 30px;
+        </style>
+
+        <body>
+            <!--[if lte IE 8]>
+        <div class="message-outdated alert alert-warning alert-dismissible" role="alert">
+        <a class="close toc-filter-processed" data-dismiss="alert" href="#">×</a>
+            <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            </div>
+        <![endif]-->
+            <a class="skip-to-content sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+            <a class="skip-to-content sr-only sr-only-focusable hidden-xs" href="#main-nav">Skip to main navigation</a>
+            <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i><span>Back to top</span></a>
+
+            <div class="mobileNavWrap">
+                <nav id="mobile-nav" role="navigation">
+
+                </nav>
+            </div>
+            <div class="clearfix site-full-wrapper">
+                <header id="header">
+                    <div class="container" id="header-container">
+                        <div class="mobile-header">
+                            <button id="mobile-nav-btn" class="hamburger hamburger--collapse" type="button">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>                                
+                                </span>
+                            </button>
+                        </div>
+                        <div class="header-block portal-logo">
+                            <a href="/portal" title="Portal Home" rel="home">
+                                <div class="logo-img"></div>
+                            </a>
+                        </div>
+
+                        <div class="header-content header-block col-xs-12 col-sm-4">
+                            <div class="region region-header">
+                                <section id="block-ea-newsevents-sitewide-search-form" class="block block-ea-newsevents clearfix" style="visibility: hidden;">
+
+
+                                    <form action="/portal/protohome" method="post" id="ea-portal-block-search-form" accept-charset="UTF-8"><div><div class="form-item form-item-keywords form-type-textfield form-group"><input placeholder="Search News or Events" class="form-control form-text" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128"></div><div class="form-item form-item-options form-type-select form-group"><select class="nouniform form-control form-select" id="edit-options" name="options"><option value="news" selected="selected">News</option><option value="events">Events</option></select></div><button type="submit" id="edit-sitewide-search" name="op" value="Search" class="btn btn-primary form-submit">Search</button>
+                                            <input type="hidden" name="form_build_id" value="form-yUQUyVNmNix_2M8xup2vSFXUruaeakcrMFYG77vLJvc">
+                                            <input type="hidden" name="form_id" value="ea_portal_block_search_form">
+                                        </div></form>
+                                </section>
+                            </div>
+                        </div>
+
+                        <div id="secondaryNav" class="header-block col-sm-6">
+                            <div class="region region-secondarynav">
+                                <section id="block-block-10" class="block block-block clearfix">
+
+                                    <ul>
+                                        <!--                                    <li class="li-divider">
+                                                                                <a href="#">Messages<span class="count">7</span></a>                                        
+                                                                            </li>
+                                                                            <li class="li-divider">
+                                                                                <a href="#">Tasks<span class="count">12</span></a>
+                                                                            </li>
+                                                                            <li class="li-divider">
+                                                                                <a href="#">Invoices<span class="count">5</span></a>
+                                                                            </li>-->
+
+                                        <li class="li-divider nav-profile">
+                                            <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                        </li>
+
+                                        <li class="li-divider logout">
+                                            <a href="#">Logout</a>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="primaryNav" class="hidden-xs navbar-inverse">
+                        <div class="container">
+                            <ul class="menu nav navbar-nav ">
+
+                                <li class="active">
+                                    <a href="index.html"><i class="fa fa-home"></i></a>
+                                </li>
+
+                                <li>
+                                    <a href="myea.html">My EA</a>
+                                </li>
+
+                                <li>
+                                    <a href="products-services.html">Products <span aria-hidden="true">+</span> Services</a>
+                                </li>
+
+                                <li>
+                                    <a href="temp-news-events.html" target="_blank">News <span aria-hidden="true">+</span> Events</a>
+                                </li>
+
+                                <li>
+                                    <a href="temp-contact.html" target="_blank">Contact us</a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="hero-container">
+                    <div class="container">
+                        <h1>Sarah Jane
+                            <span class="title-sub-text">(EA ID: 5354652)</span></h1>
+                        <ul class="header-ea-nominals">
+                            <!--                        <li>CPEng</li>-->
+                        </ul> 
+                    </div>
+                </section>
+
+                <section id="main">
+                    <div class="container">
+
+<p class="alert alert-success">Your request for organisation support has been sent successfully to your Coordinator.</p>
+
+                        <div class="row">
+                            <ul class="breadcrumb col-xs-12 margin-top-20">
+                                <li><a href="index_eastaff.html"><i class="fa fa-home"></i></a></li>
+                                <li>EA Membership Management</li>                            
+                            </ul>
+                           
+                            <div id="main-content" class="col-xs-12 col-sm-12 margin-top-0">                            
+                                <div class="col-sm-12 card-section card-a padding-30 margin-bottom-30" style="padding-right: 30px!important;">
+
+                                    
+                                    <div class="custom-sections" id="inprog-app-sections">
+                                        <!--                                    <p class="alert alert-info col-sm-12 no-grid margin-bottom-20">
+                                                                                <strong>Please note</strong>:You may be asked to provide additional supporting info and/or to undertake a Stage 1 Assessment depending upon the assessment outcome. 
+                                                                            </p>-->
+                                        <fieldset class="col-sm-12 no-grid margin-bottom-30">
+                                            <!--                                        <legend class="inner-pages-level-2">EA Membership</legend>-->
+                                            <div class="form-group  col-xs-12 no-grid margin-bottom-15" style="border-bottom: dashed 1px #e5e5e5;">
+                                                <label for="name" class="col-sm-12 col-form-label font-heading">&nbsp;<!--[Please advice]--></label>
+                                            </div>
+                                            <div class="form-group  col-xs-12 no-grid margin-bottom-15" style="border-bottom: dashed 1px #e5e5e5;">
+                                                <label for="name" class="col-sm-4 col-form-label">EA Membership Status</label>
+                                                <div class="col-sm-8">
+                                                    <div class="form-item form-type-textfield form-item-first-name">
+                                                        <span>Not a Member</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="col-sm-12 no-grid">
+                                            <legend class="inner-pages-level-2">Application Progress</legend>
+
+                                            
+                                            
+
+                                            <ol class="progress-meter margin-bottom-30">
+                                                <li id="aboutu-dash" class="progress-point first done">Started</li>
+                                                <li id="aboutu-dash" class="progress-point done">Application submitted</li>
+                                                <li id="qual-dash" class="progress-point done">Assessment in progress</li>
+                                                <li id="cpd-dash" class="progress-point inprog">Paid<span class="sub-status">Payment requested</span></li>
+                                                <li id="work-dash" class="progress-point todo last">Outcome granted</li>
+                                            </ol>
+                                            <div class="col-sm-12 margin-top-20 margin-bottom-20"></div>
+
+                                            
+
+                                            <div class="form-group  col-xs-12 no-grid margin-top-30 margin-bottom-15" style="border-bottom: dashed 1px #e5e5e5;">
+                                                <label for="name" class="col-sm-12 col-form-label font-heading">New Fellow Technologist Application</label>
+                                            </div>
+                                            <div class="form-group  col-xs-12 no-grid margin-bottom-15" style="border-bottom: dashed 1px #e5e5e5;">
+                                                <label for="name" class="col-sm-4 col-form-label">Application ID</label>
+                                                <div class="col-sm-6">
+                                                    <div class="form-item form-type-textfield form-item-first-name">
+                                                        2322233
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group  col-xs-12 no-grid margin-bottom-15" style="border-bottom: dashed 1px #e5e5e5;">
+                                                <label for="name" class="col-sm-4 col-form-label">Date Created</label>
+                                                <div class="col-sm-6">
+                                                    <div class="form-item form-type-textfield form-item-first-name">
+                                                        03/06/2019
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group  col-xs-12 no-grid margin-bottom-15" style="border-bottom: dashed 1px #e5e5e5;">
+                                                <label for="name" class="col-sm-4 col-form-label">Date Submitted</label>
+                                                <div class="col-sm-6">
+                                                    <div class="form-item form-type-textfield form-item-first-name">
+                                                        03/07/2019
+                                                    </div>
+                                                </div>
+                                            </div>
+
+<!--                                            <div class="form-group  col-xs-12 no-grid margin-bottom-0 pull-right margin-top-15" style=""> 
+                                                <a class="btn btn-default margin-left-20 pull-right" href="#" target="_blank">Cancel</a>                                                
+                                                                                                <a class="btn btn-primary pull-right" href="membership-new-application.html" target="_blank">Resume Application</a>
+                                                <a class="btn btn-primary pull-right" href="additional-info.html" target="_blank">Provide Additional Information</a>
+                                                <hr class="margin-bottom-5 col-sm-12 no-grid">
+                                            </div>-->
+                                            <div class="col-sm-12 no-grid pull-left margin-top-20">
+
+                                                <p class="alert alert-info">If you have any questions or concerns regarding your membership application, please <a href="https://www.engineersaustralia.org.au/Contact-Us" target="_blank"><strong>contact us</strong></a>.</p>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="contact-info-footer">
+            <div class="container">
+                <div class="row flex-row">
+                    <div class="col-xs-12 col-sm-4">
+                        <div itemscope itemtype="http://schema.org/LocalBusiness">
+                            <i class="fa fa-phone fa-lg" aria-hidden></i>
+                            <h3>National Callers</h3>
+                            <span itemprop="telephone">1300 653 113</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div itemscope itemtype="http://schema.org/LocalBusiness">
+                            <i class="fa fa-globe fa-lg" aria-hidden></i>
+                            <h3>International Callers</h3>
+                            <span itemprop="telephone">+61 2 6270 6555</span></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div>
+                            <i class="fa fa-share fa-lg" aria-hidden></i>
+                            <a class="submit-enquiry" href="log-a-request.html" title="Log a request online">Submit an Enquiry</a>
+                            <p>Member Services are available <br><strong>Mon - Fri 8:30 am - 6:00 pm AEST</strong></p></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="footer">
+        <div class="container">
+            <div id="copyright" class="col-xs-12 col-sm-6">
+                <p> &copy; 2020 Engineers Australia.</p>
+            </div>
+            <div class="col-xs-12 col-sm-6 footer-links">
+                <ul>
+                    <li><a href="#">Collection Notice</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Disclaimer</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal fade" id="checklist" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Checklist</h4>
+                </div>
+                <div class="modal-body padding-30">
+                    <p>Please find below the checklist before submitting the application:</p>
+                    <ul class="checklist">
+                        <li><label class="d-label"><span class="d-checkmark red checked"></span>CV</label></li>
+                        <li><label class="d-label"><span class="d-checkmark red checked"></span>Photograph</label></li>
+                        <li><label class="d-label"><span class="d-checkmark red checked"></span>...</label></li>
+                        <li><label class="d-label"><span class="d-checkmark red checked"></span>...</label></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../dist/js/jquery.plugins.min.js"></script>
+    <script src="../../dist/js/eathemeawesome.min.js"></script>
+    <script>
+        //calling bootstrap date picker
+        $('.input-group.date').datepicker({format: "dd/mm/yyyy"});
+
+        var now = new Date();
+        var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+    </script>
+    <script>
+
+    </script>
+</body>
+
+</html>

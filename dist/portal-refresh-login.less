@@ -1,0 +1,137 @@
+@import "../src/less/bootstrap-portal/variables.less";
+@import "../src/less/bootstrap-portal/mixins.less";
+.block_center_auto {
+    margin: auto;
+    display: block;
+}
+
+body {
+    background-image: url("images/BG.png");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+//Frontier BG
+body.frontier {
+    background-image: url("images/Frontier-BG.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+//Frontier BG
+body.ea-xchange {
+    background-image: url("images/EA-Xchange-Background.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    #loginBox{
+        box-shadow: 0 6px 10px rgba(0,0,0,.3);
+    }
+}
+//Frontier BG
+body.odl {
+    background-image: url("images/EA-OnDemand-Background.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    #loginBox{
+        box-shadow: 0 6px 10px rgba(0,0,0,.3);
+    }
+}
+.browser-info{
+    opacity: 0.9;    
+    margin: 15px auto;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+#loginBox {
+    font-size: 18px;
+    background: @white;
+    width:40%;
+    height:615px;
+    margin: auto;
+    margin-top: 30px;
+    position: relative;
+    max-width: 626px;
+    margin-bottom: 15px;
+    @media (max-width: @screen-xs-max) {
+        .make-xs-column(12);
+    }
+
+    a{
+        color:@brand-red;
+        font-weight: 700;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .links {
+        margin-top: 10px;
+        display: block;
+        font-size: 16px;
+        float: right;
+    }
+
+    .login-logo-container {
+        height: 120px;
+        background: @white-two;
+        padding-top: 10px;
+    }
+
+    .login-elements {
+        padding-top: 0px;
+        form {
+            width:85%;
+            .block_center_auto;
+            input {
+                height: 50px;
+            }
+            input[type=checkbox]{
+                height: auto!important;            
+            }
+            .form-check{
+                margin-top:10px;
+            }
+            .btn {
+                width: 230px;
+                height: 50px;
+                font-size: 22px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 35px;
+            }
+            .form-group {
+                margin-bottom: 0px;
+                margin-top: 15px;
+            }
+        }
+    }    
+}
+.more-info{
+    color: @brand-red;
+}

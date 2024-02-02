@@ -1,0 +1,6 @@
+{
+    "watchFolder": ".",
+    "outputFolder": "css",
+    "mainFile": "portal-refresh-theme.less",
+    "minified":true
+}

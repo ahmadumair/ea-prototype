@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+    <head>
+        <link rel="profile" href="<?php print $grddl_profile; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <meta name="viewport" content="initial-scale = 1.0" />
+        <meta name="google-site-verification" content="ZpVNR_Du6b6Mv84i3z-mWc_HexmoHJMBOqHuV6ozMS4" />
+        <title>Portal</title>
+        <link rel="stylesheet" href="../dist/css/portal-refresh-theme.min.css" media="all" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../dist/js/portal.js"></script>
+        <script src="../dist/js/promotion.js"></script> 
+        <script src="../dist/js/promotion_revised.js"></script> 
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.standalone.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+        <style>
+            #ea-mem-category{
+                display: none;
+            }
+            .modal-backdrop.in{
+                display: none;
+            }
+            #edit-price{
+                background: rgba(0,0,0,0.5);
+            }
+            .form-select option{
+                padding: 5px!important;
+            }
+            .loading{    
+                position: fixed;
+                z-index: 1000;
+                width: 8em;
+                height: 5em;
+                overflow: show;
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0; 
+                display: none;
+                color: #fff;
+                background: #333;
+                padding: 1.7em 7em 1em 3em;
+                opacity: 0.9;
+                font-size:1.5em;
+                font-weight: bold;
+            }
+            /* Transparent Overlay */
+            .loading:before {
+                content: '';
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.7);
+            }
+
+            /* :not(:required) hides these rules from IE9 and below */
+            .loading:not(:required) {
+                /* hide "loading..." text */
+                font: 0/0 a;
+                color: transparent;
+                text-shadow: none;
+                background-color: transparent;
+                border: 0;
+            }
+
+            .loading:not(:required):after {
+                content: '';
+                display: block;
+                font-size: 10px;
+                width: 4em;
+                height: 4em;
+                margin-top: -0.5em;
+
+                background: url("../dist/css/images/EA-Logo.svg") no-repeat;
+
+                -webkit-animation:spin 4s linear infinite;
+                -moz-animation:spin 4s linear infinite;
+                animation:spin 4s linear infinite;    
+            }
+            /* Animation */
+            @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+            @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+            @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+            ul.list {
+                padding: 0px;
+                margin: 0px;
+                margin-bottom: 30px;
+            }
+            ul.list li{
+                list-style: none;
+                padding: 15px 0px;
+                border-bottom: dashed 1px #ccc;
+            }
+
+            .form-select option:checked{
+                background: red!important;
+                color: white!important;
+            }
+
+            .container-radio{
+                padding-left: 35px;
+            }
+            .container-radio input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+            /* Create a custom radio button */
+            .container-radio .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                background-color: #bfbfbf;
+                border-radius: 50%;
+            }
+
+            /* On mouse-over, add a grey background color */
+            .container-radio:hover input ~ .checkmark {
+                background-color: #bfbfbf;
+            }
+
+            /* When the radio button is checked, add a blue background */
+            .container-radio input:checked ~ .checkmark {
+                background-color: #e60000;
+            }
+
+            /* Create the indicator (the dot/circle - hidden when not checked) */
+            .container-radio .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+            /* Show the indicator (dot/circle) when checked */
+            .container-radio input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            /* Style the indicator (dot/circle) */
+            .container-radio .checkmark:after {
+                top: 9px;
+                left: 9px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: white;
+            }
+            .container-radio p.desc{
+                font-size: 1em;
+                font-weight: normal;
+                border-bottom: dashed 1px #e5e5e5;
+                padding-bottom: 10px;
+            }
+            .edit-link{
+                color: #333;
+            }
+            .input-group-addon{
+                border-radius: 0px;
+            }
+            .container-checkbox{
+                font-size: 1em;
+            }            
+            .inner-filter{
+                border: solid 1px #fff;
+                margin-bottom: 20px;
+            }
+            .inner-filter legend{
+                display: inline !important;
+                width: auto!important;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="loading" style="display: none;">
+            <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+        </div>
+        <!--[if lte IE 8]>
+    <div class="message-outdated alert alert-warning alert-dismissible" role="alert">
+    <a class="close toc-filter-processed" data-dismiss="alert" href="#">Ãƒâ€”</a>
+        <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        </div>
+    <![endif]-->
+        <a class="skip-to-content sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+        <a class="skip-to-content sr-only sr-only-focusable hidden-xs" href="#main-nav">Skip to main navigation</a>
+        <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i><span>Back to top</span></a>
+
+        <div class="mobileNavWrap">
+            <nav id="mobile-nav" role="navigation">
+
+                <ul class="mm-listview">
+                    <div class="panel-group mobile-personal-info" id="mobile-personal-info" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#mobile-personal-info" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                        <span class="name">Miss Jane Sarah Doe</span><i class="more-less fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading">
+                                <div class="panel-body">
+                                    <ul class="mm-listview-inner">
+                                        <li><a href="#">My Preferences</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <li class="active"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                    <li><a href="#">My EA</a></li>
+                    <li><a href="#">Products + Services</a></li>
+                    <li><a href="#">News + Events</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="clearfix site-full-wrapper">
+            <header id="header">
+                <div class="container" id="header-container">
+                    <div class="mobile-header">
+                        <button id="mobile-nav-btn" class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>                                
+                            </span>
+                        </button>
+                    </div>
+                    <div class="header-block portal-logo">
+                        <a href="/portal" title="Portal Home" rel="home">
+                            <div class="logo-img"></div>
+                        </a>
+                    </div>
+
+                    <div class="header-content header-block col-xs-12 col-sm-4">
+                        <div class="region region-header">
+                            <section id="block-ea-newsevents-sitewide-search-form" class="block block-ea-newsevents clearfix" style="visibility: hidden;">
+
+
+                                <form action="/portal/protohome" method="post" id="ea-portal-block-search-form" accept-charset="UTF-8"><div><div class="form-item form-item-keywords form-type-textfield form-group"><input placeholder="Search News or Events" class="form-control form-text" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128"></div><div class="form-item form-item-options form-type-select form-group"><select class="nouniform form-control form-select" id="edit-options" name="options"><option value="news" selected="selected">News</option><option value="events">Events</option></select></div><button type="submit" id="edit-sitewide-search" name="op" value="Search" class="btn btn-primary form-submit">Search</button>
+                                        <input type="hidden" name="form_build_id" value="form-yUQUyVNmNix_2M8xup2vSFXUruaeakcrMFYG77vLJvc">
+                                        <input type="hidden" name="form_id" value="ea_portal_block_search_form">
+                                    </div></form>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div id="secondaryNav" class="header-block col-sm-6">
+                        <div class="region region-secondarynav">
+                            <section id="block-block-10" class="block block-block clearfix">
+
+                                <ul>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Messages<span class="count">7</span></a>                                        
+                                    </li>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Tasks<span class="count">12</span></a>
+                                    </li>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Invoices<span class="count">5</span></a>
+                                    </li>
+
+                                    <li class="li-divider nav-profile">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                    </li>
+
+                                    <li class="li-divider logout">
+                                        <a href="#">Logout</a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="primaryNav" class="hidden-xs navbar-inverse">
+                    <div class="container">
+                        <ul class="menu nav navbar-nav ">
+
+                            <li class="active">
+                                <a href="index.html"><i class="fa fa-home"></i></a>
+                            </li>
+
+                            <li>
+                                <a href="myea.html">My EA</a>
+                            </li>
+
+                            <li>
+                                <a href="products-services.html">Products <span aria-hidden="true">+</span> Services</a>
+                            </li>
+
+                            <li>
+                                <a href="temp-news-events.html" target="_blank">News <span aria-hidden="true">+</span> Events</a>
+                            </li>
+
+                            <li>
+                                <a href="temp-contact.html" target="_blank">Contact us</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <section class="hero-container">
+                <div class="container">
+                    <h1><span class="sub-page-title"><span>Add New Promotion</span></span>Luke McLachlan
+                        <span class="title-sub-text">(EA ID: 4318411)</span></h1>
+                    <ul class="header-ea-nominals">
+                        <!--                        <li>CPEng</li>-->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="main">                
+
+                <div class="container">
+                    <div class="row">
+                        <ul class="breadcrumb col-xs-12">
+                            <li><a href="index_eastaff.html"><i class="fa fa-home"></i></a></li>
+                            <li><a href="management-eastaff.html">Management</a></li>
+                            <li><a href="promo-management.html">Promotion Management</a></li>
+                            <li>Add New Promotion</li>
+                        </ul>
+                        <div id="main-content" class="col-xs-12 col-sm-12 margin-top-0 margin-bottom-30">
+                            <div class="card-section card card-a padding-30">
+
+
+                                <fieldset class="col-sm-12 no-grid" id="search-results" style="display: block;">
+                                    <legend class="inner-pages-level-2">Promotion
+                                        <a class="b-rules no-style margin-left-5" href="javascript:void(0);" title="Business rules" data-toggle="modal" data-target="#status-rules"><i class="fa fa-briefcase"></i></a>
+                                    </legend>                                   
+
+                                    <div class="modal-body padding-0 col-sm-12 ">                                        
+                                        <div class="search-filters col-sm-12 padding-30">
+                                            <div class="col-sm-12 margin-bottom-30 no-grid">
+                                                <label for="name" class="col-sm-3 col-form-label no-grid">Promotional Code<span class="form-required">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-3 no-grid">
+                                                        <div class="form-item">
+                                                            <input id="" type="text" class="form-control" value="PROMO-WINTER">
+                                                        </div>                                                    
+                                                    </div>
+                                                    <div class="note col-sm-12 no-grid">Maximum 16 alphanumeric and "-" special characters are allowed.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 margin-bottom-30 no-grid">
+                                                <label for="name" class="col-sm-3 col-form-label no-grid">Description <p class="note">(Staff use only)</p></label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" id="cust-msg" rows="3">This promotion is designed to get more Chartered memberships during first half of financial year. </textarea>                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 margin-bottom-10 no-grid">
+                                                <label for="name" class="col-sm-3 col-form-label no-grid">Promotional Discount<span class="form-required">*</span><br><span class="note">(Ex. GST)</span></label>
+                                                <div class="col-sm-9">
+                                                    <div class="col-sm-12 no-grid" id="promotion-price-wrapper">                                                        
+                                                        <label class="container-radio col-sm-3">Percentage <input id="percent" type="radio" name="price-radio" value="percent" class="promo-price"><span class="checkmark"></span></label>
+                                                        <label class="container-radio col-sm-3">Fixed <input id="fixed" type="radio" name="price-radio" value="fixed" class="promo-price" checked=""><span class="checkmark"></span></label>
+                                                        
+                                                    </div>
+                                                    <div class="col-sm-12 margin-top-20 no-grid" id="fixed-wrapper">
+                                                        <div class="col-sm-3 no-grid">
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">$</span>
+                                                                <input id="pdiscount-f" type="text" class="form-control" name="pdiscount-f" placeholder="" value="0">
+                                                            </div>
+                                                        </div>
+                                                        <p class="note col-sm-12 no-grid"><strong>Please note</strong>: Fixed price will be a single static price applicable to all the selected Price Component(s). </p>
+                                                        <p class="note col-sm-12 no-grid"><strong>Important</strong>: For any <strong>non-monetary</strong> rewards like iPad draw, use this option with 0 (Zero) price value. </p>
+                                                    </div>
+                                                    <div class="col-sm-12 margin-top-20 no-grid" id="percent-wrapper" style="display: none;">
+                                                        <div class="col-sm-3 no-grid">                                                            
+                                                            <div class="input-group">
+                                                                <input id="pdiscount-p" type="text" class="form-control" name="pdiscount-p" placeholder="">
+                                                                <span class="input-group-addon">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <p class="note col-sm-12 no-grid"><strong>Please note</strong>: If Price Component is $100.00 and the Promotional Discount is set as 30% then the Promotional Price will be $70.00. Also system will auto round-off the Price Component value. For example $45.34 or $45.99 will round-off to $45.00.</p>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 margin-bottom-10 no-grid" id="cust-msg-wrapper">
+                                                <label for="name" class="col-sm-3 col-form-label no-grid">Customer Message<span class="form-required">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" id="cust-msg" rows="3"> Congratulations! Your Promotional Code is valid, and you have been selected for iPad Draw. Our Member Service team will be in touch with you shortly. Thanks</textarea>
+                                                    <p class="note col-sm-12 no-grid"><strong>Please note: </strong> Customer message will be displayed to the customer after valid Promotional Code entry for this promotion.</p>
+                                                </div>
+                                            </div>
+
+                                            
+                                            <hr class="col-sm-12">
+                                            <div class="col-sm-12 no-grid">
+                                                <label for="datetimepicker-char-sche" class="col-sm-3 col-form-label padding-left-0 margin-top-30">Promotion Effective Criteria </label>
+                                                <div class="col-sm-3">
+                                                    <label class="">From Date <span class="form-required">*</span></label>
+                                                    <div class="input-group date date-picker" id="datetimepicker6">
+                                                        <input type="text" class="form-control" id="effective-date-from" value="15/07/2020">
+                                                        <span class="input-group-addon" style="border-radius: 0px; ">
+                                                            <span class="fa fa-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>                                                
+                                                <div class="col-sm-3">
+                                                    <label class="">To Date <span class="form-required">*</span></label>
+                                                    <div class="input-group date date-picker" id="datetimepicker6">
+                                                        <input type="text" class="form-control" id="effective-date-to" value="15/08/2020">
+                                                        <span class="input-group-addon" style="border-radius: 0px; ">
+                                                            <span class="fa fa-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label class="">Must Pay By Date<span class="form-required">*</span></label>
+                                                    <div class="input-group date date-picker" id="datetimepicker99">
+                                                        <input type="text" class="form-control" id="effective-pay-by-date" value="30/08/2020">
+                                                        <span class="input-group-addon" style="border-radius: 0px; ">
+                                                            <span class="fa fa-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 margin-top-20 col-sm-offset-3">
+                                                    <label for="name" class="col-sm-12 col-form-label no-grid">Maximum Number of Uses</label>
+                                                    <div class="col-sm-12 no-grid">
+                                                        <div class="col-sm-3 no-grid">
+                                                            <div class="form-item">
+                                                                <input id="" type="text" class="form-control">
+                                                            </div>                                                    
+                                                        </div>
+                                                        <div class="note col-sm-12 no-grid"><strong>Please note: </strong>The promotion will end either once the max number of uses entered above has been exhausted or the End Date is reached, whichever comes first. </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr class="col-sm-12">
+                                            <label class="col-sm-3 padding-left-0">Make this Promotion Public?<p class="note"></p></label>
+                                                <label class="container-checkbox col-sm-2 margin-left-15" id="checklabel-customer"><input id="customer2" type="checkbox"><span class="checkmark"></span></label>
+                                            <hr class="col-sm-12">                                           
+
+                                            <div class="col-sm-12 margin-bottom-30 no-grid">
+                                                <label for="eaid" class="col-sm-3 col-form-label no-grid">Select Product<span class="form-required">*</span></label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control form-select disabled" id="prod-new" name="prod">
+                                                        <option value='0'>Please select</option>
+                                                        <option value='1' selected="">Chartered</option> 
+                                                        <option value="2">EA Membership</option>
+                                                        <option value="3">Migration Skills Assessment</option>
+                                                        <option value="4">National Registration</option>
+                                                        <option value="5">Stage 1 Competency</option> 
+                                                        <option value="6">Technical Society Membership</option>                                          
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-grid">
+                                                <a href="javascript:void(0);" id="search-btn" class="btn btn-primary click btn-more-top pull-right">Find Price Component(s)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <fieldset class="col-sm-12 no-grid margin-top-30" id="no-products" style="display: none;">
+                                        <legend class="inner-pages-level-2">Promotional List</legend>
+                                        <div class="col-sm-12"> 
+                                            <div class="row">
+                                                <p class="alert alert-info">No products are added yet for this promotion, please click "Find Price Component(s)" button to proceed.</p>
+
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+
+                                    <div class="membership-filters search-filters col-sm-12 margin-top-20" id="membership-filters" style="display: none;">
+                                        <fieldset class="col-sm-12 no-grid">
+                                            <legend class="inner-pages-level-2">Filter Promotional List</legend>
+                                            <div class="form-group row margin-top-25" id="fee-types-new-wrap">
+                                                <label for="eaid" class="col-sm-3 col-form-label">Fee Type</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="fee-types-new" name="fee-types-new">
+                                                        <option value='0'>All</option>
+                                                        <option value='1'>Annual Membership Fee</option>
+                                                        <option value="2">Application Fee</option>                              
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row margin-top-25"  id="prod-services-new-wrap">
+                                                <label for="eaid" class="col-sm-3 col-form-label">Product Services</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="prod-services-new" name="prod-services-new">
+                                                        <option value='0'>All</option>
+                                                        <option value='1'>New EA Membership</option>
+                                                        <option value="3">Renew EA Membership</option>
+                                                        <option value="2">Readmit EA Membership</option> 
+                                                        <option value="4">Grade Transfer</option> 
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row margin-top-25" id="grade-new-wrap">
+                                                <label for="eaid" class="col-sm-3 col-form-label">Grade</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="grade-new" name="grade-new">
+                                                        <option value="0">All</option>
+                                                        <option value="1">Student</option>
+                                                        <option value="2">Graduate</option>
+                                                        <option value="3">Member</option>
+                                                        <option value="4">Fellow</option>
+                                                        <option value="5">Hon. Fellow</option>
+                                                        <option value="6">Affiliate</option>
+                                                        <option value="7">Companion</option>  
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 margin-bottom-30 no-grid" id="year-wrap" style="display: none;">
+                                                <label for="" class="col-sm-3 col-form-label padding-left-0">Year</label>
+                                                <div class="col-sm-9">
+                                                    <label class="container-radio col-sm-2">All <input id="any-year" type="radio" name="year-radio" value="0" class="year" checked=""><span class="checkmark"></span></label>
+                                                    <label class="container-radio col-sm-2">New <input id="new-year" type="radio" name="year-radio" value="5" class="year"><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-2">1st <input id="1-year" type="radio" name="year-radio" value="1" class="year"><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-2">2nd <input id="2-year" type="radio" name="year-radio" value="2" class="year"><span class="checkmark"></span></label>
+                                                    <label class="container-radio col-sm-2">3rd <input id="3-year" type="radio" name="year-radio" value="3" class="year"><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-2">4th <input id="4-year" type="radio" name="year-radio" value="4" class="year"><span class="checkmark"></span></label>                                                               
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row margin-top-25" id="occu-new-wrap">
+                                                <label for="eaid" class="col-sm-3 col-form-label">Occupational Category</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="occu-new" name="occu-new">
+                                                        <option value='0'>All</option>
+                                                        <option value='1'>Associate</option>
+                                                        <option value="2">Technologist</option>
+                                                        <option value="3">Professional</option>                              
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 margin-bottom-20 no-grid"  id="location-new-wrap">
+                                                <label for="" class="col-sm-3 col-form-label padding-left-0">Location</label>
+                                                <div class="col-sm-6">
+                                                    <label class="container-radio col-sm-3">All <input id="any-loc" type="radio" name="status-radio" value="0" class="location" checked=""><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-5">Australia Only<input id="aus-loc" type="radio" name="status-radio" value="N" class="location"><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-4">Overseas <input id="over-loc" type="radio" name="status-radio" value="Y" class="location"><span class="checkmark"></span></label>  
+                                                </div>
+                                            </div>
+
+                                            <fieldset class="col-sm-12 inner-filter" id="more-filters">
+                                                <legend class="inner-pages-level-2">Other Filters</legend>
+
+                                                <div class="col-sm-12 margin-bottom-20 no-grid"  id="mra-wrap">
+                                                    <label for="" class="col-sm-3 col-form-label padding-left-0">MRA</label>
+                                                    <div class="col-sm-6">
+                                                        <label class="container-radio col-sm-3">All <input id="any-mra" type="radio" name="mra-radio" value="0" class="mra" checked=""><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-5">Yes<input id="yes-mra" type="radio" name="mra-radio" value="Y" class="mra"><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-4">No<input id="no-mra" type="radio" name="mra-radio" value="N" class="mra"><span class="checkmark"></span></label>  
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12 margin-bottom-20 no-grid"  id="chartered-wrap">
+                                                    <label for="" class="col-sm-3 col-form-label padding-left-0">Chartered</label>
+                                                    <div class="col-sm-6">
+                                                        <label class="container-radio col-sm-3">All <input id="any-chart" type="radio" name="chartered-radio" value="0" class="chartered" checked=""><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-5">Yes<input id="yes-chart" type="radio" name="chartered-radio" value="Y" class="chartered"><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-4">No<input id="no-chart" type="radio" name="chartered-radio" value="N" class="chartered"><span class="checkmark"></span></label>  
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12 margin-bottom-20 no-grid"  id="cduration-wrap" style="display: none;">
+                                                    <label for="" class="col-sm-3 col-form-label padding-left-0">Chartered Duration</label>
+                                                    <div class="col-sm-9">
+                                                        <label class="container-radio col-sm-2">All <input id="any-cduration" type="radio" name="cduration-radio" value="0" class="cduration" checked=""><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-3">Less than 1 year<input id="1-cduration" type="radio" name="cduration-radio" value="1" class="cduration"><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-4">12 months - 5 years<input id="2-cduration" type="radio" name="cduration-radio" value="2" class="cduration"><span class="checkmark"></span></label>                                                                                                                       
+                                                        <label class="container-radio col-sm-3">Greater than 5 years<input id="3-cduration" type="radio" name="cduration-radio" value="3" class="cduration"><span class="checkmark"></span></label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12 margin-bottom-20 no-grid"  id="register-wrap">
+                                                    <label for="" class="col-sm-3 col-form-label padding-left-0">Registration</label>
+                                                    <div class="col-sm-6">
+                                                        <label class="container-radio col-sm-3">All <input id="any-register" type="radio" name="register-radio" value="0" class="register" checked=""><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-5">Yes<input id="yes-register" type="radio" name="register-radio" value="Y" class="register"><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-4">No<input id="no-register" type="radio" name="register-radio" value="N" class="register"><span class="checkmark"></span></label>  
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12 margin-bottom-20 no-grid"  id="invited-wrap">
+                                                    <label for="" class="col-sm-3 col-form-label padding-left-0">Invited</label>
+                                                    <div class="col-sm-6">
+                                                        <label class="container-radio col-sm-3">All <input id="any-invited" type="radio" name="invited-radio" value="0" class="invited" checked=""><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-5">Yes<input id="yes-invited" type="radio" name="invited-radio" value="Y" class="invited"><span class="checkmark"></span></label>                                                               
+                                                        <label class="container-radio col-sm-4">No<input id="no-invited" type="radio" name="invited-radio" value="N" class="invited"><span class="checkmark"></span></label>  
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div class="col-sm-12 no-grid">
+                                                <a href="javascript:void(0);" class="btn btn-primary click btn-more-top pull-right mem-filter">Filter</a>
+                                                <a href="javascript:void(0);" id="reset-btn" class="btn btn-default click btn-more-top pull-right margin-right-20">Reset</a>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+
+                                    <div class="ner-filters search-filters col-sm-12 margin-top-20" id="ner-filters" style="display: none;">
+                                        <fieldset class="col-sm-12 no-grid">
+                                            <legend class="inner-pages-level-2">Filter Promotional List</legend>
+
+                                            <div class="form-group row margin-top-25"  id="prod-services-ner-wrap">
+                                                <label for="eaid" class="col-sm-3 col-form-label">Product Services</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="prod-services-ner" name="prod-services-ner">
+                                                        <option value='0'>All</option>
+                                                        <option value='1'>New Registration</option>
+                                                        <option value="2">Renew Registration</option>
+                                                        <option value="3">Add AOP</option> 
+                                                        <option value="4">Readmit Registration</option> 
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row margin-top-25" id="occu-ner-wrap">
+                                                <label for="" class="col-sm-3 col-form-label">Occupational Category</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="occu-ner" name="occu-ner">
+                                                        <option value='0'>All</option>
+                                                        <option value='1'>Associate</option>
+                                                        <option value="2">Technologist</option>
+                                                        <option value="3">Professional</option>                              
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 margin-bottom-20 no-grid"  id="location-ner-wrap">
+                                                <label for="" class="col-sm-3 col-form-label padding-left-0">EA Membership</label>
+                                                <div class="col-sm-6">
+                                                    <label class="container-radio col-sm-3">All <input id="any-member" type="radio" name="member" value="0" class="member-ner" checked=""><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-5">Member<input id="yes-member" type="radio" name="member" value="Y" class="member-ner"><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-4">Non-Member<input id="no-member" type="radio" name="member" value="N" class="member-ner"><span class="checkmark"></span></label>  
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 margin-bottom-20 no-grid"  id="location-ner-wrap">
+                                                <label for="" class="col-sm-3 col-form-label padding-left-0">Location</label>
+                                                <div class="col-sm-6">
+                                                    <label class="container-radio col-sm-3">All <input id="any-loc-ner" type="radio" name="loc-ner-radio" value="0" class="location-ner" checked=""><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-5">Australia Only<input id="aus-loc-ner" type="radio" name="loc-ner-radio" value="N" class="location-ner"><span class="checkmark"></span></label>                                                               
+                                                    <label class="container-radio col-sm-4">Overseas <input id="over-loc-ner" type="radio" name="loc-ner-radio" value="Y" class="location-ner"><span class="checkmark"></span></label>  
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 no-grid">
+                                                <a href="javascript:void(0);" class="btn btn-primary click btn-more-top pull-right mem-filter">Filter</a>
+                                                <a href="javascript:void(0);" id="reset-btn" class="btn btn-default click btn-more-top pull-right margin-right-20">Reset</a>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="ts-filters search-filters col-sm-12 margin-top-20" id="ts-filters" style="display: none;">
+                                        <fieldset class="col-sm-12 no-grid">
+                                            <legend class="inner-pages-level-2">Filter Promotional List</legend>
+
+                                            <div class="form-group row margin-top-25" id="org-ts-wrap">
+                                                <label for="eaid" class="col-sm-3 col-form-label">Organisation</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="org-ts" name="org-ts">
+                                                        <option value = '0'>All</option>
+                                                        <option value = '31'>Asset Management Council (AMC)</option>
+                                                        <option value = '13'>Australasian Fluid and Thermal Engineering Society (AFTES) </option>
+                                                        <option value = '23'>Australasian Particle Technology Society (APTS) </option>
+                                                        <option value = '2'>Australian Association for Engineering Education (AAEE)</option>
+                                                        <option value = '10'>Australian Composite Structures Society (ACSS)</option>
+                                                        <option value = '17'>Australian Cost Engineering Society of Australia (ACES)</option>
+                                                        <option value = '9'>Australian Earthquake Engineering Society (AEES)</option>
+                                                        <option value = '6'>Australian Geomechanics Society (AGS) </option>
+                                                        <option value = '29'>Australian Shotcrete Society (AuSS)</option>
+                                                        <option value = '20'>Australian Society for Bulk Solids Handling (ASBSH)</option>
+                                                        <option value = '4'>Australian Society of Defence Engineering (ASDE)</option>
+                                                        <option value = '7'>Australian Tunnelling Society (ATS)</option>
+                                                        <option value = '22'>Electric Energy Society of Australia (EESA)</option>
+                                                        <option value = '21'>Electromagnetic Compatability Society (EMC)</option>
+                                                        <option value = '30'>IAEG Bulletin </option>
+                                                        <option value = '1'>Industrial Engineering Society (IIEA)</option>
+                                                        <option value = '27'>International Society of Engineering Geology and the Environment (IAEGE) </option>
+                                                        <option value = '26'>International Society of Rock Mechanics (ISRM) </option>
+                                                        <option value = '25'>International Society of Soil Mechanics and Geotechnical Engineering (ISSEMGE) </option>
+                                                        <option value = '5'>Materials Australia (MA)</option>
+                                                        <option value = '3'>Mine Subsidence Technology Society (MSTS)</option>
+                                                        <option value = '24'>Mining Electrical &amp; Mining Mechanical Engineering Society (MEMMES) </option>
+                                                        <option value = '19'>Railway Technical Society of Australia (RTSA) </option>
+                                                        <option value = '16'>RedR Australia (RedR) </option>
+                                                        <option value = '11'>Risk Engineering Society (RES)</option>
+                                                        <option value = '18'>Society for Building Services Engineering (SBSE)</option>
+                                                        <option value = '8'>Society for Engineering in Agriculture (SEAg) </option>
+                                                        <option value = '12'>Society of Fire Safety (SFS) </option>
+                                                        <option value = '14'>Sustainable Engineering Society (SENG)</option>
+                                                        <option value = '15'>Systems Engineering Society of Australia (SESA) </option>
+                                                        <option value = '28'>Transport Australia Society (TAS)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row margin-top-25"  id="prod-services-ts-wrap">
+                                                <label for="eaid" class="col-sm-3 col-form-label">Product Services</label>
+                                                <div class="col-sm-5">
+                                                    <select class="form-control form-select" id="prod-services-ts" name="prod-services-ts">
+                                                        <option value='0'>All</option>
+                                                        <option value='1'>New Membership</option>
+                                                        <option value="2">Renew Membership</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 no-grid">
+                                                <a href="javascript:void(0);" class="btn btn-primary click btn-more-top pull-right mem-filter">Filter</a>
+                                                <a href="javascript:void(0);" id="reset-btn" class="btn btn-default click btn-more-top pull-right margin-right-20">Reset</a>
+                                            </div>
+                                            
+                                        </fieldset>
+                                    </div>
+
+
+                                    <div class="col-sm-12 no-grid margin-top-30" id="list-products">
+                                        <fieldset class="col-sm-12 no-grid margin-top-20" id="listing-products">
+                                            <legend class="inner-pages-level-2">Promotional List <div class="pull-right"><strong>1 record(s)<strong></div></legend>
+
+                                                            <div class="table-responsive">
+                                                                <table class="table margin-bottom-0" id="temp">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Price Component</th>
+                                                                            <th style="display:none;"></th>
+                                                                            <th style="display:none;"></th>
+                                                                            <th style="display:none;"></th>
+                                                                            <th style="display:none;"></th>
+                                                                            <th style="display:none;"></th>
+                                                                            <th style="display:none;"></th>                                                            
+                                                                            <th style="display:none;"></th>                                                           
+                                                                            <th style="display:none;"></th>                                                          
+                                                                            <th style="display:none;"></th>                                                                                                                     
+                                                                            <th style="display:none;"></th>                                                                                                                                                                                                
+                                                                            <th style="display:none;"></th>
+                                                                            <th class="text-align-right">Original Price <br> ex. GST</th>                                                            
+                                                                            <th class="text-align-right" id="dis-column" style="display: none;">Promotional Price <br>ex. GST</th>
+                                                                            <th class="text-align-center" id="th-aciton">Action</th>
+                                                                        </tr>                                                    
+                                                                    </thead>
+                                                                    <tbody><tr id="row-1"><td><span id="pricecomp-1">Chartered Application and Assessment Fee</span></td>  <td style="display: none" class="feetype" data-feetype=""></td><td style="display: none" class="grade" data-grade=""></td><td style="display: none" class="year" data-year=""></td><td style="display: none" class="ocategory" data-ocategory=""></td><td style="display: none" class="location" data-location=""></td><td class="text-align-right"><span id="price-1">$1600.00</span></td>   <td style="display: none" class="pservice" data-pservice=""></td><td style="display: none" class="chartered" data-chartered=""></td><td style="display: none" class="cduration" data-cduration=""></td><td style="display: none" class="register" data-register=""></td><td style="display: none" class="mra" data-mra=""></td><td style="display: none" class="invited" data-invited=""></td><td style="display: none" class="member" data-member=""></td><td class="text-align-center"><a class="edit-link btn btn-sm fa fa-remove" title="Remove Price Component from this list" id="1" href="javascript:void(0);"></a></td></tr></tbody>
+                                                                </table>
+                                                            </div>
+
+                                                            <div class="col-sm-12 no-grid">
+                                                                <hr>
+                                                                <a href="promo-management.html" class="btn btn-default pull-left" id="btn-save-Promo">Back to Promotions</a>                                            
+                                                                <a href="javascript:void(0);" class="btn btn-primary pull-right margin-left-20" id="btn-save-Promo"  data-toggle="modal" data-target="#p-confirmation">Submit Promotion</a>
+                                                                <a href="javascript:void(0);" class="btn btn-primary pull-right" id="btn-save-Promo">Save Promotion</a>
+                                                            </div>
+                                                            </fieldset>
+                                                            </div>
+                                                            </fieldset>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </section>
+
+                                                            <section id="contact-info-footer">
+                                                                <div class="container">
+                                                                    <div class="row flex-row">
+                                                                        <div class="col-xs-12 col-sm-4">
+                                                                            <div itemscope="" itemtype="http://schema.org/LocalBusiness">
+                                                                                <i class="fa fa-phone fa-lg" aria-hidden=""></i>
+                                                                                <h3>National Callers</h3>
+                                                                                <span itemprop="telephone">1300 653 113</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xs-12 col-sm-4">
+                                                                            <div itemscope="" itemtype="http://schema.org/LocalBusiness">
+                                                                                <i class="fa fa-globe fa-lg" aria-hidden=""></i>
+                                                                                <h3>International Callers</h3>
+                                                                                <span itemprop="telephone">+61 2 6270 6555</span></div>
+                                                                        </div>
+                                                                        <div class="col-xs-12 col-sm-4">
+                                                                            <div>
+                                                                                <i class="fa fa-share fa-lg" aria-hidden=""></i>
+                                                                                <a class="submit-enquiry" href="log-a-request.html" title="Log a request online">Submit an Enquiry</a>
+                                                                                <p>Member Services are available <br><strong>Mon - Fri 8:30 am - 6:00 pm AEST</strong></p></div></div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </section>
+                                                            <footer id="footer">
+                                                                <div class="container">
+                                                                    <div id="copyright" class="col-xs-12 col-sm-6">
+                                                                        <p> &copy; 2020 Engineers Australia.</p>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-sm-6 footer-links">
+                                                                        <ul>
+                                                                            <li><a href="#">Privacy Policy</a></li>
+                                                                            <li><a href="#">Disclaimer</a></li>
+                                                                            <li><a href="#">Collection Notice</a></li>
+                                                                        </ul>
+
+                                                                    </div>
+                                                                </div>
+                                                            </footer>       
+
+                                                            <!-- Modal -->
+                                                            <div class="modal" id="p-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                                <div class="modal-dialog" role="document" style="width: 770px;">
+                                                                    <div class="modal-content col-sm-12 no-grid">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                                        </div>
+                                                                        <div class="modal-body padding-30 col-sm-12 ">
+                                                                            <p>Are you sure you want to send this Promotion for approval?</p>
+
+
+
+                                                                        </div>
+
+                                                                        <div class="modal-footer padding-20 col-sm-12"> 
+
+                                                                            <a type="button" class="btn btn-primary" href="promo-management.html">Yes</a>
+                                                                            <button type="button" class="btn btn-default margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">No</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Modal -->
+                                                            <div class="modal" id="status-rules" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                                <div class="modal-dialog" role="document" style="width: 970px;">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                            <h4 class="modal-title" id="myModalLabel"><i class="fa fa-briefcase margin-right-10"></i>Business Rules</h4>
+                                                                        </div>
+                                                                        <div class="modal-body padding-30">
+                                                                            <p>Please find below the business rules for Add Promotions : </p>
+
+                                                                            <ul>
+                                                                                <li><strong>Promotional Code</strong> must be unique </li>
+                                                                                <li><strong>Effective From|To Date</strong> should be a future date </li>
+                                                                                <li><strong>Effective From Date</strong> should be less than from <strong>Effective To Date</strong></li>
+                                                                            </ul>
+
+                                                                        </div>
+
+                                                                        <div class="modal-footer padding-20">
+                                                                            <button type="button" class="btn btn-primary" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Modal -->
+                                                            <div class="modal" id="add-price" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                                <div class="modal-dialog" role="document" style="width: 770px;">
+                                                                    <div class="modal-content col-sm-12 no-grid">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                            <h4 class="modal-title" id="myModalLabel">Add New Price</h4>
+                                                                        </div>
+                                                                        <div class="modal-body padding-30 col-sm-12 ">
+
+                                                                            <ul class="col-sm-12 list">
+                                                                                <li><label class="col-sm-3">Product </label><span  class="prod-value"></span></li>
+                                                                                <li><label class="col-sm-3">Product Service </label><span class="prod-service-value"></span></li>
+                                                                                <li><label class="col-sm-3">Price Component </label><span class="price-comp-value"></span></li>
+                                                                                <!--                                            <li><label>Creation Date: </label><span id="date-value"></span></li>-->
+                                                                            </ul>
+
+                                                                            <div class="col-sm-12 margin-bottom-20 no-grid">
+                                                                                <label for="name" class="col-sm-3 col-form-label no-grid">Price</label>
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="form-item form-type-select">
+                                                                                        <input id = "input-price" type="text" class="form-control">
+                                                                                    </div>
+                                                                                    <p class="note">Please enter price without $ symbol.</p>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-12 margin-bottom-30 no-grid">
+                                                                                <label for="datetimepicker-char-sche" class="col-sm-3 col-form-label padding-left-0">Effective Date </label>
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="input-group date date-picker" id="datetimepicker6">
+                                                                                        <input type="text" class="form-control" id="datetimepicker-effective">
+                                                                                        <span class="input-group-addon" style="border-radius: 0px; ">
+                                                                                            <span class="fa fa-calendar"></span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-sm-12 margin-bottom-20 no-grid" class="status-wrapper">
+                                                                                <label for="" class="col-sm-3 col-form-label padding-left-0">Status </label>
+                                                                                <div class="col-sm-6">
+                                                                                    <label class="container-radio col-sm-4">Active <input id="yes" type="radio" name="status-radio" value="yes" class="status"><span class="checkmark"></span></label>                                                                
+                                                                                    <label class="container-radio col-sm-4">Inactive<input id="no" type="radio" name="status-radio" value="no" class="status"><span class="checkmark"></span></label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="modal-footer padding-20 col-sm-12"> 
+                                                                            <button type="button" class="btn btn-primary" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Add New Price</button>
+                                                                            <button type="button" class="btn btn-default margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Cancel</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <script src="../dist/js/jquery.plugins.min.js"></script>
+                                                            <script src="../dist/js/eathemeawesome.min.js"></script>
+
+                                                            <!--    $("#app-types").change(function () {
+                                                                    $selValue = $(this).find(":selected").val();
+                                                                    if ($selValue === '1') {
+                                                                    $('#ea-mem-category').show();
+                                                                    }
+                                                                    else{
+                                                                    $('#ea-mem-category').hide();
+                                                                }-->
+                                                            <script>
+                                                                //calling bootstrap date picker
+                                                                $('.input-group.date').datepicker({format: "dd/mm/yyyy"});
+
+                                                                $("#prod-new").change(function () {
+                                                                    value = $(this).val();
+                                                                    if (value === '1') {
+
+                                                                        $('#prod-services-new-wrap').show();
+                                                                    }
+                                                                    else {
+                                                                        $('#prod-services-new-wrap').hide();
+                                                                        $('#fee-types-new-wrap').hide();
+                                                                        $('#grade-new-wrap').hide();
+                                                                        $('#year-wrap').hide();
+                                                                        $('#occu-new-wrap').hide();
+                                                                        $('#location-new-wrap').hide();
+                                                                    }
+                                                                });
+
+                                                                $("#prod-services-new").change(function () {
+                                                                    $('#fee-types-new-wrap').show();
+                                                                });
+
+                                                                $("#fee-types-new").change(function () {
+                                                                    $('#grade-new-wrap').show();
+                                                                    $('#occu-new-wrap').show();
+                                                                    $('#location-new-wrap').show();
+                                                                });
+
+                                                                $("#grade-new").change(function () {
+                                                                    value = $(this).val();
+                                                                    if (value === '2') {
+                                                                        $('#year-wrap').show();
+                                                                    }
+                                                                    else {
+                                                                        $('#year-wrap').hide();
+                                                                    }
+                                                                });
+
+
+
+                                                            </script>
+                                                            </body>
+
+                                                            </html>

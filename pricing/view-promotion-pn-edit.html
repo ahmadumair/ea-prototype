@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+    <head>
+        <link rel="profile" href="<?php print $grddl_profile; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <meta name="viewport" content="initial-scale = 1.0" />
+        <meta name="google-site-verification" content="ZpVNR_Du6b6Mv84i3z-mWc_HexmoHJMBOqHuV6ozMS4" />
+        <title>Portal</title>
+        <link rel="stylesheet" href="../dist/css/portal-refresh-theme.min.css" media="all" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../dist/js/portal.js"></script>
+        <script src="../dist/js/promotion.js"></script> 
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.standalone.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+        <style>
+            #ea-mem-category{
+                display: none;
+            }
+            .modal-backdrop.in{
+                display: none;
+            }
+            #edit-price{
+                background: rgba(0,0,0,0.5);
+            }
+            .form-select option{
+                padding: 5px!important;
+            }
+            .loading{    
+                position: fixed;
+                z-index: 1000;
+                width: 8em;
+                height: 5em;
+                overflow: show;
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0; 
+                display: none;
+                color: #fff;
+                background: #333;
+                padding: 1.7em 7em 1em 3em;
+                opacity: 0.9;
+                font-size:1.5em;
+                font-weight: bold;
+            }
+            /* Transparent Overlay */
+            .loading:before {
+                content: '';
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.7);
+            }
+
+            /* :not(:required) hides these rules from IE9 and below */
+            .loading:not(:required) {
+                /* hide "loading..." text */
+                font: 0/0 a;
+                color: transparent;
+                text-shadow: none;
+                background-color: transparent;
+                border: 0;
+            }
+
+            .loading:not(:required):after {
+                content: '';
+                display: block;
+                font-size: 10px;
+                width: 4em;
+                height: 4em;
+                margin-top: -0.5em;
+
+                background: url("../dist/css/images/EA-Logo.svg") no-repeat;
+
+                -webkit-animation:spin 4s linear infinite;
+                -moz-animation:spin 4s linear infinite;
+                animation:spin 4s linear infinite;    
+            }
+            /* Animation */
+            @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+            @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+            @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+            ul.list {
+                padding: 0px;
+                margin: 0px;
+                margin-bottom: 30px;
+            }
+            ul.list li{
+                list-style: none;
+                padding: 15px 0px;
+                border-bottom: dashed 1px #ccc;
+                float: left;
+                width: 100%;
+            }
+
+            .form-select option:checked{
+                background: red!important;
+                color: white!important;
+            }
+
+            .container-radio{
+                padding-left: 35px;
+            }
+            .container-radio input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+            /* Create a custom radio button */
+            .container-radio .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                background-color: #bfbfbf;
+                border-radius: 50%;
+            }
+
+            /* On mouse-over, add a grey background color */
+            .container-radio:hover input ~ .checkmark {
+                background-color: #bfbfbf;
+            }
+
+            /* When the radio button is checked, add a blue background */
+            .container-radio input:checked ~ .checkmark {
+                background-color: #e60000;
+            }
+
+            /* Create the indicator (the dot/circle - hidden when not checked) */
+            .container-radio .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+            /* Show the indicator (dot/circle) when checked */
+            .container-radio input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            /* Style the indicator (dot/circle) */
+            .container-radio .checkmark:after {
+                top: 9px;
+                left: 9px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: white;
+            }
+            .container-radio p.desc{
+                font-size: 1em;
+                font-weight: normal;
+                border-bottom: dashed 1px #e5e5e5;
+                padding-bottom: 10px;
+            }
+            .edit-link{
+                color: #333;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="loading" style="display: none;">
+            <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+        </div>
+        <!--[if lte IE 8]>
+    <div class="message-outdated alert alert-warning alert-dismissible" role="alert">
+    <a class="close toc-filter-processed" data-dismiss="alert" href="#">Ã—</a>
+        <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        </div>
+    <![endif]-->
+        <a class="skip-to-content sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+        <a class="skip-to-content sr-only sr-only-focusable hidden-xs" href="#main-nav">Skip to main navigation</a>
+        <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i><span>Back to top</span></a>
+
+        <div class="mobileNavWrap">
+            <nav id="mobile-nav" role="navigation">
+
+                <ul class="mm-listview">
+                    <div class="panel-group mobile-personal-info" id="mobile-personal-info" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#mobile-personal-info" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                        <span class="name">Miss Jane Sarah Doe</span><i class="more-less fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading">
+                                <div class="panel-body">
+                                    <ul class="mm-listview-inner">
+                                        <li><a href="#">My Preferences</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <li class="active"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                    <li><a href="#">My EA</a></li>
+                    <li><a href="#">Products + Services</a></li>
+                    <li><a href="#">News + Events</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="clearfix site-full-wrapper">
+            <header id="header">
+                <div class="container" id="header-container">
+                    <div class="mobile-header">
+                        <button id="mobile-nav-btn" class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>                                
+                            </span>
+                        </button>
+                    </div>
+                    <div class="header-block portal-logo">
+                        <a href="/portal" title="Portal Home" rel="home">
+                            <div class="logo-img"></div>
+                        </a>
+                    </div>
+
+                    <div class="header-content header-block col-xs-12 col-sm-4">
+                        <div class="region region-header">
+                            <section id="block-ea-newsevents-sitewide-search-form" class="block block-ea-newsevents clearfix" style="visibility: hidden;">
+
+
+                                <form action="/portal/protohome" method="post" id="ea-portal-block-search-form" accept-charset="UTF-8"><div><div class="form-item form-item-keywords form-type-textfield form-group"><input placeholder="Search News or Events" class="form-control form-text" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128"></div><div class="form-item form-item-options form-type-select form-group"><select class="nouniform form-control form-select" id="edit-options" name="options"><option value="news" selected="selected">News</option><option value="events">Events</option></select></div><button type="submit" id="edit-sitewide-search" name="op" value="Search" class="btn btn-primary form-submit">Search</button>
+                                        <input type="hidden" name="form_build_id" value="form-yUQUyVNmNix_2M8xup2vSFXUruaeakcrMFYG77vLJvc">
+                                        <input type="hidden" name="form_id" value="ea_portal_block_search_form">
+                                    </div></form>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div id="secondaryNav" class="header-block col-sm-6">
+                        <div class="region region-secondarynav">
+                            <section id="block-block-10" class="block block-block clearfix">
+
+                                <ul>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Messages<span class="count">7</span></a>                                        
+                                    </li>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Tasks<span class="count">12</span></a>
+                                    </li>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Invoices<span class="count">5</span></a>
+                                    </li>
+
+                                    <li class="li-divider nav-profile">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                    </li>
+
+                                    <li class="li-divider logout">
+                                        <a href="#">Logout</a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="primaryNav" class="hidden-xs navbar-inverse">
+                    <div class="container">
+                        <ul class="menu nav navbar-nav ">
+
+                            <li class="active">
+                                <a href="index.html"><i class="fa fa-home"></i></a>
+                            </li>
+
+                            <li>
+                                <a href="myea.html">My EA</a>
+                            </li>
+
+                            <li>
+                                <a href="products-services.html">Products <span aria-hidden="true">+</span> Services</a>
+                            </li>
+
+                            <li>
+                                <a href="temp-news-events.html" target="_blank">News <span aria-hidden="true">+</span> Events</a>
+                            </li>
+
+                            <li>
+                                <a href="temp-contact.html" target="_blank">Contact us</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <section class="hero-container">
+                <div class="container">
+                    <h1><span class="sub-page-title"><span>View Promotion</span></span>Luke McLachlan
+                        <span class="title-sub-text">(EA ID: 4318411)</span></h1>
+                    <ul class="header-ea-nominals">
+                        <!--                        <li>CPEng</li>-->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="main">                
+
+                <div class="container">
+                    <div class="row">
+                        <ul class="breadcrumb col-xs-12">
+                            <li><a href="index_eastaff.html"><i class="fa fa-home"></i></a></li>
+                            <li><a href="management-eastaff.html">Management</a></li>
+                            <li><a href="promo-management.html">Promotion Management</a></li>
+                            <li>View Promotion</li>
+                        </ul>
+                        <div id="main-content" class="col-xs-12 col-sm-12 margin-top-0 margin-bottom-30">
+                            <div class="card-section card card-a padding-30">
+
+
+                                <fieldset class="col-sm-12 no-grid" id="search-results" style="display: block;">
+                                    <legend class="inner-pages-level-2">Promotion</legend>
+
+                                    <ul class="col-sm-12 list">
+                                        <li>
+                                            <label class="col-sm-3">Promotional Code </label>
+                                            <span  class="col-sm-3">FreeReg</span>
+                                            <label class="col-sm-3">Promotional Discount </label>
+                                            <span  class="col-sm-3">100%</span>
+                                        </li>
+                                        <li><label class="col-sm-3">Effective From </label>
+                                            <span  class="col-sm-3">15/06/2020</span>
+                                            <label class="col-sm-3">Effective To </label>
+                                            <span  class="col-sm-3">15/07/2020</span>
+                                        </li>
+                                        <li><label class="col-sm-3">Product </label>
+                                            <span  class="col-sm-3">National Registration</span>
+                                            <label class="col-sm-3">Product Service </label>
+                                            <span class="col-sm-3">New NER Registration Member</span>
+                                        </li>
+                                        <li><label class="col-sm-3">Promotion Status </label>
+                                            <span  class="col-sm-3">Published</span>
+                                            <label class="col-sm-3">Current Status </label>
+                                            <span  class="col-sm-3">Not Started</span>
+                                        </li>
+                                    </ul>
+                                    <div class="table-responsive">
+                                        <table class="table margin-bottom-0" id="temp">
+                                            <thead>
+                                                <tr>
+                                                    <th>Price Component</th>
+                                                    <th class="text-align-right">Original Price <br>ex. GST</th>
+                                                    <th class="text-align-right">Promotional Price <br>ex. GST</th>
+                                                </tr>                                                    
+                                            </thead>
+                                            <tbody>
+                                                <tr id="row-249">
+                                                    <td><span id="pricecomp-253">NER New Assessment for EA Member</span></td>
+                                                    <td class="text-align-right"><span id="price-249">$315.00</span></td> 
+                                                    <td class="text-align-right"><span id="price-249">$0.00</span></td>
+                                                </tr>
+                                                <tr id="row-253">
+                                                    <td><span id="pricecomp-251">National Engineering Register Overseas EA Member New Registration</span></td>
+                                                    <td class="text-align-right"><span id="price-251">$315.00</span></td>
+                                                    <td class="text-align-right"><span id="price-249">$0.00</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-sm-12 no-grid">
+                                        <hr>
+                                        <a href="promo-management.html" class="btn btn-default pull-right" id="btn-save-Promo">Back to Promotions</a>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </section>
+        <section id="contact-info-footer">
+            <div class="container">
+                <div class="row flex-row">
+                    <div class="col-xs-12 col-sm-4">
+                        <div itemscope="" itemtype="http://schema.org/LocalBusiness">
+                            <i class="fa fa-phone fa-lg" aria-hidden=""></i>
+                            <h3>National Callers</h3>
+                            <span itemprop="telephone">1300 653 113</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div itemscope="" itemtype="http://schema.org/LocalBusiness">
+                            <i class="fa fa-globe fa-lg" aria-hidden=""></i>
+                            <h3>International Callers</h3>
+                            <span itemprop="telephone">+61 2 6270 6555</span></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div>
+                            <i class="fa fa-share fa-lg" aria-hidden=""></i>
+                            <a class="submit-enquiry" href="log-a-request.html" title="Log a request online">Submit an Enquiry</a>
+                            <p>Member Services are available <br><strong>Mon - Fri 8:30 am - 6:00 pm AEST</strong></p></div></div>
+                </div>
+            </div>
+
+        </section>
+        <footer id="footer">
+            <div class="container">
+                <div id="copyright" class="col-xs-12 col-sm-6">
+                    <p> &copy; 2020 Engineers Australia.</p>
+                </div>
+                <div class="col-xs-12 col-sm-6 footer-links">
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                        <li><a href="#">Collection Notice</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </footer>
+
+        <!-- Modal -->
+        <div class="modal" id="add-products" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 970px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Product Search </h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+                        <div class="no-grid col-sm-12">
+                            <fieldset>
+                                <p class="margin-bottom-30">Please select products and its subsequent categories to add items in Promotional Products list.</p>
+
+                                <div class="form-group row margin-top-25">
+                                    <label for="eaid" class="col-sm-3 col-form-label">Products<span class="form-required">*</span></label>
+                                    <div class="col-sm-5">
+                                        <select class="form-control form-select" id="prod" name="prod">
+                                            <option value='0'>Please select</option>
+                                            <option value='4'>Stage 1 Competency</option>
+                                            <option value="5">Migration Skills Assessment</option>
+                                            <option value="1">EA Membership</option>
+                                            <option value="2">Technical Society Membership</option>
+                                            <option value="3">National Registration</option>
+                                            <option value="6">Chartered</option>
+                                            <option value="7">Engineering Executive</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row margin-top-25" style="display: none;" id="prod-service-wrapper">
+                                    <label for="prod-service" class="col-sm-3 col-form-label">Product Services<span class="form-required">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select size="5" class="form-control form-select" id="prod-service" name="prod-service">
+                                            <option value='5' name='44'>MSA Competency Demonstration Report</option>
+                                            <option value='2' name='109'>Industrial Engineering Society (IIEA) Technical Society Membership</option>
+                                            <option value='5' name='45'>Australian Accredited Engineering Qualification</option>
+                                            <option value='5' name='46'>Application for Assessment of Professional Engineering Qualifications (Washington Accord)</option>
+                                            <option value='5' name='47'>Application for Assessment of Engineering Technologist Qualifications (Sydney Accord)</option>
+                                            <option value='5' name='48'>Application for Assessment of Engineering Associate Qualifications (Dublin Accord)</option>
+                                            <option value='5' name='49'>Change of Nominated Occupation</option>
+                                            <option value='5' name='50'>Overseas PhD Assessment</option>
+                                            <option value='5' name='51'>Relevant Skilled Employment Assessment</option>
+                                            <option value='5' name='52'>Letter for Migration Purposes</option>
+                                            <option value='5' name='53'>Informal Review of MSA Assessment Outcome</option>
+                                            <option value='4' name='54'>Informal Review of Stage 1 Assessment Outcome</option>
+                                            <option value='4' name='55'>Stage 1 Assessment</option>
+                                            <option value='5' name='85'>Fast Track for Agent</option>
+                                            <option value='5' name='84'>Fast Track for Applicant</option>
+                                            <option value='1' name='12'>Renew EA Membership</option>
+                                            <option value='1' name='13'>New EA Membership</option>
+                                            <option value='1' name='14'>Readmit EA Membership</option>
+                                            <option value='2' name='15'>Asset Management Council (AMC) Technical Society Membership</option>
+                                            <option value='2' name='16'>Australian Association for Engineering Education (AAEE) Technical Society Membership</option>
+                                            <option value='2' name='17'>Mine Subsidence Technology Society (MSTS) Technical Society Membership</option>
+                                            <option value='2' name='18'>Australian Society of Defence Engineering (ASDE) Technical Society Membership</option>
+                                            <option value='2' name='19'>Materials Australia (MA) Technical Society Membership</option>
+                                            <option value='2' name='20'>Australian Geomechanics Society (AGS) Technical Society Membership</option>
+                                            <option value='2' name='21'>Australian Tunnelling Society (ATS) Technical Society Membership</option>
+                                            <option value='2' name='22'>Society for Engineering in Agriculture (SEAg) Technical Society Membership</option>
+                                            <option value='2' name='23'>Australian Earthquake Engineering Society (AEES) Technical Society Membership</option>
+                                            <option value='2' name='24'>Australian Composite Structures Society (ACSS) Technical Society Membership</option>
+                                            <option value='2' name='25'>Risk Engineering Society (RES) Technical Society Membership</option>
+                                            <option value='2' name='26'>Society of Fire Safety (SFS) Technical Society Membership</option>
+                                            <option value='2' name='27'>Australasian Fluid and Thermal Engineering Society (AFTES) Technical Society Membership</option>
+                                            <option value='2' name='28'>Sustainable Engineering Society (SENG) Technical Society Membership</option>
+                                            <option value='2' name='29'>Systems Engineering Society of Australia (SESA) Technical Society Membership</option>
+                                            <option value='2' name='30'>RedR Australia (RedR) Technical Society Membership</option>
+                                            <option value='2' name='31'>Australian Cost Engineering Society of Australia (ACES) Technical Society Membership</option>
+                                            <option value='2' name='32'>Society for Building Services Engineering (SBSE) Technical Society Membership</option>
+                                            <option value='2' name='33'>Railway Technical Society of Australia (RTSA) Technical Society Membership</option>
+                                            <option value='2' name='34'>Australian Society for Bulk Solids Handling (ASBSH) Technical Society Membership</option>
+                                            <option value='2' name='35'>Electromagnetic Compatability Society (EMC) Technical Society Membership</option>
+                                            <option value='2' name='36'>Electric Energy Society of Australia (EESA) Technical Society Membership</option>
+                                            <option value='2' name='37'>Australasian Particle Technology Society (APTS)  Technical Society Membership</option>
+                                            <option value='2' name='38'>Mining Electrical & Mining Mechanical Engineering Society (MEMMES) Technical Society</option>
+                                            <option value='2' name='39'>International Society of Soil Mechanics and Geotechnical Engineering (ISSEMGE) Technical Society Membership</option>
+                                            <option value='2' name='40'>International Society of Rock Mechanics (ISRM) Technical Society Membership</option>
+                                            <option value='2' name='41'>International Society of Engineering Geology and the Environment (IAEGE) Technical Society Membership</option>
+                                            <option value='3' name='43'>National Registration</option>
+                                            <option value='5' name='117'>MSA Member Administration Fee</option>
+                                            <option value='5' name='116'>MSA Administration Fee</option>
+                                            <option value='2' name='66'>Transport Australia Society (TAS) Technical Society Membership</option>
+                                            <option value='2' name='67'>Australian Shotcrete Society (AuSS) Technical Society Membership</option>
+                                            <option value='1' name='111'>EA Membership Eligibility Date Update</option>
+                                            <option value='3' name='112'>New NER Registration Member</option>
+                                            <option value='3' name='113'>New NER Registration Non-Member</option>
+                                            <option value='3' name='114'>NER Member Registration Renewal</option>
+                                            <option value='3' name='115'>NER Non-Member Registration Renewal</option>
+                                            <option value='' name='1'>Enrolment Fee ECR</option>
+                                            <option value='' name='2'>Enrolment Fee PDP</option>
+                                            <option value='' name='3'>Enrolment Fee MEE</option>
+                                            <option value='' name='4'>Enrolment Fee MRA</option>
+                                            <option value='' name='5'>Submission Fee ECR</option>
+                                            <option value='' name='6'>Submission Fee PDP</option>
+                                            <option value='' name='7'>Submission Fee MEE</option>
+                                            <option value='' name='8'>Submission Fee MRA</option>
+                                            <option value='' name='9'>Professional Interview Fee ECR</option>
+                                            <option value='' name='10'>Professional Interview Fee PDP</option>
+                                            <option value='' name='11'>Professional Interview Fee MEE</option>
+                                            <option value='1' name='56'>EA Membership Application Assessment Fee</option>
+                                            <option value='1' name='57'>New EA Membership via MRA</option>
+                                            <option value='1' name='58'>EA Membership Application via MRA Assessment Fee</option>
+                                            <option value='1' name='59'>New EA Invited Membership Application</option>
+                                            <option value='1' name='76'>Chartered Readmission Application (more than 5 years)</option>
+                                            <option value='1' name='60'>EA Companion Grade Transfer Application</option>
+                                            <option value='1' name='61'>EA Student Grade Transfer Application</option>
+                                            <option value='1' name='62'>EA Graduate Grade Transfer Application</option>
+                                            <option value='1' name='63'>EA Member Grade Transfer Application</option>
+                                            <option value='1' name='64'>EA Fellow Grade Transfer Application</option>
+                                            <option value='1' name='68'>EA Companion Readmission Application</option>
+                                            <option value='1' name='69'>EA Student Readmission Application</option>
+                                            <option value='1' name='70'>EA Graduate Readmission Application</option>
+                                            <option value='1' name='71'>EA Member Readmission Application</option>
+                                            <option value='1' name='72'>EA Fellow Readmission Application</option>
+                                            <option value='1' name='73'>EA Honorary Fellow Readmission Application</option>
+                                            <option value='1' name='74'>Chartered Readmission Application (Less than 1 year)</option>
+                                            <option value='1' name='75'>Chartered Readmission Application (12m-5 years)</option>
+                                            <option value='1' name='77'>EA Member + Chartered Readmission Application (Less than 1 year)</option>
+                                            <option value='1' name='78'>EA Member + Chartered Readmission Application (12m-5 years)</option>
+                                            <option value='1' name='79'>EA Member + Chartered Readmission Application (more than 5 years)</option>
+                                            <option value='1' name='80'>EA Fellow + Chartered Readmission Application (Less than 1 year)</option>
+                                            <option value='1' name='81'>EA Fellow + Chartered Readmission Application (12m-5 years)</option>
+                                            <option value='1' name='82'>EA Fellow + Chartered Readmission Application (more than 5 years)</option>
+                                            <option value='1' name='83'>EA Affiliate Readmission Application</option>
+                                            <option value='1' name='87'>EA Member + Chartered via MRA Application</option>
+                                            <option value='1' name='88'>EA Member + Chartered and Registration via MRA Application</option>
+                                            <option value='1' name='89'>EA Member + Registration via MRA Application</option>
+                                            <option value='1' name='90'>Chartered via MRA Application</option>
+                                            <option value='1' name='91'>Registration via MRA Application</option>
+                                            <option value='1' name='92'>Chartered + Registration via MRA Application</option>
+                                            <option value='1' name='93'>Membership via MRA Application</option>
+                                            <option value='1' name='94'>Associate Member via MRA</option>
+                                            <option value='1' name='95'>Associate Member + Chartered via MRA</option>
+                                            <option value='1' name='96'>Associate Member + Chartered + Registration via MRA</option>
+                                            <option value='1' name='97'>Associate Member + Registration via MRA</option>
+                                            <option value='1' name='98'>Technologist Member via MRA</option>
+                                            <option value='1' name='99'>Technologist Member + Chartered via MRA</option>
+                                            <option value='1' name='100'>Technologist Member + Chartered + Registration via MRA</option>
+                                            <option value='1' name='101'>Technologist Member + Registration via MRA</option>
+                                            <option value='1' name='102'>Professional Member via MRA</option>
+                                            <option value='1' name='103'>Professional Member + Chartered via MRA</option>
+                                            <option value='1' name='104'>Professional Member + Chartered + Registration via MRA</option>
+                                            <option value='1' name='105'>Professional Member + Registration via MRA</option>
+                                            <option value='1' name='106'>Chartered + Registration via MRA</option>
+                                            <option value='1' name='107'>Chartered via MRA</option>
+                                            <option value='1' name='108'>Registration via MRA</option>
+                                            <option value='1' name='86'>EA Affiliate Overseas Readmission Application Fee</option>
+                                            <option value='6' name='118'>Chartered Application & Assessment Fee</option>
+                                            <option value='2' name='121'>Australian Association for Engineering Education (AAEE) Technical Society Membership Renewal</option>
+                                            <option value='2' name='122'>Mine Subsidence Technology Society (MSTS) Technical Society Membership Renewal</option>
+                                            <option value='2' name='123'>Australian Society of Defence Engineering (ASDE) Technical Society Membership Renewal</option>
+                                            <option value='2' name='124'>Materials Australia (MA) Technical Society Membership Renewal</option>
+                                            <option value='2' name='125'>Australian Geomechanics Society (AGS) Technical Society Membership Renewal</option>
+                                            <option value='2' name='126'>Australasian Tunnelling Society (ATS) Technical Society Membership Renewal</option>
+                                            <option value='2' name='127'>Society for Engineering in Agriculture (SEAg) Technical Society Membership Renewal</option>
+                                            <option value='2' name='128'>Australian Earthquake Engineering Society (AEES) Technical Society Membership Renewal</option>
+                                            <option value='2' name='129'>Australian Composite Structures Society (ACSS) Technical Society Membership Renewal</option>
+                                            <option value='2' name='130'>Risk Engineering Society (RES) Technical Society Membership Renewal</option>
+                                            <option value='2' name='131'>Society of Fire Safety (SFS) Technical Society Membership Renewal</option>
+                                            <option value='2' name='132'>Australasian Fluid and Thermal Engineering Society (AFTES) Technical Society Membership Renewal</option>
+                                            <option value='2' name='133'>Sustainable Engineering Society (SEng) Technical Society Membership Renewal</option>
+                                            <option value='2' name='134'>Systems Engineering Society of Australia (SESA) Technical Society Membership Renewal</option>
+                                            <option value='2' name='135'>RedR Australia (RedR) Technical Society Membership Renewal</option>
+                                            <option value='2' name='136'>Australian Cost Engineering Society of Australia (ACES) Technical Society Membership Renewal</option>
+                                            <option value='2' name='137'>Society for Building Services Engineering (SBSE) Technical Society Membership Renewal</option>
+                                            <option value='2' name='138'>Railway Technical Society of Australia (RTSA) Technical Society Membership Renewal</option>
+                                            <option value='2' name='139'>Australian Society for Bulk Solids Handling (ASBSH) Technical Society Membership Renewal</option>
+                                            <option value='2' name='140'>Electromagnetic Compatability Society (EMC) Technical Society Membership Renewal</option>
+                                            <option value='2' name='141'>Electric Energy Society of Australia (EESA) Technical Society Membership Renewal</option>
+                                            <option value='2' name='142'>Australasian Particle Technology Society (APTS)  Technical Society Membership Renewal</option>
+                                            <option value='2' name='143'>Mining Electrical & Mining Mechanical Engineering Society (MEMMES) Technical Society Renewal</option>
+                                            <option value='2' name='144'>International Society of Soil Mechanics and Geotechnical Engineering (ISSEMGE) Technical Society Membership Renewal</option>
+                                            <option value='2' name='145'>International Society of Rock Mechanics (ISRM) Technical Society Membership Renewal</option>
+                                            <option value='2' name='146'>International Society of Engineering Geology and the Environment (IAEGE) Technical Society Membership Renewal</option>
+                                            <option value='2' name='147'>Transport Australia Society (TAS) Technical Society Membership Renewal</option>
+                                            <option value='2' name='148'>Australian Shotcrete Society (AuSS) Technical Society Membership Renewal</option>
+                                            <option value='2' name='149'>Industrial Engineering Society (IIEA) Technical Society Membership Renewal</option>
+                                            <option value='2' name='150'>IAEG Bulletin Renewal</option>
+                                            <option value='7' name='160'>Engineering Executive Application</option>
+                                            <option value='3' name='167'>NER Readmission (less than 12 months) + Additional AoP Assesssment</option>
+                                            <option value='3' name='168'>NER Additional AoP and Additional AoP Assessment</option>
+                                            <option value='3' name='162'>New NER Registration for Chartered Member using Chartered AoPs</option>
+                                            <option value='3' name='163'>NER Readmission (less than 12 months) using existing AoPs</option>
+                                            <option value='3' name='164'>NER Readmission (greater than 12 months)</option>
+                                            <option value='3' name='165'>NER Readmission for Chartered Member using Chartered AoPs</option>
+                                            <option value='3' name='166'>NER Additional AoP Application using existing AoPs</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row margin-top-25 margin-bottom-10" style="display: none;" id="price-comp-wrapper">
+                                    <label for="prod-service" class="col-sm-3 col-form-label">Price Component<span class="form-required">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select size="5" class="form-control form-select" id="price-comp" name="price-comp">
+                                            <option value='1' name='1'>Enrolment Fee ECR </option>
+                                            <option value='1' name='2'>RPEQ Qualification Recognition Fee</option>
+                                            <option value='1' name='3'>National Registration Qualification Recognition Fee</option>
+                                            <option value='2' name='4'>Enrolment Fee PDP</option>
+                                            <option value='3' name='5'>Enrolment Fee MEE</option>
+                                            <option value='4' name='6'>Enrolment Fee MRA</option>
+                                            <option value='4' name='7'>National Registration Area of Practice Assessment Fee</option>
+                                            <option value='4' name='8'>RPEQ Area of Practice Assessment Fee</option>
+                                            <option value='5' name='9'>Engineering Experience Record ECR Submission Fee</option>
+                                            <option value='5' name='10'>Engineering Experience Record ECR Resubmission Fee</option>
+                                            <option value='5' name='11'>CV ECR Submission Fee</option>
+                                            <option value='5' name='12'>CV ECR Resubmission Fee</option>
+                                            <option value='5' name='13'>CPD Statement ECR Submission Fee</option>
+                                            <option value='5' name='14'>CPD Statement ECR Resubmission Fee</option>
+                                            <option value='5' name='15'>ECC ECR Submission Fee</option>
+                                            <option value='5' name='16'>ECC ECR Resubmission Fee</option>
+                                            <option value='6' name='17'>Engineering Experience Record PDP Submission Fee</option>
+                                            <option value='6' name='18'>Engineering Experience Record PDP Resubmission Fee</option>
+                                            <option value='6' name='19'>CV PDP Submission Fee</option>
+                                            <option value='6' name='20'>CV PDP Resubmission Fee</option>
+                                            <option value='6' name='21'>CPD Statement PDP Submission Fee</option>
+                                            <option value='6' name='22'>CPD Statement PDP Resubmission Fee</option>
+                                            <option value='6' name='23'>ECC PDP Submission Fee</option>
+                                            <option value='6' name='24'>ECC PDP Resubmission Fee</option>
+                                            <option value='7' name='25'>Engineering Experience Record MEE Submission Fee</option>
+                                            <option value='7' name='26'>Engineering Experience Record MEE Resubmission Fee</option>
+                                            <option value='7' name='27'>ECC MEE Submission Fee</option>
+                                            <option value='7' name='28'>ECC MEE Resubmission Fee</option>
+                                            <option value='8' name='29'>Engineering Experience Record MRA Submission Fee</option>
+                                            <option value='8' name='30'>Engineering Experience Record MRA Resubmission Fee</option>
+                                            <option value='8' name='31'>MRA Chartered Outcome Fee</option>
+                                            <option value='8' name='32'>MRA RPEQ Assessment Fee</option>
+                                            <option value='8' name='33'>MRA National Registration Outcome Fee</option>
+                                            <option value='9' name='34'>ECR Discounted Professional Interview Fee</option>
+                                            <option value='9' name='35'>ECR Chartered Outcome Fee</option>
+                                            <option value='9' name='36'>ECR National Registration Assessment Fee</option>
+                                            <option value='9' name='37'>ECR RPEQ Assessment Fee</option>
+                                            <option value='10' name='38'>PDP Discounted Professional Interview Fee</option>
+                                            <option value='10' name='39'>PDP Chartered Outcome Fee</option>
+                                            <option value='10' name='40'>PDP National Registration Assessment Fee</option>
+                                            <option value='10' name='41'>PDP RPEQ Assessment Fee</option>
+                                            <option value='11' name='42'>MEE Discounted Professional Interview Fee</option>
+                                            <option value='11' name='43'>MEE Chartered Outcome Fee</option>
+                                            <option value='11' name='44'>MEE National Registration Assessment Fee</option>
+                                            <option value='11' name='45'>MEE RPEQ Assessment Fee</option>
+                                            <option value='12' name='46'>EA Associate Student Membership Renewal</option>
+                                            <option value='12' name='47'>EA Associate New Graduate Membership Renewal</option>
+                                            <option value='12' name='48'>EA Associate 1stYear Graduate Membership Renewal</option>
+                                            <option value='12' name='49'>EA Associate 2ndYear Graduate Membership Renewal</option>
+                                            <option value='12' name='50'>EA Associate 3rdYear Graduate Membership Renewal</option>
+                                            <option value='12' name='51'>EA Associate 4th Year+ Graduate Membership Renewal</option>
+                                            <option value='12' name='52'>EA Associate Member Membership Renewal</option>
+                                            <option value='12' name='53'>EA Associate Fellow Membership Renewal</option>
+                                            <option value='12' name='54'>EA Associate Overseas Student Membership Renewal</option>
+                                            <option value='12' name='55'>EA Associate Overseas New Graduate Membership Renewal</option>
+                                            <option value='12' name='56'>EA Associate Overseas 1stYear Graduate Membership Renewal</option>
+                                            <option value='12' name='57'>EA Associate Overseas 2ndYear Graduate Membership Renewal</option>
+                                            <option value='12' name='58'>EA Associate Overseas 3rdYear Graduate Membership Renewal</option>
+                                            <option value='12' name='59'>EA Associate Overseas 4th Year Or Older Graduate Membership Renewal</option>
+                                            <option value='12' name='60'>EA Associate Overseas Member Membership Renewal</option>
+                                            <option value='12' name='61'>EA Associate Overseas Fellow Membership Renewal</option>
+                                            <option value='12' name='62'>EA Technologist Student Membership Renewal</option>
+                                            <option value='12' name='63'>EA Technologist  New Graduate Membership Renewal</option>
+                                            <option value='12' name='64'>EA Technologist 1stYear Graduate Membership Renewal</option>
+                                            <option value='12' name='65'>EA Technologist  2ndYear Graduate Membership Renewal</option>
+                                            <option value='12' name='66'>EA Technologist  3rdYear Graduate Membership Renewal</option>
+                                            <option value='12' name='67'>EA Technologist  4th Year+ Graduate Membership Renewal</option>
+                                            <option value='12' name='68'>EA Technologist  Member Membership Renewal</option>
+                                            <option value='12' name='69'>EA Technologist  Fellow Membership Renewal</option>
+                                            <option value='12' name='70'>EA Technologist  Overseas Student Membership Renewal</option>
+                                            <option value='12' name='71'>EA Technologist  Overseas New Graduate Membership Renewal</option>
+                                            <option value='12' name='72'>EA Technologist  Overseas 1stYear Graduate Membership Renewal</option>
+                                            <option value='12' name='73'>EA Technologist  Overseas 2ndYear Graduate Membership Renewal</option>
+                                            <option value='12' name='74'>EA Technologist  Overseas 3rdYear Graduate Membership Renewal</option>
+                                            <option value='12' name='75'>EA Technologist  Overseas 4th Year Graduate Membership Renewal</option>
+                                            <option value='12' name='76'>EA Technologist  Overseas Member Membership Renewal</option>
+                                            <option value='12' name='77'>EA Technologist  Overseas Fellow Membership Renewal</option>
+                                            <option value='12' name='78'>EA Professional  Student Membership Renewal</option>
+                                            <option value='12' name='79'>EA Professional  New Graduate Membership Renewal</option>
+                                            <option value='12' name='80'>EA Professional  1stYear Graduate Membership Renewal</option>
+                                            <option value='12' name='81'>EA Professional  2ndYear Graduate Membership Renewal</option>
+                                            <option value='12' name='82'>EA Professional  3rdYear Graduate Membership Renewal</option>
+                                            <option value='12' name='83'>EA Professional  4th Year Graduate Membership Renewal</option>
+                                            <option value='12' name='84'>EA Professional  Member Membership Renewal</option>
+                                            <option value='12' name='85'>EA Professional  Fellow Membership Renewal</option>
+                                            <option value='12' name='86'>EA Professional  Overseas Student Membership Renewal</option>
+                                            <option value='12' name='87'>EA Professional  Overseas New Graduate Membership Renewal</option>
+                                            <option value='12' name='88'>EA Professional  Overseas 1stYear Graduate Membership Renewal</option>
+                                            <option value='12' name='89'>EA Professional  Overseas 2ndYear Graduate Membership Renewal</option>
+                                            <option value='12' name='90'>EA Professional  Overseas 3rdYear Graduate Membership Renewal</option>
+                                            <option value='12' name='91'>EA Professional  Overseas 4th Year Graduate Membership Renewal</option>
+                                            <option value='12' name='92'>EA Professional  Overseas Member Membership Renewal</option>
+                                            <option value='12' name='93'>EA Professional  Overseas Fellow Membership Renewal</option>
+                                            <option value='12' name='94'>EA Affiliate Membership Renewal</option>
+                                            <option value='12' name='95'>EA Overseas Affiliate Membership Renewal</option>
+                                            <option value='12' name='96'>EA Companion Membership Renewal</option>
+                                            <option value='12' name='97'>EA Overseas Companion Membership Renewal</option>
+                                            <option value='12' name='98'>EA Honorary Fellow Membership Renewal</option>
+                                            <option value='13' name='99'>New EA Associate Student Membership </option>
+                                            <option value='13' name='100'>New EA Associate New Graduate Membership</option>
+                                            <option value='13' name='101'>New EA Associate 1stYear Graduate Membership </option>
+                                            <option value='13' name='102'>New EA Associate 2ndYear Graduate Membership</option>
+                                            <option value='13' name='103'>New EA Associate 3rdYear Graduate Membership</option>
+                                            <option value='13' name='104'>New EA Associate 4th Year+ Graduate Membership</option>
+                                            <option value='13' name='105'>New EA Associate Member Membership </option>
+                                            <option value='13' name='106'>New EA Associate Fellow Membership </option>
+                                            <option value='13' name='107'>New EA Associate Overseas Student Membership</option>
+                                            <option value='13' name='108'>New EA Associate Overseas New Graduate Membership</option>
+                                            <option value='13' name='109'>New EA Associate Overseas 1stYear Graduate Membership</option>
+                                            <option value='13' name='110'>New EA Associate Overseas 2ndYear Graduate Membership</option>
+                                            <option value='13' name='111'>New EA Associate Overseas 3rdYear Graduate Membership</option>
+                                            <option value='13' name='112'>EA Associate Overseas 4th Year Or Older Graduate Membership</option>
+                                            <option value='13' name='113'>New EA Associate Overseas Member Membership</option>
+                                            <option value='13' name='114'>New EA Associate Overseas Fellow Membership</option>
+                                            <option value='13' name='115'>New EA Technologist Student Membership</option>
+                                            <option value='13' name='116'>New EA Technologist  New Graduate Membership</option>
+                                            <option value='13' name='117'>New EA Technologist 1stYear Graduate Membership</option>
+                                            <option value='13' name='118'>New EA Technologist  2ndYear Graduate Membership</option>
+                                            <option value='13' name='119'>New EA Technologist  3rdYear Graduate Membership</option>
+                                            <option value='13' name='120'>New EA Technologist  4th Year+ Graduate Membership</option>
+                                            <option value='13' name='121'>New EA Technologist  Member Membership</option>
+                                            <option value='13' name='122'>New EA Technologist  Fellow Membership</option>
+                                            <option value='13' name='123'>New EA Technologist  Overseas Student Membership</option>
+                                            <option value='13' name='124'>New EA Technologist  Overseas New Graduate Membership</option>
+                                            <option value='13' name='125'>New EA Technologist  Overseas 1stYear Graduate Membership</option>
+                                            <option value='13' name='126'>New EA Technologist  Overseas 2ndYear Graduate Membership</option>
+                                            <option value='13' name='127'>New EA Technologist  Overseas 3rdYear Graduate Membership</option>
+                                            <option value='13' name='128'>New EA Technologist  Overseas 4th Year Graduate Membership</option>
+                                            <option value='13' name='129'>New EA Technologist  Overseas Member Membership</option>
+                                            <option value='13' name='130'>New EA Technologist  Overseas Fellow Membership</option>
+                                            <option value='13' name='131'>New EA Professional  Student Membership</option>
+                                            <option value='13' name='132'>New EA Professional  New Graduate Membership</option>
+                                            <option value='13' name='133'>New EA Professional  1stYear Graduate Membership</option>
+                                            <option value='13' name='134'>New EA Professional  2ndYear Graduate Membership</option>
+                                            <option value='13' name='135'>New EA Professional  3rdYear Graduate Membership</option>
+                                            <option value='13' name='136'>New EA Professional  4th Year Graduate Membership</option>
+                                            <option value='13' name='137'>New EA Professional  Member Membership</option>
+                                            <option value='13' name='138'>New EA Professional  Fellow Membership</option>
+                                            <option value='13' name='139'>New EA Professional  Overseas Student Membership</option>
+                                            <option value='13' name='140'>New EA Professional  Overseas New Graduate Membership</option>
+                                            <option value='13' name='141'>New EA Professional  Overseas 1stYear Graduate Membership</option>
+                                            <option value='13' name='142'>New EA Professional  Overseas 2ndYear Graduate Membership</option>
+                                            <option value='13' name='143'>New EA Professional  Overseas 3rdYear Graduate Membership</option>
+                                            <option value='13' name='144'>New EA Professional  Overseas 4th Year Graduate Membership</option>
+                                            <option value='19' name='300'>MA Student Membership Purchase</option>
+                                            <option value='19' name='301'>MA CMatP Membership Purchase</option>
+                                            <option value='19' name='302'>MA CMP Track Membership Purchase</option>
+                                            <option value='19' name='303'>MA Standard Company Membership Purchase</option>
+                                            <option value='19' name='304'>MA Premium Company Membership Purchase</option>
+                                            <option value='19' name='305'>MA Premium Plus Membership Purchase</option>
+                                            <option value='33' name='306'>RTSA Life Member Membership Purchase</option>
+                                            <option value='29' name='307'>SESA Life Member Membership Purchase</option>
+                                            <option value='21' name='308'>ATS Corporate Platinum Sponsorship Purchase</option>
+                                            <option value='44' name='309'>MSA Competency Demonstration Report</option>
+                                            <option value='45' name='310'>Australian Accredited Engineering Qualification</option>
+                                            <option value='46' name='311'>Application for Assessment of Professional Engineering Qualifications (Washington Accord)</option>
+                                            <option value='47' name='312'>Application for Assessment of Engineering Technologist Qualifications (Sydney Accord)</option>
+                                            <option value='48' name='313'>Application for Assessment of Engineering Associate Qualifications (Dublin Accord)</option>
+                                            <option value='49' name='314'>Change of Nominated Occupation</option>
+                                            <option value='50' name='315'>Overseas PhD Assessment</option>
+                                            <option value='51' name='316'>Relevant Skilled Employment Assessment</option>
+                                            <option value='52' name='317'>Letter for Migration Purposes</option>
+                                            <option value='53' name='318'>Informal Review of MSA Assessment Outcome</option>
+                                            <option value='54' name='319'>Informal Review of Stage 1 Assessment Outcome</option>
+                                            <option value='55' name='320'>Stage 1 Competency Demonstration Report</option>
+                                            <option value='58' name='329'>New EA Membership via MRA Application Assessment Fee</option>
+                                            <option value='21' name='344'>ATS Life Member Membership Purchase</option>
+                                            <option value='23' name='345'>AEES Life Member Membership Purchase</option>
+                                            <option value='56' name='321'>New EA Student Membership Application Assessment Fee</option>
+                                            <option value='56' name='322'>New EA Graduate Membership Application Assessment Fee</option>
+                                            <option value='56' name='323'>New EA Member Membership Application Assessment Fee</option>
+                                            <option value='56' name='324'>New EA Fellow Membership Application Assessment Fee</option>
+                                            <option value='56' name='325'>New EA Affiliate Membership Application Assessment Fee</option>
+                                            <option value='56' name='326'>New EA Companion Membership Application Assessment Fee</option>
+                                            <option value='26' name='346'>SFS Life Member Membership Purchase</option>
+                                            <option value='34' name='347'>ASBSH Life Member Membership Purchase</option>
+                                            <option value='56' name='332'>1stYear Graduate Membership Application Assessment Fee</option>
+                                            <option value='56' name='333'>2ndYear Graduate Membership Application Assessment Fee</option>
+                                            <option value='56' name='334'>3rdYear Graduate Membership Application Assessment Fee</option>
+                                            <option value='56' name='335'>4thYear+ Graduate Membership Application Assessment Fee</option>
+                                            <option value='57' name='336'>EA Professional Overseas Member Membership via MRA </option>
+                                            <option value='57' name='337'>EA Professional Member Membership via MRA </option>
+                                            <option value='57' name='338'>EA Technologist Overseas Member Membership via MRA </option>
+                                            <option value='57' name='339'>EA Technologist Member Membership via MRA </option>
+                                            <option value='57' name='340'>EA Associate Overseas Member Membership via MRA </option>
+                                            <option value='57' name='341'>EA Associate Member Membership via MRA </option>
+                                            <option value='59' name='342'>EA Fellow Invited Membership Application Assessment Fee</option>
+                                            <option value='59' name='343'>EA Companion Invited Membership Application Assessment Fee</option>
+                                            <option value='28' name='348'>SEng Student with Magazine Membership Purchase</option>
+                                            <option value='28' name='349'>SEng Corporate Silver Membership Purchase</option>
+                                            <option value='28' name='350'>SEng Corporate Gold Membership Purchase</option>
+                                            <option value='20' name='351'>AGS Postgraduate Member With Electronic Journal Membership Purchase</option>
+                                            <option value='20' name='352'>AGS Retired Member With Electronic Journal Membership Purchase</option>
+                                            <option value='20' name='353'>AGS Member With Electronic Journal Membership Purchase</option>
+                                            <option value='20' name='354'>AGS Corporate Member With Electronic Journal Membership Purchase</option>
+                                            <option value='66' name='380'>TAS Member Membership Purchase</option>
+                                            <option value='67' name='381'>AuSS Member Membership Purchase</option>
+                                            <option value='56' name='461'>4thYear+ Graduate Overseas Membership Application Assessment Fee</option>
+                                            <option value='56' name='462'>3rdYear Graduate Overseas Membership Application Assessment Fee</option>
+                                            <option value='56' name='463'>2ndYear Graduate Overseas Membership Application Assessment Fee</option>
+                                            <option value='56' name='464'>1stYear Graduate Overseas Membership Application Assessment Fee</option>
+                                            <option value='56' name='465'>New EA Overseas Companion Membership Application Assessment Fee</option>
+                                            <option value='56' name='466'>New EA Overseas Affiliate Membership Application Assessment Fee</option>
+                                            <option value='56' name='467'>New EA Overseas Fellow Membership Application Assessment Fee</option>
+                                            <option value='56' name='468'>New EA Overseas Member Membership Application Assessment Fee</option>
+                                            <option value='56' name='469'>New EA Overseas Graduate Membership Application Assessment Fee</option>
+                                            <option value='56' name='470'>New EA Overseas Student Membership Application Assessment Fee</option>
+                                            <option value='76' name='460'>Overseas Chartered Enigneering Associate Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='13' name='148'>New Overseas Affiliate Membership</option>
+                                            <option value='12' name='149'>EA Companion Membership Renewal</option>
+                                            <option value='12' name='150'>EA Overseas Companion Membership Renewal</option>
+                                            <option value='56' name='327'>New EA Invited Fellow Membership Application Assessment Fee</option>
+                                            <option value='56' name='328'>New EA Invited Companion Membership Application Assessment Fee</option>
+                                            <option value='13' name='355'>New EA Companion Membership</option>
+                                            <option value='13' name='145'>New EA Professional  Overseas Member Membership</option>
+                                            <option value='13' name='146'>New EA Professional  Overseas Fellow Membership</option>
+                                            <option value='13' name='147'>New EA Affiliate Membership</option>
+                                            <option value='13' name='151'>New EA Honorary Fellow Membership</option>
+                                            <option value='14' name='152'>EA Associate Student Membership Readmission</option>
+                                            <option value='14' name='153'>EA Associate New Graduate Membership Readmission</option>
+                                            <option value='14' name='154'>EA Associate 1stYear Graduate Membership Readmission</option>
+                                            <option value='14' name='155'>EA Associate 2ndYear Graduate Membership Readmission</option>
+                                            <option value='14' name='156'>EA Associate 3rdYear Graduate Membership Readmission</option>
+                                            <option value='14' name='157'>EA Associate 4th Year+ Graduate Membership Readmission</option>
+                                            <option value='14' name='158'>EA Associate Member Membership Readmission</option>
+                                            <option value='14' name='159'>EA Associate Fellow Membership Readmission</option>
+                                            <option value='14' name='160'>EA Associate Overseas Student Membership Readmission</option>
+                                            <option value='14' name='161'>EA Associate Overseas New Graduate Membership Readmission</option>
+                                            <option value='14' name='162'>EA Associate Overseas 1stYear Graduate Membership Readmission</option>
+                                            <option value='14' name='163'>EA Associate Overseas 2ndYear Graduate Membership Readmission</option>
+                                            <option value='14' name='164'>EA Associate Overseas 3rdYear Graduate Membership Readmission</option>
+                                            <option value='14' name='165'>EA Associate Overseas 4th Year Or Older Graduate Membership Readmission</option>
+                                            <option value='14' name='166'>EA Associate Overseas Member Membership Readmission</option>
+                                            <option value='14' name='167'>EA Associate Overseas Fellow Membership Readmission</option>
+                                            <option value='14' name='168'>EA Technologist Student Membership Readmission</option>
+                                            <option value='14' name='169'>EA Technologist  New Graduate Membership Readmission</option>
+                                            <option value='14' name='170'>EA Technologist 1stYear Graduate Membership Readmission</option>
+                                            <option value='14' name='171'>EA Technologist  2ndYear Graduate Membership Readmission</option>
+                                            <option value='14' name='172'>EA Technologist  3rdYear Graduate Membership Readmission</option>
+                                            <option value='14' name='173'>EA Technologist  4th Year+ Graduate Membership Readmission</option>
+                                            <option value='14' name='174'>EA Technologist  Member Membership Readmission</option>
+                                            <option value='14' name='175'>EA Technologist  Fellow Membership Readmission</option>
+                                            <option value='14' name='176'>EA Technologist  Overseas Student Membership Readmission</option>
+                                            <option value='14' name='177'>EA Technologist  Overseas New Graduate Membership Readmission</option>
+                                            <option value='14' name='178'>EA Technologist  Overseas 1stYear Graduate Membership Readmission</option>
+                                            <option value='14' name='179'>EA Technologist  Overseas 2ndYear Graduate Membership Readmission</option>
+                                            <option value='14' name='180'>EA Technologist  Overseas 3rdYear Graduate Membership Readmission</option>
+                                            <option value='14' name='181'>EA Technologist  Overseas 4th Year Graduate Membership Readmission</option>
+                                            <option value='14' name='182'>EA Technologist  Overseas Member Membership Readmission</option>
+                                            <option value='14' name='183'>EA Technologist  Overseas Fellow Membership Readmission</option>
+                                            <option value='14' name='184'>EA Professional  Student Membership Readmission</option>
+                                            <option value='14' name='185'>EA Professional  New Graduate Membership Readmission</option>
+                                            <option value='14' name='186'>EA Professional  1stYear Graduate Membership Readmission</option>
+                                            <option value='14' name='187'>EA Professional  2ndYear Graduate Membership Readmission</option>
+                                            <option value='14' name='188'>EA Professional  3rdYear Graduate Membership Readmission</option>
+                                            <option value='14' name='189'>EA Professional  4th Year Graduate Membership Readmission</option>
+                                            <option value='14' name='190'>EA Professional  Member Membership Readmission</option>
+                                            <option value='14' name='191'>EA Professional  Fellow Membership Readmission</option>
+                                            <option value='14' name='192'>EA Professional  Overseas Student Membership Readmission</option>
+                                            <option value='14' name='193'>EA Professional  Overseas New Graduate Membership Readmission</option>
+                                            <option value='14' name='194'>EA Professional  Overseas 1stYear Graduate Membership Readmission</option>
+                                            <option value='14' name='195'>EA Professional  Overseas 2ndYear Graduate Membership Readmission</option>
+                                            <option value='14' name='196'>EA Professional  Overseas 3rdYear Graduate Membership Readmission</option>
+                                            <option value='14' name='197'>EA Professional  Overseas 4th Year Graduate Membership Readmission</option>
+                                            <option value='14' name='198'>EA Professional  Overseas Member Membership Readmission</option>
+                                            <option value='14' name='199'>EA Professional  Overseas Fellow Membership Readmission</option>
+                                            <option value='14' name='200'>EA Affiliate Membership Readmission</option>
+                                            <option value='14' name='201'>EA Overseas Affiliate Membership Readmission</option>
+                                            <option value='14' name='202'>EA Companion Membership Readmission</option>
+                                            <option value='14' name='203'>EA Overseas Companion Membership Readmission</option>
+                                            <option value='14' name='204'>EA Honorary Fellow Membership Readmission</option>
+                                            <option value='15' name='205'>AM Council Student Membership Purchase</option>
+                                            <option value='15' name='206'>AM Council Member Membership Purchase</option>
+                                            <option value='15' name='207'>AM Council Corporate Bronze Membership Purchase</option>
+                                            <option value='15' name='208'>AM Council Corporate Silver Membership Purchase</option>
+                                            <option value='15' name='209'>AM Council Corporate Gold Membership Purchase</option>
+                                            <option value='15' name='210'>AM Council Corporate Platinum Sponsorship Purchase</option>
+                                            <option value='16' name='211'>AAEE Aust/NZ University Staff Membership Purchase</option>
+                                            <option value='16' name='212'>AAEE Post Graduate Students Membership Purchase</option>
+                                            <option value='16' name='213'>AAEE Others TS Membership Purchase</option>
+                                            <option value='17' name='214'>MSTS Member Membership Purchase</option>
+                                            <option value='17' name='215'>MSTS Retired Membership Purchase</option>
+                                            <option value='17' name='216'>MSTS Student Membership Purchase</option>
+                                            <option value='17' name='217'>MSTS Unemployed Membership Purchase</option>
+                                            <option value='18' name='218'>ASDE Member Membership Purchase</option>
+                                            <option value='18' name='219'>ASDE Student Membership Purchase</option>
+                                            <option value='18' name='220'>ASDE Corporate Membership Purchase</option>
+                                            <option value='19' name='221'>MA Member Membership Purchase</option>
+                                            <option value='19' name='222'>MA Retired Membership Purchase</option>
+                                            <option value='19' name='223'>MA Unemployed Membership Purchase</option>
+                                            <option value='20' name='224'>AGS Corporate Membership Purchase</option>
+                                            <option value='20' name='225'>AGS Member Membership Purchase</option>
+                                            <option value='20' name='226'>AGS Retired Membership Purchase</option>
+                                            <option value='20' name='227'>AGS Post Graduate Membership Purchase</option>
+                                            <option value='20' name='228'>AGS Undergraduate Membership Purchase</option>
+                                            <option value='21' name='229'>ATS Member Membership Purchase</option>
+                                            <option value='21' name='230'>ATS First Year Graduate Membership Purchase</option>
+                                            <option value='21' name='231'>ATS Student Membership Purchase</option>
+                                            <option value='21' name='232'>ATS Retired Membership Purchase</option>
+                                            <option value='21' name='233'>ATS Corporate Silver Supporter Purchase</option>
+                                            <option value='21' name='234'>ATS Corporate Gold Supporter Purchase</option>
+                                            <option value='22' name='235'>SEAg Member Membership Purchase</option>
+                                            <option value='22' name='236'>SEAg Student Membership Purchase</option>
+                                            <option value='22' name='237'>SEAg Retired Membership Purchase</option>
+                                            <option value='23' name='238'>AEES Member Membership Purchase</option>
+                                            <option value='23' name='239'>AEES Student Membership Purchase</option>
+                                            <option value='23' name='240'>AEES Retired Membership Purchase</option>
+                                            <option value='24' name='241'>ACSS Member Membership Purchase</option>
+                                            <option value='24' name='242'>ACSS Student Membership Purchase</option>
+                                            <option value='25' name='243'>RES Member Membership Purchase</option>
+                                            <option value='25' name='244'>RES Retired Membership Purchase</option>
+                                            <option value='25' name='245'>RES Student Membership Purchase</option>
+                                            <option value='25' name='246'>RES Corporate A Membership Purchase</option>
+                                            <option value='25' name='247'>RES Corporate B Membership Purchase</option>
+                                            <option value='26' name='248'>SFS Member Membership Purchase</option>
+                                            <option value='26' name='249'>SFS Student Membership Purchase</option>
+                                            <option value='27' name='250'>AFTES Member Membership Purchase</option>
+                                            <option value='28' name='251'>SENG Member Membership Purchase</option>
+                                            <option value='28' name='252'>SENG Student Membership Purchase</option>
+                                            <option value='28' name='253'>SENG Retired Membership Purchase</option>
+                                            <option value='29' name='254'>SESA Member Membership Purchase</option>
+                                            <option value='29' name='255'>SESA Senior Membership Purchase</option>
+                                            <option value='29' name='256'>SESA Student Membership Purchase</option>
+                                            <option value='29' name='257'>SESA Corporate Level 1 Membership Purchase</option>
+                                            <option value='29' name='258'>SESA Corporate Level 2 Membership Purchase</option>
+                                            <option value='30' name='259'>RedR Member Membership Purchase</option>
+                                            <option value='31' name='260'>ACES Member Membership Purchase</option>
+                                            <option value='31' name='261'>ACES Student Membership Purchase</option>
+                                            <option value='31' name='262'>ACES AACE Member</option>
+                                            <option value='32' name='263'>SBSE Member Membership Purchase</option>
+                                            <option value='33' name='264'>RTSA Member Membership Purchase</option>
+                                            <option value='33' name='265'>RTSA Student Membership Purchase</option>
+                                            <option value='33' name='266'>RTSA Retired Membership Purchase</option>
+                                            <option value='33' name='267'>RTSA Overseas Membership Purchase</option>
+                                            <option value='33' name='268'>RTSA NZ Membership Purchase</option>
+                                            <option value='33' name='269'>RTSA Corporate Membership Purchase</option>
+                                            <option value='34' name='270'>ASBSH Member Membership Purchase</option>
+                                            <option value='34' name='271'>ASBSH Student Membership Purchase</option>
+                                            <option value='34' name='272'>ASBSH Retired Membership Purchase</option>
+                                            <option value='34' name='273'>ASBSH Corporate Membership Purchase</option>
+                                            <option value='35' name='274'>EMC Member Membership Purchase</option>
+                                            <option value='35' name='275'>EMC Student Membership Purchase</option>
+                                            <option value='35' name='276'>EMC Retired Membership Purchase</option>
+                                            <option value='35' name='277'>EMC Corporate Membership Purchase</option>
+                                            <option value='36' name='278'>EESA Member Membership Purchase</option>
+                                            <option value='36' name='279'>EESA Retired Membership Purchase</option>
+                                            <option value='36' name='280'>EESA Corporate Membership Purchase</option>
+                                            <option value='36' name='281'>EESA Student Membership Purchase</option>
+                                            <option value='36' name='282'>EESA Life Member Membership Purchase</option>
+                                            <option value='37' name='283'>APTS Member Membership Purchase</option>
+                                            <option value='37' name='284'>APTS Student Membership Purchase</option>
+                                            <option value='37' name='285'>APTS Retired Membership Purchase</option>
+                                            <option value='38' name='286'>MEMMES Member Membership Purchase</option>
+                                            <option value='38' name='287'>MEMMES Student Membership Purchase</option>
+                                            <option value='38' name='288'>MEMMES Retired Membership Purchase</option>
+                                            <option value='38' name='289'>MEMMES Life Member Membership Purchase</option>
+                                            <option value='39' name='290'>ISSEMGE (Soil Mechanics) Membership Purchase</option>
+                                            <option value='40' name='291'>ISRM (Rock Mechanics) Membership Purchase</option>
+                                            <option value='41' name='292'>IAEG (Engineering Geology) Standard Membership Purchase</option>
+                                            <option value='41' name='293'>IAEG (Engineering Geology) Premium Membership Purchase</option>
+                                            <option value='43' name='295'>National Professional Engineers Register</option>
+                                            <option value='43' name='296'>National Engineers Associate Register</option>
+                                            <option value='43' name='297'>National Engineers Technologist Register</option>
+                                            <option value='38' name='299'>MEMMES Corporate Sponsor</option>
+                                            <option value='67' name='566'>AuSS Student Membership Purchase</option>
+                                            <option value='12' name='563'>EA Student Membership Renewal</option>
+                                            <option value='12' name='564'>EA Overseas Student Membership Renewal</option>
+                                            <option value='13' name='356'>New EA Companion Overseas Membership</option>
+                                            <option value='13' name='357'>New EA Affiliate Overseas Membership</option>
+                                            <option value='60' name='358'>EA Companion Grade Transfer Application Fee</option>
+                                            <option value='60' name='359'>EA Companion Overseas Grade Transfer Application Fee</option>
+                                            <option value='61' name='360'>EA Student Grade Transfer Application Fee</option>
+                                            <option value='61' name='361'>EA Student Overseas Grade Transfer Application Fee</option>
+                                            <option value='62' name='362'>EA Associate Graduate Grade Transfer Application Fee</option>
+                                            <option value='62' name='363'>EA Associate Overseas Graduate Grade Transfer Application Fee</option>
+                                            <option value='62' name='364'>EA Technologist Graduate Grade Transfer Application Fee</option>
+                                            <option value='62' name='365'>EA Technologist Overseas Graduate Grade Transfer Application Fee</option>
+                                            <option value='62' name='366'>EA Professional Graduate Grade Transfer Application Fee</option>
+                                            <option value='62' name='367'>EA Professional Overseas Graduate Grade Transfer Application Fee</option>
+                                            <option value='63' name='368'>EA Associate Member Grade Transfer Application Fee</option>
+                                            <option value='63' name='369'>EA Associate Overseas Member Grade Transfer Application Fee</option>
+                                            <option value='63' name='370'>EA Technologist Member Grade Transfer Application Fee</option>
+                                            <option value='63' name='371'>EA Technologist Overseas Member Grade Transfer Application Fee</option>
+                                            <option value='63' name='372'>EA Professional Member Grade Transfer Application Fee</option>
+                                            <option value='63' name='373'>EA Professional Overseas Member Grade Transfer Application Fee</option>
+                                            <option value='64' name='374'>EA Associate Fellow Grade Transfer Application Fee</option>
+                                            <option value='64' name='375'>EA Associate Overseas Fellow Grade Transfer Application Fee</option>
+                                            <option value='64' name='376'>EA Technologist Fellow Grade Transfer Application Fee</option>
+                                            <option value='64' name='377'>EA Technologist Overseas Fellow Grade Transfer Application Fee</option>
+                                            <option value='64' name='378'>EA Professional Fellow Grade Transfer Application Fee</option>
+                                            <option value='64' name='379'>EA Professional Overseas Fellow Grade Transfer Application Fee</option>
+                                            <option value='83' name='382'>EA Affiliate Overseas Readmission Application Fee</option>
+                                            <option value='83' name='383'>EA Affiliate Readmission Application Fee</option>
+                                            <option value='68' name='384'>EA Companion Overseas Readmission Application Fee</option>
+                                            <option value='68' name='385'>EA Companion Readmission Application Fee</option>
+                                            <option value='69' name='386'>EA Student Overseas Readmission Application Fee</option>
+                                            <option value='69' name='387'>EA Student Readmission Application Fee</option>
+                                            <option value='70' name='388'>EA Professional Graduate Overseas Readmission Application Fee</option>
+                                            <option value='70' name='389'>EA Professional Graduate Readmission Application Fee</option>
+                                            <option value='71' name='390'>EA Professional Member Overseas Readmission Application Fee</option>
+                                            <option value='71' name='391'>EA Professional Member Readmission Application Fee</option>
+                                            <option value='72' name='392'>EA Professional Fellow Overseas Readmission Application Fee</option>
+                                            <option value='72' name='393'>EA Professional Fellow Readmission Application Fee</option>
+                                            <option value='70' name='394'>EA Technologist Graduate Overseas Readmission Application Fee</option>
+                                            <option value='70' name='395'>EA Technologist Graduate Readmission Application Fee</option>
+                                            <option value='71' name='396'>EA Technologist Member Overseas Readmission Application Fee</option>
+                                            <option value='71' name='397'>EA Technologist Member Readmission Application Fee</option>
+                                            <option value='72' name='398'>EA Technologist Fellow Overseas Readmission Application Fee</option>
+                                            <option value='72' name='399'>EA Technologist Fellow Readmission Application Fee</option>
+                                            <option value='70' name='400'>EA Associate Graduate Overseas Readmission Application Fee</option>
+                                            <option value='70' name='401'>EA Associate Graduate Readmission Application Fee</option>
+                                            <option value='71' name='402'>EA Associate Member Overseas Readmission Application Fee</option>
+                                            <option value='71' name='403'>EA Associate Member Readmission Application Fee</option>
+                                            <option value='72' name='404'>EA Associate Fellow Overseas Readmission Application Fee</option>
+                                            <option value='72' name='405'>EA Associate Fellow Readmission Application Fee</option>
+                                            <option value='73' name='406'>EA Honorary Fellow Readmission Application Fee</option>
+                                            <option value='74' name='407'>Chartered Professional Engineer Readmission Application Fee (less than 1 year)</option>
+                                            <option value='75' name='408'>Chartered Professional Engineer Readmission Application Fee (12m-5 years)</option>
+                                            <option value='76' name='409'>Chartered Professional Enigneer Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='74' name='410'>Chartered Engineering Technologist Readmission Application Fee (less than 1 year)</option>
+                                            <option value='75' name='411'>Chartered Engineering Technologist Readmission Application Fee (12m-5 years)</option>
+                                            <option value='76' name='412'>Chartered Enigneering Technologist Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='74' name='413'>Chartered Engineering Associate Readmission Application Fee (less than 1 year)</option>
+                                            <option value='75' name='414'>Chartered Engineering Associate Readmission Application Fee (12m-5 years)</option>
+                                            <option value='76' name='415'>Chartered Enigneering Associate Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='77' name='416'>EA Overseas Professional Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='77' name='417'>EA Overseas Technologist Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='77' name='418'>EA Overseas Associate Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='77' name='419'>EA Professional Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='77' name='420'>EA Technologist Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='77' name='421'>EA Associate Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='78' name='422'>EA Overseas Professional Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='78' name='423'>EA Overseas Technologist Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='78' name='424'>EA Overseas Associate Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='78' name='425'>EA Professional Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='78' name='426'>EA Technologist Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='78' name='427'>EA Associate Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='79' name='428'>EA Overseas Professional Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='79' name='429'>EA Overseas Technologist Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='79' name='430'>EA Overseas Associate Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='79' name='431'>EA Professional Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='79' name='432'>EA Technologist Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='79' name='433'>EA Associate Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='80' name='434'>EA Overseas Professional Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='80' name='435'>EA Overseas Technologist Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='80' name='436'>EA Overseas Associate Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='80' name='437'>EA Professional Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='80' name='438'>EA Technologist Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='80' name='439'>EA Associate Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='81' name='440'>EA Overseas Professional Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='81' name='441'>EA Overseas Technologist Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='81' name='442'>EA Overseas Associate Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='81' name='443'>EA Professional Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='81' name='444'>EA Technologist Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='81' name='445'>EA Associate Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='82' name='446'>EA Overseas Professional Fellow + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='82' name='447'>EA Overseas Technologist Fellow + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='82' name='448'>EA Overseas Associate Fellow + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='82' name='449'>EA Professional Fellow + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='82' name='450'>EA Technologist Fellow + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='82' name='451'>EA Associate Member + Fellow (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='74' name='452'>Overseas Chartered Professional Engineer Readmission Application Fee (less than 1 year)</option>
+                                            <option value='75' name='453'>Overseas Chartered Professional Engineer Readmission Application Fee (12m-5 years)</option>
+                                            <option value='76' name='454'>Overseas Chartered Professional Enigneer Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='74' name='455'>Overseas Chartered Engineering Technologist Readmission Application Fee (less than 1 year)</option>
+                                            <option value='75' name='456'>Overseas Chartered Engineering Technologist Readmission Application Fee (12m-5 years)</option>
+                                            <option value='76' name='457'>Overseas Chartered Enigneering Technologist Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='74' name='458'>Overseas Chartered Engineering Associate Readmission Application Fee (less than 1 year)</option>
+                                            <option value='75' name='459'>Overseas Chartered Engineering Associate Readmission Application Fee (12m-5 years)</option>
+                                            <option value='59' name='471'>EA Overseas Companion Invited Membership Application Assessment Fee</option>
+                                            <option value='59' name='472'>EA Overseas Fellow Invited Membership Application Assessment Fee</option>
+                                            <option value='70' name='473'>EA Graduate Overseas Readmission Application Fee</option>
+                                            <option value='70' name='474'>EA Graduate Readmission Application Fee</option>
+                                            <option value='71' name='475'>EA Member Overseas Readmission Application Fee</option>
+                                            <option value='71' name='476'>EA Member Readmission Application Fee</option>
+                                            <option value='72' name='477'>EA Fellow Overseas Readmission Application Fee</option>
+                                            <option value='72' name='478'>EA Fellow Readmission Application Fee</option>
+                                            <option value='74' name='479'>Overseas Chartered Engineer Readmission Application Fee (less than 1 year)</option>
+                                            <option value='74' name='480'>Chartered Engineer Readmission Application Fee (less than 1 year)</option>
+                                            <option value='75' name='481'>Overseas Chartered Engineer Readmission Application Fee (12m-5 years)</option>
+                                            <option value='75' name='482'>Chartered Engineer Readmission Application Fee (12m-5 years)</option>
+                                            <option value='76' name='483'>Overseas Chartered Enigneer Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='76' name='484'>Chartered Engineer Readmission Application Fee (greater than 5 years)</option>
+                                            <option value='77' name='485'>EA Overseas Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='77' name='486'>EA Member + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='78' name='487'>EA Overseas Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='78' name='488'>EA Member + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='79' name='489'>EA Overseas Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='79' name='490'>EA Member + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='80' name='491'>EA Overseas Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='80' name='492'>EA Fellow + Chartered (less than 1 year) Readmission Application Fee</option>
+                                            <option value='81' name='493'>EA Overseas Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='81' name='494'>EA Fellow + Chartered (12m-5 years) Readmission Application Fee</option>
+                                            <option value='82' name='495'>EA Overseas Fellow + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='82' name='496'>EA Fellow + Chartered (greater than 5 years) Readmission Application Fee</option>
+                                            <option value='85' name='498'>Migration Skills Assessment - Fast Track Assessment - Agent</option>
+                                            <option value='84' name='497'>Migration Skills Assessment - Fast Track Assessment - Applicant</option>
+                                            <option value='87' name='499'>Membership + Chartered via MRA Application</option>
+                                            <option value='87' name='500'>Membership + Chartered via MRA Overseas Application</option>
+                                            <option value='88' name='501'>Membership + Chartered and Registration via MRA Application</option>
+                                            <option value='88' name='502'>Membership + Chartered and Registration via MRA Overseas Application</option>
+                                            <option value='89' name='503'>Membership + Registration via MRA Application</option>
+                                            <option value='89' name='504'>Membership + Registration via MRA Overseas Application</option>
+                                            <option value='90' name='505'>Chartered via MRA Application</option>
+                                            <option value='90' name='506'>Overseas Chartered via MRA Overseas Application</option>
+                                            <option value='91' name='507'>Registration via MRA Application</option>
+                                            <option value='91' name='508'>Registration via MRA Overseas Application</option>
+                                            <option value='92' name='509'>Chartered + Registration via MRA Application</option>
+                                            <option value='93' name='510'>Member via MRA Application</option>
+                                            <option value='94' name='511'>Associate Member via MRA</option>
+                                            <option value='95' name='512'>Associate Member + Chartered via MRA</option>
+                                            <option value='96' name='513'>Associate Member + Chartered + Registration via MRA</option>
+                                            <option value='97' name='514'>Associate Member + Registration via MRA</option>
+                                            <option value='98' name='515'>Technologist Member via MRA</option>
+                                            <option value='99' name='516'>Technologist Member + Chartered via MRA</option>
+                                            <option value='100' name='517'>Technologist Member + Chartered + Registration via MRA</option>
+                                            <option value='101' name='518'>Technologist Member + Registration via MRA</option>
+                                            <option value='102' name='519'>Professional Member via MRA</option>
+                                            <option value='103' name='520'>Professional Member + Chartered via MRA</option>
+                                            <option value='104' name='521'>Professional Member + Chartered + Registration via MRA</option>
+                                            <option value='105' name='522'>Professional Member + Registration via MRA</option>
+                                            <option value='106' name='523'>Chartered + Registration via MRA</option>
+                                            <option value='107' name='524'>Chartered via MRA</option>
+                                            <option value='108' name='525'>Registration via MRA</option>
+                                            <option value='94' name='526'>Overseas Associate Member via MRA</option>
+                                            <option value='95' name='527'>Overseas Associate Member + Chartered via MRA</option>
+                                            <option value='96' name='528'>Overseas Associate Member + Chartered + Registration via MRA</option>
+                                            <option value='97' name='529'>Overseas Associate Member + Registration via MRA</option>
+                                            <option value='98' name='530'>Overseas Technologist Member via MRA</option>
+                                            <option value='99' name='531'>Overseas Technologist Member + Chartered via MRA</option>
+                                            <option value='100' name='532'>Overseas Technologist Member + Chartered + Registration via MRA</option>
+                                            <option value='101' name='533'>Overseas Technologist Member + Registration via MRA</option>
+                                            <option value='102' name='534'>Overseas Professional Member via MRA</option>
+                                            <option value='103' name='535'>Overseas Professional Member + Chartered via MRA</option>
+                                            <option value='104' name='536'>Overseas Professional Member + Chartered + Registration via MRA</option>
+                                            <option value='105' name='537'>Overseas Professional Member + Registration via MRA</option>
+                                            <option value='106' name='538'>Overseas Chartered + Registration via MRA</option>
+                                            <option value='107' name='539'>Overseas Chartered via MRA</option>
+                                            <option value='108' name='540'>Overseas Registration via MRA</option>
+                                            <option value='93' name='548'>Member via MRA Overseas Application</option>
+                                            <option value='66' name='550'>TAS Corporate Membership Purchase</option>
+                                            <option value='66' name='549'>TAS Student Membership Purchase</option>
+                                            <option value='109' name='547'>IIEA Affiliate Membership Purchase</option>
+                                            <option value='109' name='546'>IIEA Fellow Membership Purchase</option>
+                                            <option value='109' name='545'>IIEA Graduate Membership Purchase</option>
+                                            <option value='109' name='544'>IIEA Corporate Membership Purchase</option>
+                                            <option value='109' name='543'>IIEA Associate Membership Purchase</option>
+                                            <option value='109' name='542'>IIEA Student Membership Purchase</option>
+                                            <option value='109' name='541'>IIEA Member Membership Purchase</option>
+                                            <option value='115' name='554'>National Engineering Register Non-Member Renewal</option>
+                                            <option value='114' name='553'>National Engineering Register EA Member Renewal</option>
+                                            <option value='113' name='552'>NER New Assessment for Non-Member</option>
+                                            <option value='112' name='551'>NER New Assessment for EA Member</option>
+                                            <option value='115' name='558'>National Engineering Register Overseas Non-Member Renewal</option>
+                                            <option value='114' name='557'>National Engineering Register Overseas EA Member Renewal</option>
+                                            <option value='113' name='556'>National Engineering Register Overseas Non-Member New Registration</option>
+                                            <option value='112' name='555'>National Engineering Register Overseas EA Member New Registration</option>
+                                            <option value='36' name='560'>EESA Member with Subscription Purchase</option>
+                                            <option value='36' name='561'>EESA Retired Member with Subscription Purchase</option>
+                                            <option value='117' name='562'>MSA Member Administration Fee</option>
+                                            <option value='116' name='559'>Standard Administration Fee</option>
+                                            <option value='118' name='567'>Chartered Application & Assessment Fee</option>
+                                            <option value='25' name='570'>RES Gold Member Membership Purchase</option>
+                                            <option value='33' name='569'>RTSA Retired Membership Purchase with Magazine</option>
+                                            <option value='33' name='568'>RTSA Graduate Membership Purchase</option>
+                                            <option value='109' name='565'>IIEA Life Member Membership Purchase</option>
+                                            <option value='162' name='581'>NER New Assessment for Chartered Member using Chartered AoPs</option>
+                                            <option value='163' name='582'>NER Readmission (less than 12 months) using existing AoPs</option>
+                                            <option value='167' name='583'>NER Readmission (less than 12 months) + Additional AoP Assesssment</option>
+                                            <option value='164' name='584'>NER Readmission (greater than 12 months)</option>
+                                            <option value='164' name='585'>National Engineering Register Overseas Readmission Application (more than 5 years)</option>
+                                            <option value='165' name='586'>NER Readmission Overseas Application + Chartered</option>
+                                            <option value='165' name='587'>NER Readmission for Chartered Member using Chartered AoPs</option>
+                                            <option value='166' name='588'>NER Additional AoP for Chartered Member using Chartered AoPs</option>
+                                            <option value='168' name='589'>NER Additional AoP Assessment</option>
+                                        </select>
+                                    </div>
+                                </div
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12">
+                        <a href="javascript:void(0);" id="btn-search" class="btn btn-primary click btn-more-top disabled"  data-dismiss="modal"  role="tab" data-toggle="tab">Add to Promotional Products List</a>
+                        <button type="button" class="btn btn-default margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="p-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 770px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+                        <p>Once promotion is published, it cannot be edited. Are you sure you want to continue?</p>
+
+
+
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12"> 
+                        <a type="button" class="btn btn-primary" href="promo-management.html">Yes</a>
+                        <button type="button" class="btn btn-default margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="add-price" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 770px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Add New Price</h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+
+                        <ul class="col-sm-12 list">
+                            <li><label class="col-sm-3">Product </label><span  class="prod-value"></span></li>
+                            <li><label class="col-sm-3">Product Service </label><span class="prod-service-value"></span></li>
+                            <li><label class="col-sm-3">Price Component </label><span class="price-comp-value"></span></li>
+                            <!--                                            <li><label>Creation Date: </label><span id="date-value"></span></li>-->
+                        </ul>
+
+                        <div class="col-sm-12 margin-bottom-20 no-grid">
+                            <label for="name" class="col-sm-3 col-form-label no-grid">Price</label>
+                            <div class="col-sm-6">
+                                <div class="form-item form-type-select">
+                                    <input id = "input-price" type="text" class="form-control">
+                                </div>
+                                <p class="note">Please enter price without $ symbol.</p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 margin-bottom-30 no-grid">
+                            <label for="datetimepicker-char-sche" class="col-sm-3 col-form-label padding-left-0">Effective Date </label>
+                            <div class="col-sm-6">
+                                <div class="input-group date date-picker" id="datetimepicker6">
+                                    <input type="text" class="form-control" id="datetimepicker-effective">
+                                    <span class="input-group-addon" style="border-radius: 0px; ">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 margin-bottom-20 no-grid" class="status-wrapper">
+                            <label for="" class="col-sm-3 col-form-label padding-left-0">Status </label>
+                            <div class="col-sm-6">
+                                <label class="container-radio col-sm-4">Active <input id="yes" type="radio" name="status-radio" value="yes" class="status"><span class="checkmark"></span></label>                                                                
+                                <label class="container-radio col-sm-4">Inactive<input id="no" type="radio" name="status-radio" value="no" class="status"><span class="checkmark"></span></label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12"> 
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Add New Price</button>
+                        <button type="button" class="btn btn-default margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                
+        <!-- Modal -->
+        <div class="modal" id="cancel-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 770px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+                        <p>Are you sure you want to Cancel this promotion?</p>
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12"> 
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Yes</button>
+                        <button type="button" class="btn btn-primary margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../dist/js/jquery.plugins.min.js"></script>
+        <script src="../dist/js/eathemeawesome.min.js"></script>
+
+        <!--    $("#app-types").change(function () {
+                $selValue = $(this).find(":selected").val();
+                if ($selValue === '1') {
+                $('#ea-mem-category').show();
+                }
+                else{
+                $('#ea-mem-category').hide();
+            }-->
+        <script>
+            //calling bootstrap date picker
+            $('.input-group.date').datepicker({format: "dd/mm/yyyy"});
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+    <head>
+        <link rel="profile" href="<?php print $grddl_profile; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <meta name="viewport" content="initial-scale = 1.0" />
+        <meta name="google-site-verification" content="ZpVNR_Du6b6Mv84i3z-mWc_HexmoHJMBOqHuV6ozMS4" />
+        <title>Portal</title>
+        <link rel="stylesheet" href="../dist/css/portal-refresh-theme.min.css" media="all" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../dist/js/portal.js"></script>
+        <script src="../dist/js/promotion.js"></script> 
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.standalone.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+        <style>
+            #ea-mem-category{
+                display: none;
+            }
+            .modal-backdrop.in{
+                display: none;
+            }
+            #edit-price{
+                background: rgba(0,0,0,0.5);
+            }
+            .form-select option{
+                padding: 5px!important;
+            }
+            .loading{    
+                position: fixed;
+                z-index: 1000;
+                width: 8em;
+                height: 5em;
+                overflow: show;
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0; 
+                display: none;
+                color: #fff;
+                background: #333;
+                padding: 1.7em 7em 1em 3em;
+                opacity: 0.9;
+                font-size:1.5em;
+                font-weight: bold;
+            }
+            /* Transparent Overlay */
+            .loading:before {
+                content: '';
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.7);
+            }
+
+            /* :not(:required) hides these rules from IE9 and below */
+            .loading:not(:required) {
+                /* hide "loading..." text */
+                font: 0/0 a;
+                color: transparent;
+                text-shadow: none;
+                background-color: transparent;
+                border: 0;
+            }
+
+            .loading:not(:required):after {
+                content: '';
+                display: block;
+                font-size: 10px;
+                width: 4em;
+                height: 4em;
+                margin-top: -0.5em;
+
+                background: url("../dist/css/images/EA-Logo.svg") no-repeat;
+
+                -webkit-animation:spin 4s linear infinite;
+                -moz-animation:spin 4s linear infinite;
+                animation:spin 4s linear infinite;    
+            }
+            /* Animation */
+            @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+            @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+            @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+            ul.list {
+                padding: 0px;
+                margin: 0px;
+                margin-bottom: 30px;
+            }
+            ul.list li{
+                list-style: none;
+                padding: 15px 0px;
+                border-bottom: dashed 1px #ccc;
+            }
+
+            .form-select option:checked{
+                background: red!important;
+                color: white!important;
+            }
+
+            .container-radio{
+                padding-left: 35px;
+            }
+            .container-radio input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+            /* Create a custom radio button */
+            .container-radio .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                background-color: #bfbfbf;
+                border-radius: 50%;
+            }
+
+            /* On mouse-over, add a grey background color */
+            .container-radio:hover input ~ .checkmark {
+                background-color: #bfbfbf;
+            }
+
+            /* When the radio button is checked, add a blue background */
+            .container-radio input:checked ~ .checkmark {
+                background-color: #e60000;
+            }
+
+            /* Create the indicator (the dot/circle - hidden when not checked) */
+            .container-radio .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+            /* Show the indicator (dot/circle) when checked */
+            .container-radio input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            /* Style the indicator (dot/circle) */
+            .container-radio .checkmark:after {
+                top: 9px;
+                left: 9px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: white;
+            }
+            .container-radio p.desc{
+                font-size: 1em;
+                font-weight: normal;
+                border-bottom: dashed 1px #e5e5e5;
+                padding-bottom: 10px;
+            }
+            .edit-link{
+                color: #333;
+            }
+            .table tbody tr:nth-child(odd) {
+                background: #f6f8f8;
+            }
+            .table tbody tr {
+                background: white;
+            }
+            .no-link-style{
+                border-bottom: none!important;
+            }
+            .list.pro-details li{
+                padding-left: 5%;
+            }
+            .list.pro-details li:last-child{
+                border-bottom: solid 2px #e60000;
+            }
+            td.border{
+                border: solid 1px gray!important;
+            }
+            tr.expired{
+                background: #ffbcbc!important;
+            }
+            tr.inprog{
+                background-color: #b8d4ad!important;
+            }
+            .fa{
+                color: #000333!important;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="loading" style="display: none;">
+            <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+        </div>
+        <!--[if lte IE 8]>
+    <div class="message-outdated alert alert-warning alert-dismissible" role="alert">
+    <a class="close toc-filter-processed" data-dismiss="alert" href="#">Ã—</a>
+        <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        </div>
+    <![endif]-->
+        <a class="skip-to-content sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+        <a class="skip-to-content sr-only sr-only-focusable hidden-xs" href="#main-nav">Skip to main navigation</a>
+        <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i><span>Back to top</span></a>
+
+        <div class="mobileNavWrap">
+            <nav id="mobile-nav" role="navigation">
+
+                <ul class="mm-listview">
+                    <div class="panel-group mobile-personal-info" id="mobile-personal-info" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#mobile-personal-info" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                        <span class="name">Miss Jane Sarah Doe</span><i class="more-less fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading">
+                                <div class="panel-body">
+                                    <ul class="mm-listview-inner">
+                                        <li><a href="#">My Preferences</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <li class="active"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                    <li><a href="#">My EA</a></li>
+                    <li><a href="#">Products + Services</a></li>
+                    <li><a href="#">News + Events</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="clearfix site-full-wrapper">
+            <header id="header">
+                <div class="container" id="header-container">
+                    <div class="mobile-header">
+                        <button id="mobile-nav-btn" class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>                                
+                            </span>
+                        </button>
+                    </div>
+                    <div class="header-block portal-logo">
+                        <a href="/portal" title="Portal Home" rel="home">
+                            <div class="logo-img"></div>
+                        </a>
+                    </div>
+
+                    <div class="header-content header-block col-xs-12 col-sm-4">
+                        <div class="region region-header">
+                            <section id="block-ea-newsevents-sitewide-search-form" class="block block-ea-newsevents clearfix" style="visibility: hidden;">
+
+
+                                <form action="/portal/protohome" method="post" id="ea-portal-block-search-form" accept-charset="UTF-8"><div><div class="form-item form-item-keywords form-type-textfield form-group"><input placeholder="Search News or Events" class="form-control form-text" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128"></div><div class="form-item form-item-options form-type-select form-group"><select class="nouniform form-control form-select" id="edit-options" name="options"><option value="news" selected="selected">News</option><option value="events">Events</option></select></div><button type="submit" id="edit-sitewide-search" name="op" value="Search" class="btn btn-primary form-submit">Search</button>
+                                        <input type="hidden" name="form_build_id" value="form-yUQUyVNmNix_2M8xup2vSFXUruaeakcrMFYG77vLJvc">
+                                        <input type="hidden" name="form_id" value="ea_portal_block_search_form">
+                                    </div></form>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div id="secondaryNav" class="header-block col-sm-6">
+                        <div class="region region-secondarynav">
+                            <section id="block-block-10" class="block block-block clearfix">
+
+                                <ul>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Messages<span class="count">7</span></a>                                        
+                                    </li>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Tasks<span class="count">12</span></a>
+                                    </li>
+                                    <li class="li-divider"  style="visibility: hidden;">
+                                        <a href="#">Invoices<span class="count">5</span></a>
+                                    </li>
+
+                                    <li class="li-divider nav-profile">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                    </li>
+
+                                    <li class="li-divider logout">
+                                        <a href="#">Logout</a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="primaryNav" class="hidden-xs navbar-inverse">
+                    <div class="container">
+                        <ul class="menu nav navbar-nav ">
+
+                            <li class="active">
+                                <a href="index.html"><i class="fa fa-home"></i></a>
+                            </li>
+
+                            <li>
+                                <a href="myea.html">My EA</a>
+                            </li>
+
+                            <li>
+                                <a href="products-services.html">Products <span aria-hidden="true">+</span> Services</a>
+                            </li>
+
+                            <li>
+                                <a href="temp-news-events.html" target="_blank">News <span aria-hidden="true">+</span> Events</a>
+                            </li>
+
+                            <li>
+                                <a href="temp-contact.html" target="_blank">Contact us</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+
+
+            <section class="hero-container">
+                <div class="container">
+                    <h1><span class="sub-page-title"><span>Publisher - Promotion Management</span></span>Luke McLachlan
+                        <span class="title-sub-text">(EA ID: 4318411)</span></h1>
+                    <ul class="header-ea-nominals">
+                        <!--                        <li>CPEng</li>-->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="main">                
+
+                <div class="container">
+                    <div class="row">
+                        <ul class="breadcrumb col-xs-12">
+                            <li><a href="index_eastaff.html"><i class="fa fa-home"></i></a></li>
+                            <li><a href="management-eastaff.html">Management</a></li>
+                            <li>Promotion Management</li>
+                        </ul>
+                        <div id="main-content" class="col-xs-12 col-sm-12 margin-top-0 margin-bottom-30">
+                            <div class="card-section card card-a padding-30">
+
+
+                                <fieldset class="col-sm-12 no-grid" id="search-results" style="display: block;">
+                                    <legend class="inner-pages-level-2">Promotions
+                                        <a class="b-rules no-style margin-left-5" href="javascript:void(0);" title="Business rules" data-toggle="modal" data-target="#status-rules"><i class="fa fa-briefcase"></i></a>
+                                    </legend> 
+                                    <p>Please add, view and manage all the promotions. 
+                                    <div class="search-filters col-sm-12 padding-20 margin-top-20">
+                                        <div class="col-sm-9">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-item form-type-textfield">
+                                                        <label for="p-code">Promotional Code </label>
+                                                        <input class="form-control form-text" type="text" id="p-code" name="p-code" value="" size="60" maxlength="16">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-item form-type-textfield">
+                                                        <label for="c-by">Created By </label>
+                                                        <input class="form-control form-text" type="text" id="c-by" name="c-by" value="" size="60" maxlength="16">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-item form-type-textfield">
+                                                        <label for="c-by">Product</label>
+                                                        <select class="form-control form-select" id="pcode-1" name="promo-code"><option value="0">All</option><option value="CHR">Chartered</option><option value="MEM">EA Membership</option><option value="MSA">Migration Skill Assessment</option><option value="NER">NER</option><option value="STG">Stage 1</option><option value="TSM">Technical Society Membership</option></select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="form-item form-type-textfield">
+                                                        <label for="c-by">Promotion Status </label>
+                                                        <select class="form-control form-select" id="pstatus" name="type"><option value="0">All</option><option value="1">Publishing Request</option><option value="2">Published</option><option value="3">Cancelled</option></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 margin-top-25">                                                        
+                                                            <input class="btn btn-primary submit-action-load form-submit fluid-width" type="submit" id="filter" name="op" value="Filter">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 margin-top-25">                                                        
+                                                            <input class="btn btn-default submit-action-load form-submit fluid-width" type="submit" id="reset" name="op" value="Reset">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table margin-bottom-0" id="temp">
+                                            <thead>
+                                                <tr>
+<!--                                                    <th width="5%"></th>-->
+                                                    <th>Promotional <br>Code</th>
+                                                    <th>Promotional <br>Discount</th>
+                                                    <th>Created By</th>
+                                                    <th>Last Updated</th>
+                                                    <th>Effective From</th>
+                                                    <th>Effective To</th>
+                                                    <th>Current Status</th>
+                                                    <th>Promotion <br>Status</th>                                                    
+                                                    <th width="10%">Actions</th>
+                                                </tr>                                                    
+                                            </thead>
+                                            <tbody>
+                                                
+                                                <tr class="2 all inprog">
+<!--                                                    <td><a href="javascript:void(0);" class="promo no-link-style" id="3"><i class="margin-right-5 more-less fa fa-plus"></i></a></td>-->
+                                                    <td>EOY-Promo</td>
+                                                    <td>50%</td>
+                                                    <td><a href="javascript:void(0);" title="View Profile">223343</a></td>                                                    
+                                                    <td>25/05/2020</td>
+                                                    <td>25/05/2020</td>
+                                                    <td>30/06/2020</td>
+                                                    <td>InProgress</td>
+                                                    <td>Published</td>                                                    
+                                                    <td class="text-align-center"><a class="edit-link btn btn-sm edit-link icon-portal icon-view" title="View Promotion" id="605" href="view-promotion-pi.html"></a></a><a class="btn btn-sm  fa fa-remove" title="Cancel Promotion" id="delete-1601115" href="javascipt:void(0);"  data-toggle="modal" data-target="#cancel-confirmation"></a></td>
+                                                </tr>
+<!--                                                <tr id="promo-content-3" style = "display: none;">
+                                                    <td colspan="10" class="padding-0 border">
+                                                        <ul class="col-sm-12 list pro-details margin-bottom-0">
+                                                            <li><label class="col-sm-3">Product </label><span  class="">Chartered</span></li>
+                                                            <li><label class="col-sm-3">Product Service </label><span class="">Chartered Application & Assessment Fee</span></li>                                        
+                                                        </ul>
+                                                        <table class="table margin-bottom-0" id="temp1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%"></th>
+                                                                    <th width="">Price Component</th>
+                                                                    <th class="text-align-right">Price</th>                                                                    
+                                                                    <th class="text-align-right">Promotional Price</th>
+                                                                </tr>                                                    
+                                                            </thead>
+                                                            <tbody>                                                                
+                                                                <tr id="row-251">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-251">Chartered Application & Assessment Fee</span></td>
+                                                                    <td class="text-align-right"><span id="price-251">$1600.00</span></td>
+                                                                    <td class="text-align-right"><span id="price-251">$800.00</span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>-->
+                                                
+                                                <tr  class="2 all">
+<!--                                                    <td><a href="javascript:void(0);" class="promo no-link-style" id="2"><i class="margin-right-5 more-less fa fa-plus"></i></a></td>-->
+                                                    <td>FreeReg</td>
+                                                    <td>100%</td>
+                                                    <td><a href="javascript:void(0);" title="View Profile">554466</a></td>                                                    
+                                                    <td>25/05/2020</td>
+                                                    <td>15/06/2020</td>
+                                                    <td>15/07/2020</td>
+                                                    <td>Not Started</td>
+                                                    <td>Published</td>                                                    
+                                                    <td class="text-align-center"><a class="edit-link btn btn-sm edit-link icon-portal icon-view" title="View Promotion" id="605" href="view-promotion-pn.html"></a><a class="btn btn-sm  fa fa-remove" title="Cancel Promotion" id="delete-1601115" href="javascipt:void(0);"  data-toggle="modal" data-target="#cancel-confirmation"></a></td>
+                                                </tr>
+<!--                                                <tr id="promo-content-2" style = "display: none;">
+                                                    <td colspan="10" class="padding-0 border">
+                                                        <ul class="col-sm-12 list pro-details margin-bottom-0">
+                                                            <li><label class="col-sm-3">Product </label><span  class="">National Registration</span></li>
+                                                            <li><label class="col-sm-3">Product Service </label><span class="">New NER Registration Member</span></li>                                        
+                                                        </ul>
+
+                                                        <table class="table margin-bottom-0" id="temp1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%"></th>
+                                                                    <th width="">Price Component</th>
+                                                                    <th class="text-align-right">Price</th>
+                                                                    <th class="text-align-right">Promotional Price</th>
+                                                                </tr>                                                    
+                                                            </thead>
+                                                            <tbody>                                                                
+                                                                <tr id="row-251">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-251">NER New Assessment for EA Member</span></td>
+                                                                    <td class="text-align-right"><span id="price-251">$315.00</span></td>
+                                                                    <td class="text-align-right"><span id="priced-251">$0.00</span></td>
+                                                                </tr>
+                                                                <tr id="row-253">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-253">National Engineering Register Overseas EA Member New Registration</span></td>
+                                                                    <td class="text-align-right"><span id="price-253">$315.00</span></td>
+                                                                    <td class="text-align-right"><span id="priced-251">$0.00</span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>-->
+                                                
+                                                <tr class="1 all">
+<!--                                                    <td><a href="javascript:void(0);" class="promo no-link-style" id="1"><i class="margin-right-5 more-less fa fa-plus"></i></a></td>-->
+                                                    <td>promo-2020</td>
+                                                    <td>$25.00</td>
+                                                    <td><a href="javascript:void(0);" title="View Profile">7765655</a></td>
+                                                    <td>30/05/2020</td>
+                                                    <td>01/07/2020</td>
+                                                    <td>30/07/2020</td>
+                                                    <td></td>
+                                                    <td>Publishing Request </td>                                                    
+                                                    <td class="text-align-center"><a class="edit-link btn btn-sm edit-link icon-portal icon-view" title="View Promotion" id="605" href="view-promotion-ready-pub.html"></a></td>
+                                                </tr>
+<!--                                                <tr id="promo-content-1" style = "display: none;">
+                                                    <td colspan="10" class="padding-0 border">
+                                                        <ul class="col-sm-12 list pro-details margin-bottom-0">
+                                                            <li><label class="col-sm-3">Product </label><span  class="">EA Membership</span></li>
+                                                            <li><label class="col-sm-3">Product Service </label><span class="">Renew EA Membership</span></li>                                        
+                                                        </ul>
+                                                        <table class="table margin-bottom-0" id="temp1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%"></th>
+                                                                    <th width="">Price Component</th>
+                                                                    <th class="text-align-right">Price</th>
+                                                                </tr>                                                    
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr id="row-253">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-253">EA Associate 1stYear Graduate Membership Renewal</span></td>
+                                                                    <td class="text-align-right"><span id="price-253">$90.91</span></td>
+                                                                <tr id="row-559">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-559">EA Associate 2ndYear Graduate Membership Renewal</span></td>
+                                                                    <td class="text-align-right"><span id="price-559">$143.64</span></td>
+                                                                </tr>
+                                                                <tr id="row-559">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-559">EA Associate 3rdYear Graduate Membership Renewal</span></td>
+                                                                    <td class="text-align-right"><span id="price-559">$187.27</span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                -->
+
+                                                
+
+                                                
+                                                <tr class="3 all">
+<!--                                                    <td><a href="javascript:void(0);" class="promo no-link-style" id="5"><i class="margin-right-5 more-less fa fa-plus"></i></a></td>-->
+                                                    <td>AUTUMN-20</td>
+                                                    <td>20%</td>
+                                                    <td><a href="javascript:void(0);" title="View Profile">2234323</a></td>                                                    
+                                                    <td>10/04/2020</td>
+                                                    <td>18/03/2020</td>
+                                                    <td>17/04/2020</td>
+                                                    <td></td>
+                                                    <td style="text-decoration: line-through;">Cancelled</td>                                                    
+                                                    <td class="text-align-center"><a class="edit-link btn btn-sm edit-link icon-portal icon-view" title="View Promotion" id="605" href="view-promotion-cn-pub.html"></a></td>
+                                                </tr>
+<!--                                                <tr id="promo-content-5" style = "display: none;">
+                                                    <td colspan="10" class="padding-0 border">
+                                                        <ul class="col-sm-12 list pro-details margin-bottom-0">
+                                                            <li><label class="col-sm-3">Product </label><span  class="">National Registration</span></li>
+                                                            <li><label class="col-sm-3">Product Service </label><span class="">New NER Registration Member</span></li>                                        
+                                                        </ul>
+
+                                                        <table class="table margin-bottom-0" id="temp1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%"></th>
+                                                                    <th width="">Price Component</th>
+                                                                    <th class="text-align-right">Price</th>
+                                                                    <th class="text-align-right">Promotional Price</th>
+                                                                </tr>                                                    
+                                                            </thead>
+                                                            <tbody>                                                                
+                                                                <tr id="row-251">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-251">NER New Assessment for EA Member</span></td>
+                                                                    <td class="text-align-right"><span id="price-251">$315.00</span></td>
+                                                                    <td class="text-align-right">$212.00</td>
+                                                                </tr>
+                                                                <tr id="row-253">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-253">National Engineering Register Overseas EA Member New Registration</span></td>
+                                                                    <td class="text-align-right"><span id="price-253">$315.00</span></td>
+                                                                    <td class="text-align-right">$212.00</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>-->
+                                                <tr class="2 all">
+<!--                                                    <td><a href="javascript:void(0);" class="promo no-link-style" id="6"><i class="margin-right-5 more-less fa fa-plus"></i></a></td>-->
+                                                    <td>NewYear20</td>
+                                                    <td>10%</td>
+                                                    <td><a href="javascript:void(0);" title="View Profile">3323233</a></td>                                                    
+                                                    <td>20/12/2019</td>
+                                                    <td>01/01/2020</td>
+                                                    <td>31/01/2020</td>
+                                                    <td>Completed</td>
+                                                    <td>Published</td>                                                    
+                                                    <td class="text-align-center"><a class="edit-link btn btn-sm edit-link icon-portal icon-view" title="View Promotion" id="605" href="view-promotion-pub.html"></a></td>
+                                                </tr>
+<!--                                                <tr id="promo-content-6" style = "display: none;">
+                                                    <td colspan="10" class="padding-0 border">
+                                                        <ul class="col-sm-12 list pro-details margin-bottom-0">
+                                                            <li><label class="col-sm-3">Product </label><span  class="">National Registration</span></li>
+                                                            <li><label class="col-sm-3">Product Service </label><span class="">New NER Registration Member</span></li>                                        
+                                                        </ul>
+
+                                                        <table class="table margin-bottom-0" id="temp1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%"></th>
+                                                                    <th width="">Price Component</th>
+                                                                    <th class="text-align-right">Price</th>
+                                                                    <th class="text-align-right">Promotional Price</th>
+                                                                </tr>                                                    
+                                                            </thead>
+                                                            <tbody>                                                                
+                                                                <tr id="row-251">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-251">NER New Assessment for EA Member</span></td>
+                                                                    <td class="text-align-right"><span id="price-251">$315.00</span></td>
+                                                                    <td class="text-align-right">$283.50</td>
+                                                                </tr>
+                                                                <tr id="row-253">
+                                                                    <td></td>
+                                                                    <td><span id="pricecomp-253">National Engineering Register Overseas EA Member New Registration</span></td>
+                                                                    <td class="text-align-right"><span id="price-253">$315.00</span></td>
+                                                                    <td class="text-align-right">$283.50</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </section>
+        <section id="contact-info-footer">
+            <div class="container">
+                <div class="row flex-row">
+                    <div class="col-xs-12 col-sm-4">
+                        <div itemscope="" itemtype="http://schema.org/LocalBusiness">
+                            <i class="fa fa-phone fa-lg" aria-hidden=""></i>
+                            <h3>National Callers</h3>
+                            <span itemprop="telephone">1300 653 113</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div itemscope="" itemtype="http://schema.org/LocalBusiness">
+                            <i class="fa fa-globe fa-lg" aria-hidden=""></i>
+                            <h3>International Callers</h3>
+                            <span itemprop="telephone">+61 2 6270 6555</span></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div>
+                            <i class="fa fa-share fa-lg" aria-hidden=""></i>
+                            <a class="submit-enquiry" href="log-a-request.html" title="Log a request online">Submit an Enquiry</a>
+                            <p>Member Services are available <br><strong>Mon - Fri 8:30 am - 6:00 pm AEST</strong></p></div></div>
+                </div>
+            </div>
+
+        </section>
+        <footer id="footer">
+            <div class="container">
+                <div id="copyright" class="col-xs-12 col-sm-6">
+                    <p> &copy; 2020 Engineers Australia.</p>
+                </div>
+                <div class="col-xs-12 col-sm-6 footer-links">
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                        <li><a href="#">Collection Notice</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </footer>
+
+        
+
+        <!-- Modal -->
+        <div class="modal" id="status-rules" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 970px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-briefcase margin-right-10"></i>Business Rules</h4>
+                    </div>
+                    <div class="modal-body padding-30">
+
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#actions" aria-controls="home" role="tab" data-toggle="tab">Status & Actions</a></li>
+                            <li role="presentation"><a href="#roles" aria-controls="profile" role="tab" data-toggle="tab">Status & Roles</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="actions">
+                                <p class="col-sm-12 margin-top-20">Please find below the business rules to display Current / Promotion Status values and associated Actions : </p>
+
+                                <div class="table-responsive">
+                                    <table class="table margin-bottom-0">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">IF Condition</th>
+                                                <th rowspan="2">Current Status</th>
+                                                <th rowspan="2">Promotion Status</th>
+                                                <th colspan="5" class="text-align-center">Actions</th>
+                                            </tr>
+                                            <tr>
+
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                                <th>View</th>
+                                                <th>Cancel</th>
+                                                <th>Clone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Effective From</strong> date is future date</td>
+                                                <td></td>
+                                                <td>Created</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr> 
+                                            <tr>
+                                                <td><strong>Effective From</strong> date is past date</td>
+                                                <td>Expired</td>
+                                                <td>Created</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Effective From</strong> date is future date</td>
+                                                <td>Not Started</td>
+                                                <td>Published</td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Effective From</strong> date is past date</td>
+                                                <td>InProgress</td>
+                                                <td>Published</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Effective From</strong> date is past date</td>
+                                                <td></td>
+                                                <td>Cancelled</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Effective To</strong> date is past date</td>
+                                                <td></td>
+                                                <td>Completed</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div role="tabpanel" class="tab-pane" id="roles">
+                                <p class="col-sm-12 margin-top-20">Please find below business rules for different actions based on relevant roles.</p>
+                                <div class="table-responsive">
+                                    <table class="table margin-bottom-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Promotion Status</th>
+                                                <th>Promotion Actions</th>
+                                                <th>Editor</th>
+                                                <th>Publisher</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td>Add</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2">Created</td>
+                                                <td>Edit</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Delete</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2">Publising Request</td>
+                                                <td>View</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Publish</td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="3">Published</td>
+                                                <td>Cancel (Not Started)</td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cancel (InProgress)</td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>View</td>
+                                                <td></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2">Cancelled | Completed </td>
+                                                <td>Clone</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>View</td>
+                                                <td><i class="fa fa-check"></i></td>
+                                                <td><i class="fa fa-check"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer padding-20">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal -->
+        <div class="modal" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 770px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+                        <p>Are you sure you want to <strong>delete</strong> this promotion?</p>
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12"> 
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Yes</button>
+                        <button type="button" class="btn btn-primary margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="cancel-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 770px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+                        <p>Are you sure you want to <strong>cancel</strong> this promotion?</p>
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12"> 
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Yes</button>
+                        <button type="button" class="btn btn-primary margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="clone-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 770px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+                        <p>Are you sure you want to <strong>clone</strong> this promotion?</p>
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12"> 
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Yes</button>
+                        <button type="button" class="btn btn-primary margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal -->
+        <div class="modal" id="publish-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 770px;">
+                <div class="modal-content col-sm-12 no-grid">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                    </div>
+                    <div class="modal-body padding-30 col-sm-12 ">
+                        <p>Once promotion is published, it cannot be edited. Are you sure you want to <strong>publish</strong> this promotion?</p>
+                    </div>
+
+                    <div class="modal-footer padding-20 col-sm-12"> 
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">Yes</button>
+                        <button type="button" class="btn btn-primary margin-left-20" data-dismiss="modal"  role="tab" data-toggle="tab" href=""  aria-controls="profile">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../dist/js/jquery.plugins.min.js"></script>
+        <script src="../dist/js/eathemeawesome.min.js"></script>
+
+        <!--    $("#app-types").change(function () {
+                $selValue = $(this).find(":selected").val();
+                if ($selValue === '1') {
+                $('#ea-mem-category').show();
+                }
+                else{
+                $('#ea-mem-category').hide();
+            }-->
+        <script>
+            //calling bootstrap date picker
+            $('.input-group.date').datepicker({format: "dd/mm/yyyy"});
+        </script>
+</body>
+
+</html>

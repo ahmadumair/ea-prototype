@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+    <head>
+        <link rel="profile" href="<?php print $grddl_profile; ?>" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9">
+        <meta name="viewport" content="initial-scale = 1.0" />
+        <meta name="google-site-verification" content="ZpVNR_Du6b6Mv84i3z-mWc_HexmoHJMBOqHuV6ozMS4" />
+        <title>Portal</title>
+        <link rel="stylesheet" href="../../dist/css/portal-refresh-theme.min.css" media="all" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../../dist/js/portal.js" type="text/javascript"></script>
+
+    </head>
+
+    <body>
+        <!--[if lte IE 8]>
+    <div class="message-outdated alert alert-warning alert-dismissible" role="alert">
+    <a class="close toc-filter-processed" data-dismiss="alert" href="#">×</a>
+        <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        </div>
+    <![endif]-->
+        <a class="skip-to-content sr-only sr-only-focusable" href="#main-content">Skip to main content</a>
+        <a class="skip-to-content sr-only sr-only-focusable hidden-xs" href="#main-nav">Skip to main navigation</a>
+        <a href="#" class="scrollup"><i class="fa fa-chevron-up"></i><span>Back to top</span></a>
+
+        <div class="mobileNavWrap">
+            <nav id="mobile-nav" role="navigation">
+
+                <ul class="mm-listview">
+                    <div class="panel-group mobile-personal-info" id="mobile-personal-info" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#mobile-personal-info" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo">
+                                        <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                        <span class="name">Miss Jane Sarah Doe</span><i class="more-less fa fa-chevron-right pull-right"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading">
+                                <div class="panel-body">
+                                    <ul class="mm-listview-inner">
+                                        <li><a href="#">My Preferences</a></li>
+                                        <li><a href="#">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <li class="active"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                    <li><a href="#">My EA</a></li>
+                    <li><a href="#">Products + Services</a></li>
+                    <li><a href="#">News + Events</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="clearfix site-full-wrapper">
+            <header id="header">
+                <div class="container" id="header-container">
+                    <div class="mobile-header">
+                        <button id="mobile-nav-btn" class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>                                
+                            </span>
+                        </button>
+                    </div>
+                    <div class="header-block portal-logo">
+                        <a href="#" title="Portal Home" rel="home">
+                            <div class="logo-img"></div>
+                        </a>
+                    </div>
+
+                    <div class="header-content header-block col-xs-12 col-sm-5">
+                        <div class="region region-header">
+                            <section id="block-ea-newsevents-sitewide-search-form" class="block block-ea-newsevents clearfix" style="visibility: hidden;">
+
+
+                                <form action="/portal/protohome" method="post" id="ea-portal-block-search-form" accept-charset="UTF-8"><div><div class="form-item form-item-keywords form-type-textfield form-group"><input placeholder="Search News or Events" class="form-control form-text" type="text" id="edit-keywords" name="keywords" value="" size="60" maxlength="128"></div><div class="form-item form-item-options form-type-select form-group"><select class="nouniform form-control form-select" id="edit-options" name="options"><option value="news" selected="selected">News</option><option value="events">Events</option></select></div><button type="submit" id="edit-sitewide-search" name="op" value="Search" class="btn btn-primary form-submit">Search</button>
+                                        <input type="hidden" name="form_build_id" value="form-yUQUyVNmNix_2M8xup2vSFXUruaeakcrMFYG77vLJvc">
+                                        <input type="hidden" name="form_id" value="ea_portal_block_search_form">
+                                    </div></form>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div id="secondaryNav" class="header-block col-sm-5">
+                        <div class="region region-secondarynav">
+                            <section id="block-block-10" class="block block-block clearfix">
+
+                                <ul>
+                                    <li class="li-divider">
+                                        <a href="#">Messages<span class="count">7</span></a>                                        
+                                    </li>
+                                    <li class="li-divider">
+                                        <a href="#">Tasks<span class="count">12</span></a>
+                                    </li>
+                                    <li class="li-divider">
+                                        <a href="#">Invoices<span class="count">5</span></a>
+                                    </li>
+                                    
+                                    <li class="li-divider nav-profile">
+                                        <div class="btn-group action-buttons">
+                                            
+                                                <div class="profile-img-nav"><img alt="Your profile image" class="img-responsive" src="https://secure.gravatar.com/avatar/742033e47c1bc77d1d8a5a5be4ab1ec9.jpg?s=75&amp;r=pg&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F1c02274fedcce55a289172bfb8db25ab.jpg%3Fs%3D75%26r%3Dpg"></div>
+                                            
+                                            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">My Preferences</a></li>
+                                                <li><a href="#">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="primaryNav" class="hidden-xs navbar-inverse">
+                    <div class="container">
+                        <ul class="menu nav navbar-nav ">
+
+                            <li class="active">
+                                <a href="#"><i class="fa fa-home"></i></a>
+                            </li>
+
+                            <li>
+                                <a href="#">My EA</a>
+                            </li>
+
+                            <li>
+                                <a href="#">Products <span aria-hidden="true">+</span> Services</a>
+                            </li>
+
+                            <li>
+                                <a href="#" target="_blank">News <span aria-hidden="true">+</span> Events</a>
+                            </li>
+
+                            <li>
+                                <a href="#" target="_blank">Contact us</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <section class="hero-container">
+                <div class="container">
+                    <h1><span class="sub-page-title"><span>Direct Debit</span></span>Sarah Jane
+                        <span class="title-sub-text">(EA ID: 5354652)</span></h1>
+                    <ul class="header-ea-nominals">
+                        <li>CPEng</li>
+                    </ul> 
+                </div>
+            </section>
+
+            <section id="main">
+
+
+                <div class="container"> 
+
+                    <div class="row">
+                        <section id="side-content" class="col-xs-12 col-sm-3">
+
+                            <h3>Manage Profile</h3>
+
+                            <ul class="nav nav-list">
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Contact Details</a></li>
+                                <li class="current"><a href="#">Financials</a></li>
+                                <li><a href="#">Applications</a></li>
+                                <li><a href="#">Preferences</a></li>
+                                <li><a href="#">Record CPD</a></li>
+                            </ul>
+                        </section>
+
+                        <div id="main-content" class="col-xs-12 col-sm-9">
+                            <section id="main-content-title">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-9">
+                                        <h3>Mr. John Mullins's Financials</h3></div>
+                                </div>
+                            </section>
+                            <div class="card card-a direct-debit">
+                                <fieldset class="debit-app">
+                                    <legend class="inner-pages">Apply for Direct Debit</legend>
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <p class="form-intro-text">Please enter your direct debit credit card or bank account details below</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-xs-12 col-sm-3 col-form-label">Payment Method <span class="form-required">*</span></label>
+                                        <div class="col-xs-12 col-sm-9 col-md-6 radio dd-choice">   
+                                            <div class="col-sm-12">
+                                                <div class="form-radio radio-inline">
+                                                    <input type="radio" class="form-payment-option" name="form-payment-option" id="credit-card" value="0">
+                                                    <label class="radio-inline" for="credit-card">Credit Card</label>
+                                                </div>
+                                            </div>  
+                                            <div class="col-sm-12">
+                                                <div class="form-radio radio-inline">
+                                                    <input type="radio" class="form-check-input" name="form-payment-option" id="bank-account" value="1">
+                                                    <label class="radio-inline" for="bank-account">Bank Account</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="credit-card-details col-sm-12">
+                                        <div class="inner">
+                                        <div class="form-group row">
+                                            <div class="col-xs-12 col-sm-offset-3 col-sm-9 ">
+                                                <ul class="payment-options">
+                                                    <li class="visa"></li>
+                                                    <li class="master-card"></li>
+                                                    <li class="american-express"></li>
+                                                </ul>
+                                                <p class="input-help">Visa, Mastercard and American Express cards accepted. </p>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="card-holder-name" class="col-sm-3 col-form-label">Card Holder Name <span class="form-required">*</span></label>
+                                            <div class="col-sm-7">
+                                                <div class="row">   
+                                                    <div class="col-sm-8">
+                                                        <input class="form-input form-control col-sm-8" type="text" name="card-holder-name" id="card-holder-name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="card-number" class="col-sm-3 col-form-label">Card Number <span class="form-required">*</span></label>
+                                            <div class="col-sm-7">
+                                                <div class="row">   
+                                                    <div class="col-sm-8">
+                                                        <input class="form-input form-control col-sm-8" type="text" name="card-number" id="card-number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label margin-top-25">Expiration Date <span class="form-required">*</span></label>
+                                            <div class="col-sm-7">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-item form-type-textfield form-item-given-name">
+                                                            <label for="month">Month</label>
+                                                            <input class="form-control form-text" type="text" id="month" name="month"  placeholder="MM">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-item form-type-textfield form-item-middle-name">
+                                                            <label for="year">Year </label>
+                                                            <input class="form-control form-text" type="text" id="year" name="year" placeholder="YY">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="cvn" class="col-sm-3 col-form-label">CVN <span class="form-required">*</span></label>
+                                            <div class="col-sm-7">
+                                                <div class="row">   
+                                                    <div class="col-sm-8">
+                                                        <input class="form-input form-control col-sm-8" type="text" name="cvn" id="cvn">
+                                                    </div>
+                                                </div>
+                                                <p class="input-help">3 or 4 digit code on the back of your card.</p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div id="" class="form-item form-type-item col-sm-12 t-and-c-wrapper">
+                                            <div class="row">
+                                                <label for="edit-termsandconditionstext">Service Terms &amp; Conditions </label>
+                                                <div class="form-termsandconds-wrapper textarea">
+                                                    <div class="expandable-text"><p>Monthly debits will be made to your nominated bank account or credit card account within the first three business days of the month. The amount debited to your account will be equally divided over the remaining months of the financial year of the total of your annual renewal invoice, less any items which you have deleted. This Direct Debit Authority will remain in force until you advise Engineers Australia that you wish to cancel your authorisation. Cancellation must be in writing, providing your full name and EA ID/membership number. It is also advisable to notify your bank/building society/credit union. It is the responsibility of the member to have sufficient funds in their nominated account by the due date. If debit items are returned unpaid, Engineers Australia will advise the member of any cancellation or variation in the agreement within 14 days
+
+                                                        </p></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="form-check checkbox-inline">
+                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                    <label class="form-check-label" for="exampleCheck1">I have read, understood and agree to these Terms &amp; Conditions.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bank-account-details col-sm-12">
+                                        <div class="inner">
+                                        <div class="form-group row">
+                                            <label for="account-name" class="col-sm-3 col-form-label">Account Name <span class="form-required">*</span></label>
+                                            <div class="col-sm-7">
+                                                <div class="row">   
+                                                    <div class="col-sm-8">
+                                                        <input class="form-input form-control col-sm-8" type="text" name="account-name" id="account-name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="bsb" class="col-sm-3 col-form-label">BSB <span class="form-required">*</span></label>
+                                            <div class="col-sm-7">
+                                                <div class="row">   
+                                                    <div class="col-sm-8">
+                                                        <input class="form-input form-control col-sm-8" type="text" name="bsb" id="bsb">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="account-number" class="col-sm-3 col-form-label">Account Number <span class="form-required">*</span></label>
+                                            <div class="col-sm-7">
+                                                <div class="row">   
+                                                    <div class="col-sm-8">
+                                                        <input class="form-input form-control col-sm-8" type="text" name="account-number" id="account-number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div id="" class="form-item form-type-item col-sm-12 t-and-c-wrapper">
+                                            <div class="row">
+                                                <label for="edit-termsandconditionstext">Service Terms &amp; Conditions </label>
+                                                <div class="form-termsandconds-wrapper textarea">
+                                                    <div class="expandable-text"><p>Monthly debits will be made to your nominated bank account or credit card account within the first three business days of the month. The amount debited to your account will be equally divided over the remaining months of the financial year of the total of your annual renewal invoice, less any items which you have deleted. This Direct Debit Authority will remain in force until you advise Engineers Australia that you wish to cancel your authorisation. Cancellation must be in writing, providing your full name and EA ID/membership number. It is also advisable to notify your bank/building society/credit union. It is the responsibility of the member to have sufficient funds in their nominated account by the due date. If debit items are returned unpaid, Engineers Australia will advise the member of any cancellation or variation in the agreement within 14 days
+
+                                                        </p></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="form-check checkbox-inline">
+                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                    <label class="form-check-label" for="exampleCheck1">I have read, understood and agree to these Service Terms &amp; Conditions.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 margin-top-30">
+                                            <a href="main.html" class="btn btn-default cancel-btn pull-right right">Back to Payment Options</a>
+                                            <a href="dd-main.html" class="btn btn-primary pull-right" style="margin-right: 20px;">Submit</a>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <section id="contact-info-footer">
+        <div class="container">
+            <div class="row flex-row">
+                <div class="col-xs-12 col-sm-4">
+                    <div itemscope itemtype="http://schema.org/LocalBusiness">
+                        <i class="fa fa-phone fa-lg" aria-hidden></i>
+                        <h3>National Callers</h3>
+                        <span itemprop="telephone">1300 653 113</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div itemscope itemtype="http://schema.org/LocalBusiness">
+                        <i class="fa fa-globe fa-lg" aria-hidden></i>
+                        <h3>International Callers</h3>
+                        <span itemprop="telephone">+61 2 6270 6555</span></div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                            <div>
+                                <i class="fa fa-share fa-lg" aria-hidden></i>
+                                <a class="submit-enquiry" href="log-a-request.html" title="Log a request online">Submit an Enquiry</a>
+                                <p>Member Services are available <br><strong>Mon - Fri 8:30 am - 6:00 pm AEST</strong></p></div></div>
+                        </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+                <div class="container">
+                    <div id="copyright" class="col-xs-12 col-sm-6">
+                        <p> &copy; 2019 Engineers Australia.</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 footer-links">
+                        <ul>
+                            <li><a href="#">Collection Notice</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Disclaimer</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </footer>
+
+    <script src="../../dist/js/jquery.plugins.min.js"></script>
+    <script src="../../dist/js/eathemeawesome.min.js"></script>
+</body>
+
+</html>
