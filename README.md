@@ -16,7 +16,7 @@ Suppose, if you have to select all values from the main product "EA Membership",
 
 Final version URL: https://ahmadumair.github.io/ea-prototype/pricing/add-promotion-check.html
 
-So, in the next step, I normalized the database, categorized the "Products" based on "Product Services" and "Price Components" and introduced filters. In this variation, after selecting mandatory information like 
+So, in the next step, I normalized the database, categorized the "Products" based on "Product Services" and "Price Components" and introduced filters. In this version, after selecting mandatory information like 
 - Promotional code e.g "Promo24"
 - Promotional Discount e.g. 50%
 - Promotion Effective criteria e.g. different dates
@@ -24,11 +24,11 @@ So, in the next step, I normalized the database, categorized the "Products" base
 - and Finally, click the "Find Price Component(s)" button
 
   You will be presented, with all the 281 records upfront, which
-  - you can add/delete by single click
+  - you can add/delete by a single click
   - the discounted price for each item i.e. 50% of the actual price
   - Also, you will get the updated results by applying different filters.
 
-You can save this Promotion, going back to main Promotion management page with different statuses, etc. 
+You can save this Promotion, by going back to the main Promotion management page with different statuses, etc. 
 
  
 
